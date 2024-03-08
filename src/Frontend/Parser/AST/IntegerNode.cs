@@ -3,19 +3,34 @@ using LLVMSharp.Interop;
 
 public class IntegerNode : INode
 {
-	public INode? left { get; set; }
-	public INode? right { get; set; }
-	public Tokens op { get; set; }
+
 
 	private Tokens num;
+	private int n;
+
+
 	public IntegerNode(Tokens num)
 	{
 		this.num = num;
 
 	}
-	public unsafe LLVMValueRef CodeGen(LLVMBuilderRef builder, LLVMModuleRef module)
+	public IntegerNode(int n)
 	{
-		// throw new NotImplementedException();
-		return LLVM.ConstInt(LLVM.Int32Type(), (ulong)int.Parse(num.buffer), 1);
+		this.n = n;
+
+	}
+
+
+	public unsafe LLVMValueRef Accept(LLVMBuilderRef builder, LLVMModuleRef module)
+	{
+		return Visit(builder, module);
+	}
+
+	public unsafe LLVMValueRef Visit(LLVMBuilderRef builder, LLVMModuleRef module)
+	{
+
+
+		return LLVM.ConstInt(LLVM.Int32Type(), (ulong)n, 1);
+
 	}
 }

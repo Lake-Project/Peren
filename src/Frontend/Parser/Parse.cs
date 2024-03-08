@@ -11,6 +11,7 @@ public class Parse
 	
 	private Tokens? MatchAndRemove(TokenType type)
 	{
+		Current = new Tokens();
 		return null;
 	}
 

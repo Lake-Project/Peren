@@ -25,9 +25,16 @@ public class IRCodeGen
 		module.Dispose();
 
 	}
-	public static void LLVM_Gen(List<INode> functions, string file)
+	public static void LLVM_Gen(INode expr, string file)
 	{
 		var module = LLVMModuleRef.CreateWithName("main");
 		LLVMBuilderRef builder = module.Context.CreateBuilder();
+		LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(LLVMTypeRef.Int32, new LLVMTypeRef[0] { }, false);
+		LLVMValueRef function = module.AddFunction("main", funcType);
+		LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
+		builder.PositionAtEnd(entry);
+		builder.BuildRet(expr.Accept(builder, module));
+		Console.WriteLine(module.ToString());
+
 	}
 }
