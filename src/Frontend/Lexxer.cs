@@ -2,6 +2,12 @@ namespace Lexxer
 {
 	public enum TokenType
 	{
+		ADD,
+		SUBTRACT,
+		NUMBER,
+		DIVIDE,
+		MULTIPLY,
+		MODULAS
 	}
 	public struct Tokens
 	{

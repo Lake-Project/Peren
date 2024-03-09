@@ -5,18 +5,17 @@ public class IntegerNode : INode
 {
 
 
-	private Tokens num;
-	private int n;
+	private int num;
 
 
 	public IntegerNode(Tokens num)
 	{
-		this.num = num;
+		this.num = int.Parse(num.buffer);
 
 	}
-	public IntegerNode(int n)
+	public IntegerNode(int num)
 	{
-		this.n = n;
+		this.num = num;
 
 	}
 
@@ -28,9 +27,7 @@ public class IntegerNode : INode
 
 	public unsafe LLVMValueRef Visit(LLVMBuilderRef builder, LLVMModuleRef module)
 	{
-
-
-		return LLVM.ConstInt(LLVM.Int32Type(), (ulong)n, 1);
+		return LLVM.ConstInt(LLVM.Int32Type(), (ulong)num, 1);
 
 	}
 }
