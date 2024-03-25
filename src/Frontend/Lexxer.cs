@@ -1,13 +1,18 @@
+using System.Text;
+
 namespace Lexxer
 {
 	public enum TokenType
 	{
-		ADD,
-		SUBTRACT,
+		ADDITION,
+		SUBTRACTION,
 		NUMBER,
-		DIVIDE,
-		MULTIPLY,
-		MODULAS
+		DIVISION,
+		MULTIPLICATION,
+		MODULAS,
+		OP_PAREN,
+		CL_PAREN,
+		WORD
 	}
 	public struct Tokens
 	{
@@ -34,22 +39,118 @@ namespace Lexxer
 
 	public class LexTokens
 	{
-		public List<Tokens> Lex(string[] lines)
-		{
-			List<Tokens> tokens = new();
-			int state = 1;
-			for (int i = 0; i < lines.Length; i++)
-			{
-				if (state == 1)
-				{
 
-				}
-				else if (state == 2)
+		private void groupings(List<Tokens> tokens, StringBuilder buffer)
+		{
+			Dictionary<string, Tokens> Type = new()
+			{
+				["+"] = new(TokenType.ADDITION),
+				["-"] = new(TokenType.SUBTRACTION),
+				["*"] = new(TokenType.MULTIPLICATION),
+				["/"] = new(TokenType.DIVISION),
+				["%"] = new(TokenType.MODULAS),
+				[")"] = new(TokenType.CL_PAREN),
+				["("] = new(TokenType.OP_PAREN),
+
+			};
+			if (double.TryParse(buffer.ToString(), out _))
+			{
+				tokens.Add(new(TokenType.NUMBER, buffer.ToString()));
+			}
+			else if (Type.ContainsKey(buffer.ToString()))
+			{
+				tokens.Add(Type[buffer.ToString()]);
+			}
+			else
+			{
+				tokens.Add(new(TokenType.WORD, buffer.ToString()));
+			}
+
+			buffer.Clear();
+		}
+		private void Operand(string currentChar, List<Tokens> tokens, StringBuilder buffer, ref int state)
+		{
+			if (buffer.Length != 0)
+			{
+				groupings(tokens, buffer);
+			}
+			buffer.Append(currentChar);
+			if (currentChar == "(" || currentChar == ")")
+			{
+				groupings(tokens, buffer);
+			}
+			state = 1;
+		}
+		private void Number(string currentChar, List<Tokens> tokens, StringBuilder buffer, ref int state)
+		{
+
+			// buffer += currentChar;
+			if (currentChar == "-" && buffer.Length == 0)
+			{
+				buffer.Append(currentChar);
+			}
+			else if (currentChar == "+"
+					|| currentChar == "-"
+					|| currentChar == "/"
+					|| currentChar == "*" || currentChar == "%")
+			{
+
+				state = 2;
+				if (buffer.Length != 0)
 				{
+					groupings(tokens, buffer);
 				}
+				buffer.Append(currentChar);
+			}
+			else
+			{
+				buffer.Append(currentChar);
 
 			}
-			return tokens;
+		}
+
+		public List<Tokens> Lex(string[] Lines)
+		{
+			List<Tokens> Tokens = new();
+			int state = 1;
+			StringBuilder Buffer = new();
+			for (int i = 0; i < Lines.Length; i++)
+			{
+				for (int nextToken = 0; nextToken < Lines[i].Length; nextToken++)
+				{
+					string CurrentToken = Lines[i][nextToken].ToString();
+					if (string.IsNullOrWhiteSpace(CurrentToken))
+					{
+						if (Buffer.Length != 0)
+						{
+							groupings(Tokens, Buffer);
+						}
+						continue;
+					}
+					if (state == 1)
+					{
+						Number(CurrentToken, Tokens, Buffer, ref state);
+
+					}
+					else if (state == 2)
+					{
+						Operand(CurrentToken, Tokens, Buffer, ref state);
+
+					}
+				}
+			}
+			if (Buffer.Length != 0)
+			{
+				groupings(Tokens, Buffer);
+			}
+			return Tokens;
+		}
+		public void printList(List<Tokens> tokens)
+		{
+			foreach (Tokens token in tokens)
+			{
+				Console.WriteLine(token.ToString());
+			}
 		}
 
 	}

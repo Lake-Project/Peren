@@ -1,33 +1,18 @@
-using Lexxer;
 using LLVMSharp.Interop;
 
 public class IntegerNode : INode
 {
-
-
-	private int num;
-
-
-	public IntegerNode(Tokens num)
+	public int n;
+	public IntegerNode(int n)
 	{
-		this.num = int.Parse(num.buffer);
-
-	}
-	public IntegerNode(int num)
-	{
-		this.num = num;
-
+		this.n = n;
 	}
 
-
-	public unsafe LLVMValueRef Accept(LLVMBuilderRef builder, LLVMModuleRef module)
+	public LLVMValueRef CodeGen(IVisitor visitor,LLVMBuilderRef builder, LLVMModuleRef module)
 	{
-		return Visit(builder, module);
-	}
+		
+			return visitor.visit(this,builder, module);
 
-	public unsafe LLVMValueRef Visit(LLVMBuilderRef builder, LLVMModuleRef module)
-	{
-		return LLVM.ConstInt(LLVM.Int32Type(), (ulong)num, 1);
-
+		// throw new NotImplementedException();
 	}
 }

@@ -25,13 +25,13 @@ public class IRCodeGen
 		module.Dispose();
 
 	}
-	public static void LLVM_Gen(List<INode> functions, string file)
+	public static void LLVM_Gen(List<FunctionNode> functions, string file)
 	{
 		var module = LLVMModuleRef.CreateWithName("main");
 		LLVMBuilderRef builder = module.Context.CreateBuilder();
 		// expr.Accept(builder, module);
-		foreach (INode function in functions)
-			function.Accept(builder, module);
+		foreach (FunctionNode function in functions)
+			function.CodeGen(new CodeGenVisitor(), builder, module);
 		string directoryPath = "out";
 		if (!Directory.Exists(directoryPath))
 		{
@@ -44,6 +44,8 @@ public class IRCodeGen
 		string filePath = Path.Combine(directoryPath, file);
 		File.WriteAllText(filePath, module.ToString());
 		Console.WriteLine("code successfully compiled");
+
+		// new FloatNode().Accept<FloatNode>(new FloatExprVis(), builder, module);
 		// LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(LLVMTypeRef.Int32, new LLVMTypeRef[0] { }, false);
 		// LLVMValueRef function = module.AddFunction("main", funcType);
 		// LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
