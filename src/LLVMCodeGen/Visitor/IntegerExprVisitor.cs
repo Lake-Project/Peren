@@ -2,7 +2,7 @@ using LLVMSharp.Interop;
 using Lexxer;
 public class IntegerExpressionVisitor : IVisitor
 {
-	public LLVMValueRef visit(IntegerNode node, LLVMBuilderRef builder, LLVMModuleRef module)
+	public LLVMValueRef visit(IntegerNode node, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
 		unsafe
 		{
@@ -11,20 +11,20 @@ public class IntegerExpressionVisitor : IVisitor
 		}
 	}
 
-	public LLVMValueRef visit(FloatNode node, LLVMBuilderRef builder, LLVMModuleRef module)
+	public LLVMValueRef visit(FloatNode node, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
 		throw new TypeMisMatchException();
 	}
 
-	public LLVMValueRef visit(OpNode node, LLVMBuilderRef builder, LLVMModuleRef module)
+	public LLVMValueRef visit(OpNode node, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
 		if (node.left == null && node.right != null)
 		{
-			return node.right.CodeGen(this, builder, module);
+			return node.right.CodeGen(this, builder, module, ref scope);
 		}
 		else if (node.right == null && node.left != null)
 		{
-			return node.left.CodeGen(this, builder, module);
+			return node.left.CodeGen(this, builder, module, ref scope);
 		}
 		else if (node.right == null && node.left == null)
 		{
@@ -36,7 +36,8 @@ public class IntegerExpressionVisitor : IVisitor
 		}
 		else
 		{
-			return builder.BuildAdd(node.right.CodeGen(this, builder, module), node.left.CodeGen(this, builder, module), "addtmp");
+			return builder.BuildAdd(node.right.CodeGen(this, builder, module, ref scope),
+			node.left.CodeGen(this, builder, module, ref scope), "addtmp");
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 			// return node.token.tokenType switch
 			// {

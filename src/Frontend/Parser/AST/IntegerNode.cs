@@ -8,10 +8,10 @@ public class IntegerNode : INode
 		this.n = n;
 	}
 
-	public LLVMValueRef CodeGen(IVisitor visitor,LLVMBuilderRef builder, LLVMModuleRef module)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
-		
-			return visitor.visit(this,builder, module);
+
+		return visitor.visit(this, builder, module, ref scope);
 
 		// throw new NotImplementedException();
 	}
