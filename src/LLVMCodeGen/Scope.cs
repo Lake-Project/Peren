@@ -40,7 +40,7 @@ public sealed class Scope
 		{
 			if (ScopeDimension[i].Vars.ContainsKey(name))
 			{
-				throw new Exception();
+				throw new VaraibleAlreadyDefinedException();
 			}
 		}
 		ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, value);
@@ -54,6 +54,14 @@ public sealed class Scope
 				return ScopeDimension[i].Vars[name];
 			}
 		}
-		throw new Exception();
+		throw new VaraibleDoesntExistException();
 	}
+}
+public class VaraibleDoesntExistException : Exception
+{
+	
+}
+public class VaraibleAlreadyDefinedException : Exception
+{
+	
 }
