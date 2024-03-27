@@ -1,5 +1,5 @@
 using LLVMSharp.Interop;
-
+using Lexxer;
 public class IntegerNode : INode
 {
 	public int n;
@@ -7,7 +7,10 @@ public class IntegerNode : INode
 	{
 		this.n = n;
 	}
-
+	public IntegerNode(Tokens n)
+	{
+		this.n = int.Parse(n.buffer);
+	}
 	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
 

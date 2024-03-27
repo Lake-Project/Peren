@@ -15,7 +15,7 @@ class Program
 		// List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
 		// new LexTokens().printList(tokens);
 
-		FunctionNode f = new FunctionNode("main", new List<INode>{new VaraibleDeclarationNode(LLVMTypeRef.Int32,"name",new OpNode(
+		FunctionNode f = new FunctionNode("testLink", new List<INode>{new VaraibleDeclarationNode(LLVMTypeRef.Int32,"name",new OpNode(
 																				new IntegerNode(2),
 																				new OpNode(new IntegerNode(2), new IntegerNode(2)))),
 																				new ReturnNode(LLVMTypeRef.Int32,

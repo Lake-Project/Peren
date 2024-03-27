@@ -11,6 +11,12 @@ public class OpNode : INode
 		this.left = left;
 		this.right = right;
 	}
+	public OpNode(INode? left, INode? right, Tokens tokens)
+	{
+		this.left = left;
+		this.right = right;
+		this.token = tokens;
+	}
 	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
 		// return solve.Solve(this, builder, module);

@@ -3,3 +3,4 @@
 /obj/
 /.vscode/
 test.lk
+*.o
