@@ -3,7 +3,7 @@ using Lexxer;
 
 class Program
 {
-	
+
 
 	public static void Main()
 	{
@@ -18,8 +18,10 @@ class Program
 		FunctionNode f = new FunctionNode("testLink", new List<INode>{new VaraibleDeclarationNode(LLVMTypeRef.Int32,"name",new OpNode(
 																				new IntegerNode(2),
 																				new OpNode(new IntegerNode(2), new IntegerNode(2)))),
+																				new VaraibleReferenceStatementNode("name",
+																				new OpNode(new IntegerNode(2),null)),
 																				new ReturnNode(LLVMTypeRef.Int32,
-																				new OpNode(new IntegerNode(2),new IntegerNode(10)))
+																				new OpNode(new VaraibleReferenceNode("name"),new IntegerNode(1)))
 																				});
 		// INode f1 = new FunctionNode("test", new List<INode>{new ReturnStatement(new OpNode(new IntegerNode(2),
 		// 														new OpNode(new IntegerNode(23))))});

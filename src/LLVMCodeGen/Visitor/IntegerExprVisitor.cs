@@ -51,4 +51,11 @@ public class IntegerExpressionVisitor : IVisitor
 			// };
 		}
 	}
+
+	public LLVMValueRef Visit(VaraibleReferenceNode node, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
+	{
+		// throw new NotImplementedException();
+		Var l = scope.GetNewVar(node.name);
+		return builder.BuildLoad2(l.type, l.valueRef);
+	}
 }

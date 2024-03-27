@@ -20,10 +20,13 @@ public class VaraibleDeclarationNode : INode
 	{
 
 		LLVMValueRef b = builder.BuildAlloca(typeRef, name);
-		scope.AddNewVar(name,b);
+		scope.AddNewVar(typeRef, name, b);
 		if (typeRef == LLVMTypeRef.Int32)
 		{
-			
+			// builder.
+			// b.SetInitializer()
+			// LLVM.SetInitializer(b)
+			// return b.SetInitializer()
 			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, ref scope), b);
 		}
 		return b;

@@ -17,4 +17,9 @@ public class CodeGenVisitor : IVisitor
 	{
 		throw new NotImplementedException();
 	}
+
+    public LLVMValueRef Visit(VaraibleReferenceNode node, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
+    {
+        throw new NotImplementedException();
+    }
 }

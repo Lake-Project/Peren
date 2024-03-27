@@ -1,13 +1,25 @@
 using System.Collections;
 using LLVMSharp.Interop;
 
+
+public struct Var
+{
+	public LLVMValueRef valueRef;
+	public LLVMTypeRef type;
+	public Var(LLVMTypeRef typeRef, LLVMValueRef valueRef)
+	{
+		this.valueRef = valueRef;
+		this.type = typeRef;
+	}
+
+}
 struct ScopeDimensions
 {
-	public Dictionary<string, LLVMValueRef> Vars;
+	public Dictionary<string, Var> Vars;
 
 	public ScopeDimensions()
 	{
-		Vars = new Dictionary<string, LLVMValueRef>();
+		Vars = new Dictionary<string, Var>();
 	}
 }
 public sealed class Scope
@@ -34,7 +46,7 @@ public sealed class Scope
 		int l = ScopeDimension.Count - 1;
 		ScopeDimension.RemoveAt(l);
 	}
-	public void AddNewVar(string name, LLVMValueRef value)
+	public void AddNewVar(LLVMTypeRef type, string name, LLVMValueRef value)
 	{
 		for (int i = 0; i < ScopeDimension.Count; i++)
 		{
@@ -43,9 +55,9 @@ public sealed class Scope
 				throw new VaraibleAlreadyDefinedException();
 			}
 		}
-		ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, value);
+		ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, value));
 	}
-	public LLVMValueRef GetNewVar(string name)
+	public Var GetNewVar(string name)
 	{
 		for (int i = 0; i < ScopeDimension.Count; i++)
 		{
@@ -59,9 +71,9 @@ public sealed class Scope
 }
 public class VaraibleDoesntExistException : Exception
 {
-	
+
 }
 public class VaraibleAlreadyDefinedException : Exception
 {
-	
+
 }
