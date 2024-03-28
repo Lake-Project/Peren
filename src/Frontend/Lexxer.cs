@@ -12,7 +12,10 @@ namespace Lexxer
 		MODULAS,
 		OP_PAREN,
 		CL_PAREN,
-		WORD
+		WORD,
+		FUNCTION,
+		INT,
+		FLOAT
 	}
 	public struct Tokens
 	{
@@ -51,6 +54,10 @@ namespace Lexxer
 				["%"] = new(TokenType.MODULAS),
 				[")"] = new(TokenType.CL_PAREN),
 				["("] = new(TokenType.OP_PAREN),
+				["fn"] = new(TokenType.FUNCTION),
+				["int"] = new(TokenType.INT),
+				["float"] = new(TokenType.FLOAT),
+
 
 			};
 			if (double.TryParse(buffer.ToString(), out _))
@@ -68,7 +75,8 @@ namespace Lexxer
 
 			buffer.Clear();
 		}
-		private void Operand(string currentChar, List<Tokens> tokens, StringBuilder buffer, ref int state)
+		private void Operand(string currentChar, List<Tokens> tokens, 
+				StringBuilder buffer, ref int state)
 		{
 			if (buffer.Length != 0)
 			{
@@ -81,7 +89,8 @@ namespace Lexxer
 			}
 			state = 1;
 		}
-		private void Number(string currentChar, List<Tokens> tokens, StringBuilder buffer, ref int state)
+		private void Number(string currentChar, List<Tokens> tokens, StringBuilder buffer, 
+				ref int state)
 		{
 
 			// buffer += currentChar;

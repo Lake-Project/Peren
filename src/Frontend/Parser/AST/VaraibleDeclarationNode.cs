@@ -18,15 +18,32 @@ public class VaraibleDeclarationNode : INode
 	// public VaraibleDeclarationNode()
 	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
 	{
+		LLVMValueRef b;
 
-		LLVMValueRef b = builder.BuildAlloca(typeRef, name);
+		if (scope.ScopeSize() == 0)
+		{
+			b = module.AddGlobal(typeRef, name);
+			// b = builder.Build(typeRef, name);
+			scope.AddNewVar(typeRef, name, b);
+			if (typeRef == LLVMTypeRef.Int32)
+			{
+				unsafe
+				{
+					// LLVM.SetLinkage(b, LLVMLinkage.LLVMExternalLinkage);
+					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, ref scope)); // Initialize the global variable with value 42
+				}
+			}
+			return b;
+		}
+		else
+		{
+			Console.WriteLine(scope.ScopeSize());
+			b = builder.BuildAlloca(typeRef, name);
+		}
 		scope.AddNewVar(typeRef, name, b);
 		if (typeRef == LLVMTypeRef.Int32)
 		{
-			// builder.
-			// b.SetInitializer()
-			// LLVM.SetInitializer(b)
-			// return b.SetInitializer()
+
 			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, ref scope), b);
 		}
 		return b;

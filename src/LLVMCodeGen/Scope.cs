@@ -28,6 +28,7 @@ public sealed class Scope
 	private Scope()
 	{
 		this.ScopeDimension = new List<ScopeDimensions>();
+		AllocateScope();
 
 	}
 	private static Scope? instance = null;
@@ -40,6 +41,10 @@ public sealed class Scope
 	{
 		ScopeDimensions s = new ScopeDimensions();
 		ScopeDimension.Add(s);
+	}
+	public int ScopeSize()
+	{
+		return ScopeDimension.Count - 1;
 	}
 	public void DeallocateScope()
 	{
