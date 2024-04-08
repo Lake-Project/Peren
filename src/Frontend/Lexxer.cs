@@ -15,7 +15,15 @@ namespace Lexxer
 		WORD,
 		FUNCTION,
 		INT,
-		FLOAT
+		FLOAT,
+		BEGIN,
+		END,
+		CHAR,
+		EOL,
+		EQUALS,
+		RETURN,
+		RETURNS,
+		STRUCT
 	}
 	public struct Tokens
 	{
@@ -57,6 +65,12 @@ namespace Lexxer
 				["fn"] = new(TokenType.FUNCTION),
 				["int"] = new(TokenType.INT),
 				["float"] = new(TokenType.FLOAT),
+				["{"] = new(TokenType.BEGIN),
+				["}"] = new(TokenType.END),
+				[";"] = new(TokenType.EOL),
+				["="] = new(TokenType.EQUALS),
+				["return"] = new(TokenType.RETURN),
+				["returns"] = new(TokenType.RETURNS),
 
 
 			};
@@ -75,7 +89,7 @@ namespace Lexxer
 
 			buffer.Clear();
 		}
-		private void Operand(string currentChar, List<Tokens> tokens, 
+		private void Operand(string currentChar, List<Tokens> tokens,
 				StringBuilder buffer, ref int state)
 		{
 			if (buffer.Length != 0)
@@ -89,7 +103,7 @@ namespace Lexxer
 			}
 			state = 1;
 		}
-		private void Number(string currentChar, List<Tokens> tokens, StringBuilder buffer, 
+		private void Number(string currentChar, List<Tokens> tokens, StringBuilder buffer,
 				ref int state)
 		{
 
@@ -97,6 +111,17 @@ namespace Lexxer
 			if (currentChar == "-" && buffer.Length == 0)
 			{
 				buffer.Append(currentChar);
+			}
+			else if (currentChar == ":" || currentChar == "=" || currentChar == ";" || currentChar == "{" || currentChar == "}" || currentChar == ",")
+			{
+
+				if (buffer.Length != 0)
+				{
+					groupings(tokens, buffer);
+				}
+				buffer.Append(currentChar);
+				groupings(tokens, buffer);
+
 			}
 			else if (currentChar == "+"
 					|| currentChar == "-"
@@ -110,6 +135,15 @@ namespace Lexxer
 					groupings(tokens, buffer);
 				}
 				buffer.Append(currentChar);
+			}
+			else if (currentChar == "(" || currentChar == ")")
+			{
+				if (buffer.Length != 0)
+				{
+					groupings(tokens, buffer);
+				}
+				buffer.Append(currentChar);
+				groupings(tokens, buffer);
 			}
 			else
 			{

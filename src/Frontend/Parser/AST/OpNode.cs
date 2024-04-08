@@ -17,9 +17,9 @@ public class OpNode : INode
 		this.right = right;
 		this.token = tokens;
 	}
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
 	{
 		// return solve.Solve(this, builder, module);
-		return visitor.Visit(this, builder, module, ref scope);
+		return visitor.Visit(this, builder, module, scope);
 	}
 }

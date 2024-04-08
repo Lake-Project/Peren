@@ -2,12 +2,12 @@ using LLVMSharp.Interop;
 
 public class VaraibleDeclarationNode : INode
 {
-	public OpNode ExpressionNode;
+	public INode? ExpressionNode;
 	public LLVMTypeRef typeRef;
 	public string name;
 
 
-	public VaraibleDeclarationNode(LLVMTypeRef type, string name, OpNode ExpressionNode)
+	public VaraibleDeclarationNode(LLVMTypeRef type, string name, INode? ExpressionNode)
 	{
 		this.ExpressionNode = ExpressionNode;
 		this.typeRef = type;
@@ -16,7 +16,7 @@ public class VaraibleDeclarationNode : INode
 	}
 
 	// public VaraibleDeclarationNode()
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
 	{
 		LLVMValueRef b;
 
@@ -25,12 +25,12 @@ public class VaraibleDeclarationNode : INode
 			b = module.AddGlobal(typeRef, name);
 			// b = builder.Build(typeRef, name);
 			scope.AddNewVar(typeRef, name, b);
-			if (typeRef == LLVMTypeRef.Int32)
+			if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
 			{
 				unsafe
 				{
 					// LLVM.SetLinkage(b, LLVMLinkage.LLVMExternalLinkage);
-					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, ref scope)); // Initialize the global variable with value 42
+					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, scope)); // Initialize the global variable with value 42
 				}
 			}
 			return b;
@@ -41,10 +41,10 @@ public class VaraibleDeclarationNode : INode
 			b = builder.BuildAlloca(typeRef, name);
 		}
 		scope.AddNewVar(typeRef, name, b);
-		if (typeRef == LLVMTypeRef.Int32)
+		if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
 		{
 
-			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, ref scope), b);
+			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, scope), b);
 		}
 		return b;
 	}

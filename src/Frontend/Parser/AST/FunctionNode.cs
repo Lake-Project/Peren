@@ -1,27 +1,36 @@
+using Lexxer;
 using LLVMSharp.Interop;
 
 public class FunctionNode : INode
 {
 
 	public List<INode> statements;
+	LLVMTypeRef retType;
 	public string name;
-	public FunctionNode(string name, List<INode> statements)
+	public FunctionNode(string name, LLVMTypeRef retType, List<INode> statements)
 	{
 		this.name = name;
+		this.retType = retType;
 		this.statements = statements;
 	}
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, ref Scope scope)
+	public FunctionNode(Tokens name, List<INode> statements)
+	{
+		this.name = name.buffer;
+		this.statements = statements;
+	}
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
 	{
 
 		// return visitor.visit(this, builder, module);
-		LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(LLVMTypeRef.Int32, new LLVMTypeRef[0] { }, false);
+		LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, new LLVMTypeRef[0] { }, false);
 		LLVMValueRef function = module.AddFunction(name, funcType);
 		LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
 		scope.AllocateScope();
+		scope.CurrentRetType = retType;
 		builder.PositionAtEnd(entry);
 		for (int i = 0; i < statements.Count; i++)
 		{
-			statements[i].CodeGen(visitor, builder, module, ref scope);
+			statements[i].CodeGen(visitor, builder, module, scope);
 		}
 		scope.DeallocateScope();
 		return function;

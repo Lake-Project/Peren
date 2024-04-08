@@ -1,4 +1,5 @@
 using System.Collections;
+using Lexxer;
 using LLVMSharp.Interop;
 
 
@@ -25,11 +26,18 @@ struct ScopeDimensions
 public sealed class Scope
 {
 	private List<ScopeDimensions> ScopeDimension;
+	private LLVMTypeRef _CurrentRetType;
+
+	// Property with getter and setter
+	public LLVMTypeRef CurrentRetType
+	{
+		get { return _CurrentRetType; }
+		set { _CurrentRetType = value; }
+	}
 	private Scope()
 	{
 		this.ScopeDimension = new List<ScopeDimensions>();
 		AllocateScope();
-
 	}
 	private static Scope? instance = null;
 	public static Scope Instance
@@ -37,6 +45,7 @@ public sealed class Scope
 		get => instance ??= new Scope();
 
 	}
+
 	public void AllocateScope()
 	{
 		ScopeDimensions s = new ScopeDimensions();

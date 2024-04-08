@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using Lexxer;
+using LLVMSharp.Interop;
 public class Parse
 {
 	public List<Tokens> TokenList;
@@ -21,7 +23,7 @@ public class Parse
 		}
 		return null;
 	}
-	
+
 	private INode? Factor()
 	{
 		if (MatchAndRemove(TokenType.NUMBER) != null)
@@ -54,7 +56,8 @@ public class Parse
 			opNode = new OpNode(opNode, Factor(), (Tokens)op);
 
 			op = (MatchAndRemove(TokenType.MULTIPLICATION) != null) ? Current
-				: (MatchAndRemove(TokenType.DIVISION) != null) ? Current																			: null;
+				: (MatchAndRemove(TokenType.DIVISION) != null) ? Current
+				: null;
 		}
 
 		return opNode;
@@ -77,6 +80,77 @@ public class Parse
 
 		}
 		return opNode;
+	}
+	public INode? PaseFunction()
+	{
+		Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
+		List<INode> statements = new List<INode>();
+		MatchAndRemove(TokenType.OP_PAREN);
+		MatchAndRemove(TokenType.CL_PAREN);
+
+		if (MatchAndRemove(TokenType.RETURNS) != null)
+		{
+
+
+		}
+
+		return new FunctionNode(name.buffer, LLVMTypeRef.Void, statements);
+
+	}
+	private LLVMTypeRef TypeToLLVM()
+	{
+		return Current.tokenType switch
+		{
+			TokenType.INT => LLVMTypeRef.Int32,
+			TokenType.FLOAT => LLVMTypeRef.Float,
+			TokenType.CHAR => LLVMTypeRef.Int8,
+			_ => LLVMTypeRef.Void
+		};
+	}
+	public INode? ParseVaraible()
+	{
+
+		LLVMTypeRef type = TypeToLLVM();
+		// if()
+		Tokens word = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
+		MatchAndRemove(TokenType.EQUALS);
+		return new VaraibleDeclarationNode(type, word.buffer, Expression());
+	}
+	public INode? GlobalStatements()
+	{
+		if (MatchAndRemove(TokenType.FUNCTION) != null)
+		{
+			return PaseFunction();
+		}
+		else if (MatchAndRemove(TokenType.INT) != null || MatchAndRemove(TokenType.FLOAT) != null)
+		{
+			return ParseVaraible();
+		}
+
+		return null;
+	}
+	private void RemoveEOLS()
+	{
+		while (MatchAndRemove(TokenType.EOL) != null) ;
+	}
+	public INode LocalStatements()
+	{
+		if (MatchAndRemove(TokenType.INT) != null || MatchAndRemove(TokenType.FLOAT) != null)
+		{
+			return ParseVaraible();
+		}
+
+		return null;
+	}
+	public List<INode> ParseFile()
+	{
+		List<INode> statements = new List<INode>();
+		while (TokenList.Count != 0)
+		{
+			statements.Add(GlobalStatements());
+			RemoveEOLS();
+		}
+		return statements;
 	}
 
 
