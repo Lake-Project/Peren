@@ -10,22 +10,22 @@ public class VaraibleReferenceStatementNode : INode
 		this.name = name;
 		this.expression = expresion;
 	}
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		unsafe
 		{
-			Var b = scope.GetNewVar(name);
+			Var b = context.GetNewVar(name);
 			// var typeRef = LLVM.TypeOf(b);
 			// LLVMTypeRef pointedType = LLVM.GetElementType(b.type);
 			if (b.type == LLVMTypeRef.Int32)
 			{
-				return builder.BuildStore(expression.CodeGen(new IntegerExpressionVisitor(), builder, module, scope), b.valueRef);
+				return builder.BuildStore(expression.CodeGen(new IntegerExpressionVisitor(), builder, module, context), b.valueRef);
 
 			}
 			else
 			{
 
-				return builder.BuildStore(expression.CodeGen(new CodeGenVisitor(), builder, module, scope), b.valueRef);
+				return builder.BuildStore(expression.CodeGen(new CodeGenVisitor(), builder, module, context), b.valueRef);
 
 			}
 		}

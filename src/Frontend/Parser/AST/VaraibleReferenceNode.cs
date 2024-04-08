@@ -9,9 +9,9 @@ public class VaraibleReferenceNode : INode
 	{
 		name = varName;
 	}
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		// throw new NotImplementedException();
-		return visitor.Visit(this, builder, module, scope);
+		return visitor.Visit(this, builder, module, context);
 	}
 }

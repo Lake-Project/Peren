@@ -23,7 +23,7 @@ struct ScopeDimensions
 		Vars = new Dictionary<string, Var>();
 	}
 }
-public sealed class Scope
+public sealed class Context
 {
 	private List<ScopeDimensions> ScopeDimension;
 	private LLVMTypeRef _CurrentRetType;
@@ -34,18 +34,11 @@ public sealed class Scope
 		get { return _CurrentRetType; }
 		set { _CurrentRetType = value; }
 	}
-	private Scope()
+	public Context()
 	{
 		this.ScopeDimension = new List<ScopeDimensions>();
 		AllocateScope();
 	}
-	private static Scope? instance = null;
-	public static Scope Instance
-	{
-		get => instance ??= new Scope();
-
-	}
-
 	public void AllocateScope()
 	{
 		ScopeDimensions s = new ScopeDimensions();

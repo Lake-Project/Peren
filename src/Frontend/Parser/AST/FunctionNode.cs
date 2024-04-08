@@ -18,21 +18,21 @@ public class FunctionNode : INode
 		this.name = name.buffer;
 		this.statements = statements;
 	}
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 
 		// return visitor.visit(this, builder, module);
 		LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, new LLVMTypeRef[0] { }, false);
 		LLVMValueRef function = module.AddFunction(name, funcType);
 		LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
-		scope.AllocateScope();
-		scope.CurrentRetType = retType;
+		context.AllocateScope();
+		context.CurrentRetType = retType;
 		builder.PositionAtEnd(entry);
 		for (int i = 0; i < statements.Count; i++)
 		{
-			statements[i].CodeGen(visitor, builder, module, scope);
+			statements[i].CodeGen(visitor, builder, module, context);
 		}
-		scope.DeallocateScope();
+		context.DeallocateScope();
 		return function;
 
 	}

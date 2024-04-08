@@ -16,35 +16,35 @@ public class VaraibleDeclarationNode : INode
 	}
 
 	// public VaraibleDeclarationNode()
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		LLVMValueRef b;
 
-		if (scope.ScopeSize() == 0)
+		if (context.ScopeSize() == 0)
 		{
 			b = module.AddGlobal(typeRef, name);
 			// b = builder.Build(typeRef, name);
-			scope.AddNewVar(typeRef, name, b);
+			context.AddNewVar(typeRef, name, b);
 			if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
 			{
 				unsafe
 				{
 					// LLVM.SetLinkage(b, LLVMLinkage.LLVMExternalLinkage);
-					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, scope)); // Initialize the global variable with value 42
+					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context)); // Initialize the global variable with value 42
 				}
 			}
 			return b;
 		}
 		else
 		{
-			Console.WriteLine(scope.ScopeSize());
+			// Console.WriteLine(context.ScopeSize());
 			b = builder.BuildAlloca(typeRef, name);
 		}
-		scope.AddNewVar(typeRef, name, b);
+		context.AddNewVar(typeRef, name, b);
 		if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
 		{
 
-			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, scope), b);
+			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context), b);
 		}
 		return b;
 	}

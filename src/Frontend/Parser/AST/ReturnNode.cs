@@ -12,7 +12,7 @@ public class ReturnNode : INode
 
 	}
 	// public 
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context scope)
 	{
 		if (scope.CurrentRetType == LLVMTypeRef.Int32)
 		{

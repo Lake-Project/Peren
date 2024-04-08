@@ -29,9 +29,10 @@ public class IRCodeGen
 	{
 		var module = LLVMModuleRef.CreateWithName("main");
 		LLVMBuilderRef builder = module.Context.CreateBuilder();
-		Scope scope = Scope.Instance;
+		Context c = new Context();
+		// Context context = new CO
 		foreach (INode statement in statements)
-			statement.CodeGen(new CodeGenVisitor(), builder, module, scope);
+			statement.CodeGen(new CodeGenVisitor(), builder, module, c);
 		string directoryPath = "out";
 		if (!Directory.Exists(directoryPath))
 		{

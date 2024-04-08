@@ -2,7 +2,7 @@ using LLVMSharp.Interop;
 using Lexxer;
 public class IntegerExpressionVisitor : IVisitor
 {
-	public LLVMValueRef Visit(IntegerNode node, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef Visit(IntegerNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		unsafe
 		{
@@ -11,20 +11,20 @@ public class IntegerExpressionVisitor : IVisitor
 		}
 	}
 
-	public LLVMValueRef Visit(FloatNode node, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef Visit(FloatNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		throw new TypeMisMatchException();
 	}
 
-	public LLVMValueRef Visit(OpNode node, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef Visit(OpNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		if (node.left == null && node.right != null)
 		{
-			return node.right.CodeGen(this, builder, module, scope);
+			return node.right.CodeGen(this, builder, module, context);
 		}
 		else if (node.right == null && node.left != null)
 		{
-			return node.left.CodeGen(this, builder, module, scope);
+			return node.left.CodeGen(this, builder, module, context);
 		}
 		else if (node.right == null && node.left == null)
 		{
@@ -38,8 +38,8 @@ public class IntegerExpressionVisitor : IVisitor
 		{
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-			return builder.BuildAdd(node.right.CodeGen(this, builder, module, scope),
-			node.left.CodeGen(this, builder, module, scope), "addtmp");
+			return builder.BuildAdd(node.right.CodeGen(this, builder, module, context),
+			node.left.CodeGen(this, builder, module, context), "addtmp");
 			// return node.token.tokenType switch
 			// {
 			// 	TokenType.ADDITION => builder.BuildAdd(opNode.Left.CodeGen(this,builder, module), Right.Accept(builder, module), "addtmp"),
@@ -52,10 +52,10 @@ public class IntegerExpressionVisitor : IVisitor
 		}
 	}
 
-	public LLVMValueRef Visit(VaraibleReferenceNode node, LLVMBuilderRef builder, LLVMModuleRef module, Scope scope)
+	public LLVMValueRef Visit(VaraibleReferenceNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		// throw new NotImplementedException();
-		Var l = scope.GetNewVar(node.name);
+		Var l = context.GetNewVar(node.name);
 		return builder.BuildLoad2(l.type, l.valueRef);
 	}
 }
