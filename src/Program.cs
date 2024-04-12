@@ -26,9 +26,6 @@ class Program
 																				new ReturnNode(LLVMTypeRef.Int32,
 																				new OpNode(new VaraibleReferenceNode("global_var"),new IntegerNode(1)))
 																				});
-		// INode f1 = new FunctionNode("test", new List<INode>{new ReturnNode(new OpNode(new IntegerNode(2),
-		// new OpNode(new IntegerNode(23),null)))});
-
 		IRCodeGen.LLVM_Gen(new List<INode> { v, f }, "");
 
 	}

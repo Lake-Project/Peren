@@ -87,11 +87,10 @@ public class Parse
 		List<INode> statements = new List<INode>();
 		MatchAndRemove(TokenType.OP_PAREN);
 		MatchAndRemove(TokenType.CL_PAREN);
-
+		// LLVMTypeRef a; 
 		if (MatchAndRemove(TokenType.RETURNS) != null)
 		{
-
-
+			
 		}
 
 		return new FunctionNode(name.buffer, LLVMTypeRef.Void, statements);
@@ -107,11 +106,11 @@ public class Parse
 			_ => LLVMTypeRef.Void
 		};
 	}
+
 	public INode? ParseVaraible()
 	{
 
 		LLVMTypeRef type = TypeToLLVM();
-		// if()
 		Tokens word = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
 		MatchAndRemove(TokenType.EQUALS);
 		return new VaraibleDeclarationNode(type, word.buffer, Expression());
@@ -133,18 +132,19 @@ public class Parse
 	{
 		while (MatchAndRemove(TokenType.EOL) != null) ;
 	}
-	public INode LocalStatements()
+	public INode? LocalStatements()
 	{
 		if (MatchAndRemove(TokenType.INT) != null || MatchAndRemove(TokenType.FLOAT) != null)
 		{
 			return ParseVaraible();
 		}
+		
 
 		return null;
 	}
-	public List<INode> ParseFile()
+	public List<INode?> ParseFile()
 	{
-		List<INode> statements = new List<INode>();
+		List<INode?> statements = new List<INode?>();
 		while (TokenList.Count != 0)
 		{
 			statements.Add(GlobalStatements());

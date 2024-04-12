@@ -64,7 +64,7 @@ public sealed class Context
 		}
 		ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, value));
 	}
-	public Var GetNewVar(string name)
+	public Var GetVar(string name)
 	{
 		for (int i = 0; i < ScopeDimension.Count; i++)
 		{

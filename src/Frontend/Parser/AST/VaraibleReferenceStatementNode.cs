@@ -14,7 +14,7 @@ public class VaraibleReferenceStatementNode : INode
 	{
 		unsafe
 		{
-			Var b = context.GetNewVar(name);
+			Var b = context.GetVar(name);
 			// var typeRef = LLVM.TypeOf(b);
 			// LLVMTypeRef pointedType = LLVM.GetElementType(b.type);
 			if (b.type == LLVMTypeRef.Int32)

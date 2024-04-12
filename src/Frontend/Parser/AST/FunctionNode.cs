@@ -5,6 +5,7 @@ public class FunctionNode : INode
 {
 
 	public List<INode> statements;
+	public bool isExtern;
 	LLVMTypeRef retType;
 	public string name;
 	public FunctionNode(string name, LLVMTypeRef retType, List<INode> statements)

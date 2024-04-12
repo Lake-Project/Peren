@@ -55,7 +55,7 @@ public class IntegerExpressionVisitor : IVisitor
 	public LLVMValueRef Visit(VaraibleReferenceNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
 	{
 		// throw new NotImplementedException();
-		Var l = context.GetNewVar(node.name);
+		Var l = context.GetVar(node.name);
 		return builder.BuildLoad2(l.type, l.valueRef);
 	}
 }
