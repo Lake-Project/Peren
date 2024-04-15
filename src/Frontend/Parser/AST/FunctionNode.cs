@@ -4,17 +4,17 @@ using LLVMSharp.Interop;
 public class FunctionNode : INode
 {
 
-	public List<INode> statements;
+	public List<INode?> statements;
 	public bool isExtern;
 	LLVMTypeRef retType;
 	public string name;
-	public FunctionNode(string name, LLVMTypeRef retType, List<INode> statements)
+	public FunctionNode(string name, LLVMTypeRef retType, List<INode?> statements)
 	{
 		this.name = name;
 		this.retType = retType;
 		this.statements = statements;
 	}
-	public FunctionNode(Tokens name, List<INode> statements)
+	public FunctionNode(Tokens name, List<INode?> statements)
 	{
 		this.name = name.buffer;
 		this.statements = statements;

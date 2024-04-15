@@ -25,13 +25,13 @@ public class IRCodeGen
 		module.Dispose();
 
 	}
-	public static void LLVM_Gen(List<INode> statements, string file)
+	public static void LLVM_Gen(List<INode?> statements, string file)
 	{
 		var module = LLVMModuleRef.CreateWithName("main");
 		LLVMBuilderRef builder = module.Context.CreateBuilder();
 		Context c = new Context();
 		// Context context = new CO
-		foreach (INode statement in statements)
+		foreach (INode? statement in statements)
 			statement.CodeGen(new CodeGenVisitor(), builder, module, c);
 		string directoryPath = "out";
 		if (!Directory.Exists(directoryPath))

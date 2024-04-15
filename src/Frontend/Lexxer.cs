@@ -23,7 +23,8 @@ namespace Lexxer
 		EQUALS,
 		RETURN,
 		RETURNS,
-		STRUCT
+		STRUCT,
+		BOOL
 	}
 	public struct Tokens
 	{
