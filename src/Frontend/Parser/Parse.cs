@@ -71,7 +71,9 @@ public class Parse
                 ? Current
                 : (MatchAndRemove(TokenType.DIVISION) != null)
                     ? Current
-                    : null;
+                    : (MatchAndRemove(TokenType.MODULAS) != null)
+                        ? Current
+                        : null;
 
         while (op != null)
         {
@@ -82,7 +84,9 @@ public class Parse
                     ? Current
                     : (MatchAndRemove(TokenType.DIVISION) != null)
                         ? Current
-                        : null;
+                        : (MatchAndRemove(TokenType.MODULAS) != null)
+                            ? Current
+                            : null;
         }
 
         return opNode;
