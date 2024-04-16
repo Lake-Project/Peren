@@ -13,7 +13,7 @@ class Program
 		LLVM.InitializeAllAsmPrinters();
 		LLVM.InitializeAllAsmParsers();
 		List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
-		new LexTokens().printList(tokens);
+		// new LexTokens().printList(tokens);
 		Parse p = new Parse(tokens);
 		IRCodeGen.LLVM_Gen(p.ParseFile(), "");
 		// VaraibleDeclarationNode v = new(LLVMTypeRef.Int32, "global_var", new OpNode(new IntegerNode(2), new IntegerNode(2)));

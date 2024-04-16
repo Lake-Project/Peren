@@ -17,10 +17,11 @@ public struct Var
 struct ScopeDimensions
 {
 	public Dictionary<string, Var> Vars;
-
+	public bool Returns;
 	public ScopeDimensions()
 	{
 		Vars = new Dictionary<string, Var>();
+		Returns = false;
 	}
 }
 public sealed class Context
@@ -74,6 +75,16 @@ public sealed class Context
 			}
 		}
 		throw new VaraibleDoesntExistException();
+	}
+	public void Setret()
+	{
+		ScopeDimensions s = ScopeDimension[ScopeDimension.Count - 1];
+		s.Returns = true;
+		ScopeDimension[ScopeDimension.Count - 1] = s;
+	}
+	public bool GetRet()
+	{
+		return ScopeDimension[ScopeDimension.Count - 1].Returns;
 	}
 }
 public class VaraibleDoesntExistException : Exception

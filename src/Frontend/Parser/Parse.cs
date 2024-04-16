@@ -16,6 +16,10 @@ public class Parse
     private Tokens? MatchAndRemove(TokenType type)
     {
         // Current = new Tokens();
+        if (TokenList.Count == 0)
+        {
+            return null;
+        }
         if (TokenList[0].tokenType == type)
         {
             Current = TokenList[0];
@@ -39,6 +43,10 @@ public class Parse
         if (MatchAndRemove(TokenType.NUMBER) != null)
         {
             return new IntegerNode(Current);
+        }
+        else if (MatchAndRemove(TokenType.WORD) != null)
+        {
+            return new VaraibleReferenceNode(Current.buffer);
         }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
         {
@@ -133,12 +141,12 @@ public class Parse
 
     public INode? Statemnts()
     {
-        if (GetType() != null && !LookAhead(TokenType.EQUALS))
+        if (this.GetTokenType() != null && !LookAhead(TokenType.EQUALS))
             return ParseVar();
         else if (Current.tokenType == TokenType.WORD)
             return ParseWordType();
         else
-            throw new Exception("Statement invalid");
+            throw new Exception("Statement invalid " + Current.ToString());
     }
 
     public INode? ParseFunctionCalls()
@@ -179,7 +187,7 @@ public class Parse
             return PaseFunction();
         else if (MatchAndRemove(TokenType.STRUCT) != null)
             return ParseStructs();
-        else if (GetType() != null && !LookAhead(TokenType.EQUALS))
+        else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
             return ParseVar();
         else
             throw new Exception("Statement invalid");
@@ -197,19 +205,43 @@ public class Parse
         MatchAndRemove(TokenType.OP_PAREN);
         MatchAndRemove(TokenType.CL_PAREN);
 
-        // LLVMTypeRef a;
-        // if (MatchAndRemove(TokenType.RETURNS) != null)
+        LLVMTypeRef returnType = LLVMTypeRef.Void;
+        if (MatchAndRemove(TokenType.RETURNS) != null)
+        {
+            Tokens? type = GetTokenType() ?? throw new Exception("inavlid retrun");
+            returnType = TokenToLLVMType(type.Value.tokenType);
+        }
         if (MatchAndRemove(TokenType.BEGIN) != null)
+            statements = ParseBlock();
+        return new FunctionNode(name.buffer, returnType, statements);
+    }
+
+    public List<INode?> ParseBlock()
+    {
+        List<INode?> statements = new();
+        while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
+        {
+            statements.Add(Statemnts());
+            MatchAndRemove(TokenType.EOL);
+        }
+
+        if (Current.tokenType == TokenType.RETURN)
+        {
+            statements.Add(new ReturnNode(Expression()));
             while (MatchAndRemove(TokenType.END) == null)
-                statements.Add(Statemnts());
-        return new FunctionNode(name.buffer, LLVMTypeRef.Void, statements);
+                TokenList.RemoveAt(0);
+        }
+        return statements;
     }
 
     public List<INode?> ParseFile()
     {
         List<INode?> a = new List<INode?>();
         while (TokenList.Count != 0)
+        {
             a.Add(GlobalStatements());
+            MatchAndRemove(TokenType.EOL);
+        }
         return a;
     }
 }
