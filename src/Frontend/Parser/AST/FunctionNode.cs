@@ -35,6 +35,8 @@ public class FunctionNode : INode
         context.AllocateScope();
         context.CurrentRetType = retType;
         builder.PositionAtEnd(entry);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
         for (int i = 0; i < statements.Count; i++)
         {
             statements[i].CodeGen(visitor, builder, module, context);

@@ -35,6 +35,16 @@ public class ReturnNode : INode
                 expression.CodeGen(new IntegerExpressionVisitor(), builder, module, scope)
             );
         }
+        else if (scope.CurrentRetType == LLVMTypeRef.Float)
+        {
+            if (expression == null)
+            {
+                throw new Exception("needs valye");
+            }
+            return builder.BuildRet(
+                expression.CodeGen(new FloatExprVisitor(), builder, module, scope)
+            );
+        }
         else
         {
             return builder.BuildRetVoid();

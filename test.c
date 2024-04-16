@@ -1,16 +1,14 @@
 #include <stdio.h>
 
-extern int testLink();
+extern float testLink();
 extern int global_var;
 
 int main(int argc, char const *argv[])
 {
-    printf("global_var: %d \n", global_var);
-    int a = testLink();
+    // printf("global_var: %d \n", global_var);
+    float a = testLink();
     // assert(a == 12);
-    printf("output: %d \n", a);
-    printf("global_var: %d \n", global_var);
+    printf("output: %f \n", a);
+    // printf("global_var: %d \n", global_var);
     return 0;
-    // a();
-    return 0;
-}
+}    

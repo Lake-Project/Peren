@@ -42,6 +42,8 @@ public class Parse
     {
         if (MatchAndRemove(TokenType.NUMBER) != null)
         {
+            if (Current.buffer.Contains("."))
+                return new FloatNode(Current);
             return new IntegerNode(Current);
         }
         else if (MatchAndRemove(TokenType.WORD) != null)

@@ -46,6 +46,11 @@ public class VaraibleDeclarationNode : INode
 
 			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context), b);
 		}
+		if (typeRef == LLVMTypeRef.Float && ExpressionNode != null)
+		{
+
+			return builder.BuildStore(ExpressionNode.CodeGen(new FloatExprVisitor(), builder, module, context), b);
+		}
 		return b;
 	}
 }
