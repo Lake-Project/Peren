@@ -48,6 +48,7 @@ public class IRCodeGen
 		File.WriteAllText(filePath, module.ToString());
 		Console.WriteLine("code successfully compiled");
 		Console.WriteLine("IR code gen file path: " + filePath);
+		// builder.BuildFPToSI
 
 		// new FloatNode().Accept<FloatNode>(new FloatExprVis(), builder, module);
 		// LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(LLVMTypeRef.Int32, new LLVMTypeRef[0] { }, false);
