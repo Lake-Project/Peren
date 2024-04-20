@@ -14,4 +14,8 @@ public class VaraibleReferenceNode : INode
 		// throw new NotImplementedException();
 		return visitor.Visit(this, builder, module, context);
 	}
+    public override string ToString()
+    {
+        return name;
+    }
 }

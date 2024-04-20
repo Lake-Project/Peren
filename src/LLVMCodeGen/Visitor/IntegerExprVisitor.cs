@@ -107,4 +107,9 @@ public class IntegerExpressionVisitor : IVisitor
 		Var l = context.GetVar(node.name);
 		return builder.BuildLoad2(l.type, l.valueRef);
 	}
+
+    public LLVMValueRef Visit(FunctionCallNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }

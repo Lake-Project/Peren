@@ -15,7 +15,8 @@ class Program
 		List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
 		// new LexTokens().printList(tokens);
 		Parse p = new Parse(tokens);
-		IRCodeGen.LLVM_Gen(p.ParseFile(), "");
+		List<INode?> d = p.ParseFile();
+		IRCodeGen.LLVM_Gen(d, "");
 		// VaraibleDeclarationNode v = new(LLVMTypeRef.Int32, "global_var", new OpNode(new IntegerNode(2), new IntegerNode(2)));
 		// FunctionNode f = new("testLink", LLVMTypeRef.Int32, new List<INode>{new VaraibleDeclarationNode(LLVMTypeRef.Int32,"name",new OpNode(
 		// 																		new IntegerNode(2),

@@ -5,20 +5,28 @@ public class FunctionNode : INode
 {
     public List<INode?> statements;
     public bool isExtern;
+    public List<VaraibleDeclarationNode> Parameters;
     LLVMTypeRef retType;
     public string name;
 
-    public FunctionNode(string name, LLVMTypeRef retType, List<INode?> statements)
+    public FunctionNode(
+        string name,
+        List<VaraibleDeclarationNode> Parameters,
+        LLVMTypeRef retType,
+        List<INode?> statements
+    )
     {
         this.name = name;
         this.retType = retType;
         this.statements = statements;
+        this.Parameters = Parameters;
     }
 
     public FunctionNode(Tokens name, List<INode?> statements)
     {
         this.name = name.buffer;
         this.statements = statements;
+        this.Parameters = new List<VaraibleDeclarationNode>();
     }
 
     public LLVMValueRef CodeGen(
@@ -28,13 +36,24 @@ public class FunctionNode : INode
         Context context
     )
     {
-        // return visitor.visit(this, builder, module);
-        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, new LLVMTypeRef[0] { }, false);
-        LLVMValueRef function = module.AddFunction(name, funcType);
-        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         context.AllocateScope();
+        LLVMTypeRef[] a = new LLVMTypeRef[Parameters.Count];
+        for (int i = 0; i < Parameters.Count; i++)
+        {
+            a[i] = Parameters[i].typeRef;
+        }
+        // return visitor.visit(this, builder, module);
+        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, a, false);
+
+        LLVMValueRef function = module.AddFunction(name, funcType);
+
+        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         context.CurrentRetType = retType;
         builder.PositionAtEnd(entry);
+        for (int i = 0; i < Parameters.Count; i++)
+        {
+            Parameters[i].AddToScope(builder, context, function.GetParam((uint)i));
+        }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
         for (int i = 0; i < statements.Count; i++)

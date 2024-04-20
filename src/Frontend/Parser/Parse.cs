@@ -16,6 +16,14 @@ public class Parse
     private Tokens? MatchAndRemove(TokenType type)
     {
         // Current = new Tokens();
+        // foreach (Tokens token in TokenList)
+        // {
+        //     Console.WriteLine(token.ToString());
+        // }
+        // Console.WriteLine("type: " + type);
+
+        // Console.WriteLine("");
+
         if (TokenList.Count == 0)
         {
             return null;
@@ -76,11 +84,14 @@ public class Parse
                     : (MatchAndRemove(TokenType.MODULAS) != null)
                         ? Current
                         : null;
-
+        if (opNode == null && op != null)
+            throw new Exception("unauthorized statement");
         while (op != null)
         {
-            opNode = new OpNode(opNode, Factor(), (Tokens)op);
-
+            INode? right = Factor();
+            if (right == null && op != null)
+                throw new Exception("unauthorized statement");
+            opNode = new OpNode(opNode, right, (Tokens)op);
             op =
                 (MatchAndRemove(TokenType.MULTIPLICATION) != null)
                     ? Current
@@ -104,11 +115,14 @@ public class Parse
                 : (MatchAndRemove(TokenType.SUBTRACTION) != null)
                     ? Current
                     : null;
-
+        if (opNode == null && op != null)
+            throw new Exception("unauthorized statement");
         while (op != null)
         {
-            opNode = new OpNode(opNode, Term(), (Tokens)op);
-
+            INode? right = Term();
+            if (right == null && op != null)
+                throw new Exception("unauthorized statement");
+            opNode = new OpNode(opNode, right, op.Value);
             op =
                 (MatchAndRemove(TokenType.ADDITION) != null)
                     ? Current
@@ -176,15 +190,19 @@ public class Parse
             return ParseVarRef();
         else if (LookAhead(TokenType.OP_PAREN))
             return ParseFunctionCalls();
-        return null;
+        else
+            throw new Exception("invalid identifier statement");
     }
 
     public INode? ParseVar()
     {
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
-        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalud type");
-        Tokens? e = MatchAndRemove(TokenType.EQUALS) ?? throw new Exception("invalid equals");
-        return new VaraibleDeclarationNode(type, name.Value.buffer, Expression());
+        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
+        Tokens? e = MatchAndRemove(TokenType.EQUALS);
+        if (e != null)
+            return new VaraibleDeclarationNode(type, name.Value.buffer, Expression());
+        else
+            return new VaraibleDeclarationNode(type, name.Value.buffer, null);
     }
 
     public INode? GlobalStatements()
@@ -209,8 +227,13 @@ public class Parse
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
         List<INode?> statements = new List<INode?>();
         MatchAndRemove(TokenType.OP_PAREN);
-        MatchAndRemove(TokenType.CL_PAREN);
-
+        List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
+        while (MatchAndRemove(TokenType.CL_PAREN) == null)
+        {
+            GetTokenType();
+            param.Add((VaraibleDeclarationNode)ParseVar());
+            MatchAndRemove(TokenType.COMMA);
+        }
         LLVMTypeRef returnType = LLVMTypeRef.Void;
         if (MatchAndRemove(TokenType.RETURNS) != null)
         {
@@ -219,7 +242,7 @@ public class Parse
         }
         if (MatchAndRemove(TokenType.BEGIN) != null)
             statements = ParseBlock();
-        return new FunctionNode(name.buffer, returnType, statements);
+        return new FunctionNode(name.buffer, param, returnType, statements);
     }
 
     public List<INode?> ParseBlock()

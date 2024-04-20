@@ -22,4 +22,9 @@ public class CodeGenVisitor : IVisitor
 	{
 		throw new NotImplementedException();
 	}
+
+    public LLVMValueRef Visit(FunctionCallNode node, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }

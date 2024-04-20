@@ -6,17 +6,28 @@ public class VaraibleDeclarationNode : INode
 	public LLVMTypeRef typeRef;
 	public string name;
 
-
 	public VaraibleDeclarationNode(LLVMTypeRef type, string name, INode? ExpressionNode)
 	{
 		this.ExpressionNode = ExpressionNode;
 		this.typeRef = type;
 		this.name = name;
+	}
 
+	public void AddToScope(LLVMBuilderRef builder, Context context, LLVMValueRef value)
+	{
+		// LLVMValueRef b = builder.BuildAlloca(typeRef, name);
+		context.AddNewVar(typeRef, name, builder.BuildAlloca(typeRef, name));
+		Var l = context.GetVar(name);
+		builder.BuildStore(value, l.valueRef);
 	}
 
 	// public VaraibleDeclarationNode()
-	public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
+	public LLVMValueRef CodeGen(
+		IVisitor visitor,
+		LLVMBuilderRef builder,
+		LLVMModuleRef module,
+		Context context
+	)
 	{
 		LLVMValueRef b;
 
@@ -30,7 +41,15 @@ public class VaraibleDeclarationNode : INode
 				unsafe
 				{
 					// LLVM.SetLinkage(b, LLVMLinkage.LLVMExternalLinkage);
-					LLVM.SetInitializer(b, ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context)); // Initialize the global variable with value 42
+					LLVM.SetInitializer(
+						b,
+						ExpressionNode.CodeGen(
+							new IntegerExpressionVisitor(),
+							builder,
+							module,
+							context
+						)
+					); // Initialize the global variable with value 42
 				}
 			}
 			return b;
@@ -43,13 +62,17 @@ public class VaraibleDeclarationNode : INode
 		context.AddNewVar(typeRef, name, b);
 		if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
 		{
-
-			return builder.BuildStore(ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context), b);
+			return builder.BuildStore(
+				ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context),
+				b
+			);
 		}
 		if (typeRef == LLVMTypeRef.Float && ExpressionNode != null)
 		{
-
-			return builder.BuildStore(ExpressionNode.CodeGen(new FloatExprVisitor(), builder, module, context), b);
+			return builder.BuildStore(
+				ExpressionNode.CodeGen(new FloatExprVisitor(), builder, module, context),
+				b
+			);
 		}
 		return b;
 	}
