@@ -101,6 +101,7 @@ public class FloatExprVisitor : IVisitor
         Context context
     )
     {
-        throw new NotImplementedException();
+        Function fun = context.GetFunction(node.Name);
+        return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name);
     }
 }

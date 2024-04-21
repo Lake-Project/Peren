@@ -27,7 +27,8 @@ namespace Lexxer
         BOOL,
         COMMA,
         NOT,
-        XOR
+        XOR,
+        EXTERN
     }
 
     public struct Tokens
@@ -78,6 +79,7 @@ namespace Lexxer
                     ["returns"] = new(TokenType.RETURNS),
                     [","] = new(TokenType.COMMA),
                     ["~"] = new(TokenType.NOT),
+                    ["extern"] = new(TokenType.EXTERN),
                     ["^"] = new(TokenType.XOR),
                 };
             if (double.TryParse(buffer.ToString(), out _))

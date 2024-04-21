@@ -2,8 +2,48 @@ using LLVMSharp.Interop;
 
 public class FunctionCallNode : INode
 {
-    public LLVMValueRef CodeGen(IVisitor visitor, LLVMBuilderRef builder, LLVMModuleRef module, Context context)
+    private List<INode?> ParamValues;
+    public string Name;
+    public LLVMValueRef[] Values;
+
+    public FunctionCallNode(string name, List<INode?> ParamValues)
     {
-        throw new NotImplementedException();
+        this.Name = name;
+        this.ParamValues = ParamValues;
+    }
+
+    public LLVMValueRef CodeGen(
+        IVisitor visitor,
+        LLVMBuilderRef builder,
+        LLVMModuleRef module,
+        Context context
+    )
+    {
+        Function fun = context.GetFunction(this.Name);
+        LLVMValueRef[] values = new LLVMValueRef[fun.f.Parameters.Count];
+        LLVMTypeRef[] differTypes = fun.f.paramTypes;
+
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (differTypes[i] == LLVMTypeRef.Int32)
+            {
+                values[i] = ParamValues[i].CodeGen(
+                    new IntegerExpressionVisitor(),
+                    builder,
+                    module,
+                    context
+                );
+            }
+            else if (differTypes[i] == LLVMTypeRef.Float)
+            {
+                values[i] = this.ParamValues[i].CodeGen(
+                    new FloatExprVisitor(),
+                    builder,
+                    module,
+                    context
+                );
+            }
+        }
+        return visitor.Visit(this, builder, module, context);
     }
 }

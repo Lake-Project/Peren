@@ -18,13 +18,25 @@ struct ScopeDimensions
 {
     public Dictionary<string, Var> Vars;
     public bool Returns;
-    public Dictionary<string, FunctionNode> functions;
 
     public ScopeDimensions()
     {
         Vars = new Dictionary<string, Var>();
         Returns = false;
-        functions = new Dictionary<string, FunctionNode>();
+    }
+}
+
+public struct Function
+{
+    public FunctionNode f;
+    public LLVMValueRef ValueRef;
+    public LLVMTypeRef type;
+
+    public Function(FunctionNode f, LLVMValueRef valueRef, LLVMTypeRef typeRef)
+    {
+        this.f = f;
+        this.type = typeRef;
+        this.ValueRef = valueRef;
     }
 }
 
@@ -32,7 +44,7 @@ public sealed class Context
 {
     private List<ScopeDimensions> ScopeDimension;
     private LLVMTypeRef _CurrentRetType;
-    public Dictionary<string, FunctionNode> functions;
+    public Dictionary<string, Function> functions = new();
 
     // public Dictionary<string,
 
@@ -97,13 +109,20 @@ public sealed class Context
         ScopeDimension[ScopeDimension.Count - 1] = s;
     }
 
-    public void AddFunction(string name, FunctionNode functionNode)
+    public void AddFunction(
+        string name,
+        FunctionNode functionNode,
+        LLVMValueRef value,
+        LLVMTypeRef type
+    )
     {
-        functions.Add(name, functionNode);
+        functions.Add(name, new Function(functionNode, value, type));
     }
 
-    public FunctionNode GetFunction(string name)
+    public Function GetFunction(string name)
     {
+        if (!functions.ContainsKey(name))
+            throw new Exception("function doesnte exist");
         return functions[name];
     }
 

@@ -56,6 +56,8 @@ public class Parse
         }
         else if (MatchAndRemove(TokenType.WORD) != null)
         {
+            if (LookAhead(TokenType.OP_PAREN))
+                return ParseFunctionCalls();
             return new VaraibleReferenceNode(Current.buffer);
         }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
@@ -171,7 +173,16 @@ public class Parse
 
     public INode? ParseFunctionCalls()
     {
-        return null;
+        Tokens name = Current;
+        Tokens? a = MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("");
+        List<INode?> expr = new List<INode?>();
+        while (MatchAndRemove(TokenType.CL_PAREN) == null)
+        {
+            expr.Add(Expression());
+            MatchAndRemove(TokenType.COMMA);
+        }
+
+        return new FunctionCallNode(name.buffer, expr);
     }
 
     public INode? ParseVarRef()
@@ -197,12 +208,13 @@ public class Parse
     public INode? ParseVar()
     {
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
+        bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         if (e != null)
-            return new VaraibleDeclarationNode(type, name.Value.buffer, Expression());
+            return new VaraibleDeclarationNode(type, name.Value.buffer, Expression(), isExtern);
         else
-            return new VaraibleDeclarationNode(type, name.Value.buffer, null);
+            return new VaraibleDeclarationNode(type, name.Value.buffer, null, isExtern);
     }
 
     public INode? GlobalStatements()
@@ -224,10 +236,15 @@ public class Parse
 
     public INode? PaseFunction()
     {
+        bool isExtern = false;
+        if (MatchAndRemove(TokenType.EXTERN) != null)
+            isExtern = true;
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
         List<INode?> statements = new List<INode?>();
+
         MatchAndRemove(TokenType.OP_PAREN);
         List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
+
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
             GetTokenType();
@@ -242,7 +259,7 @@ public class Parse
         }
         if (MatchAndRemove(TokenType.BEGIN) != null)
             statements = ParseBlock();
-        return new FunctionNode(name.buffer, param, returnType, statements);
+        return new FunctionNode(name.buffer, param, returnType, statements, isExtern);
     }
 
     public List<INode?> ParseBlock()

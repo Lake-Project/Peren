@@ -6,20 +6,28 @@ public class FunctionNode : INode
     public List<INode?> statements;
     public bool isExtern;
     public List<VaraibleDeclarationNode> Parameters;
-    LLVMTypeRef retType;
+    public LLVMTypeRef retType;
     public string name;
+    public LLVMTypeRef[] paramTypes;
 
     public FunctionNode(
         string name,
         List<VaraibleDeclarationNode> Parameters,
         LLVMTypeRef retType,
-        List<INode?> statements
+        List<INode?> statements,
+        bool isExtern
     )
     {
         this.name = name;
         this.retType = retType;
         this.statements = statements;
         this.Parameters = Parameters;
+        this.paramTypes = new LLVMTypeRef[Parameters.Count];
+        for (int i = 0; i < Parameters.Count; i++)
+        {
+            paramTypes[i] = Parameters[i].typeRef;
+        }
+        this.isExtern = isExtern;
     }
 
     public FunctionNode(Tokens name, List<INode?> statements)
@@ -27,6 +35,7 @@ public class FunctionNode : INode
         this.name = name.buffer;
         this.statements = statements;
         this.Parameters = new List<VaraibleDeclarationNode>();
+        paramTypes = new LLVMTypeRef[0];
     }
 
     public LLVMValueRef CodeGen(
@@ -37,16 +46,17 @@ public class FunctionNode : INode
     )
     {
         context.AllocateScope();
-        LLVMTypeRef[] a = new LLVMTypeRef[Parameters.Count];
-        for (int i = 0; i < Parameters.Count; i++)
-        {
-            a[i] = Parameters[i].typeRef;
-        }
+
         // return visitor.visit(this, builder, module);
-        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, a, false);
+        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
 
         LLVMValueRef function = module.AddFunction(name, funcType);
-
+        context.AddFunction(name, this, function, funcType);
+        if (isExtern)
+        {
+            function.Linkage = LLVMLinkage.LLVMExternalLinkage;
+            return function;
+        }
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         context.CurrentRetType = retType;
         builder.PositionAtEnd(entry);
