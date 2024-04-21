@@ -93,7 +93,7 @@ public class Parse
             INode? right = Factor();
             if (right == null && op != null)
                 throw new Exception("unauthorized statement");
-            opNode = new OpNode(opNode, right, (Tokens)op);
+            opNode = new OpNode(opNode, right, op.Value);
             op =
                 (MatchAndRemove(TokenType.MULTIPLICATION) != null)
                     ? Current
@@ -161,7 +161,7 @@ public class Parse
         };
     }
 
-    public INode? Statemnts()
+    public INode Statemnts()
     {
         if (this.GetTokenType() != null && !LookAhead(TokenType.EQUALS))
             return ParseVar();
@@ -171,7 +171,7 @@ public class Parse
             throw new Exception("Statement invalid " + Current.ToString());
     }
 
-    public INode? ParseFunctionCalls()
+    public INode ParseFunctionCalls()
     {
         Tokens name = Current;
         Tokens? a = MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("");
@@ -185,7 +185,7 @@ public class Parse
         return new FunctionCallNode(name.buffer, expr);
     }
 
-    public INode? ParseVarRef()
+    public INode ParseVarRef()
     {
         Tokens? name = Current;
         Tokens? e = MatchAndRemove(TokenType.EQUALS) ?? throw new Exception("invalid equals");
@@ -195,7 +195,7 @@ public class Parse
         );
     }
 
-    public INode? ParseWordType()
+    public INode ParseWordType()
     {
         if (LookAhead(TokenType.EQUALS))
             return ParseVarRef();
@@ -205,7 +205,7 @@ public class Parse
             throw new Exception("invalid identifier statement");
     }
 
-    public INode? ParseVar()
+    public INode ParseVar()
     {
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
         bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;

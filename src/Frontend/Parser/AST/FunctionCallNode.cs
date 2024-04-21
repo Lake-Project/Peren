@@ -36,7 +36,7 @@ public class FunctionCallNode : INode
             }
             else if (differTypes[i] == LLVMTypeRef.Float)
             {
-                values[i] = this.ParamValues[i].CodeGen(
+                values[i] = ParamValues[i].CodeGen(
                     new FloatExprVisitor(),
                     builder,
                     module,
