@@ -44,6 +44,7 @@ public sealed class Context
 {
     private List<ScopeDimensions> ScopeDimension;
     private LLVMTypeRef _CurrentRetType;
+    private Stack<LLVMTypeRef> types;
     public Dictionary<string, Function> functions = new();
 
     // public Dictionary<string,
@@ -59,6 +60,7 @@ public sealed class Context
     {
         this.ScopeDimension = new List<ScopeDimensions>();
         AllocateScope();
+        this.types = new Stack<LLVMTypeRef>();
     }
 
     public void AllocateScope()
@@ -129,6 +131,16 @@ public sealed class Context
     public bool GetRet()
     {
         return ScopeDimension[ScopeDimension.Count - 1].Returns;
+    }
+
+    public void addType(LLVMTypeRef type)
+    {
+        types.Push(type);
+    }
+
+    public LLVMTypeRef getType()
+    {
+        return types.Pop();
     }
 }
 

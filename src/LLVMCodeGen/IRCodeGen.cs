@@ -32,7 +32,6 @@ public class IRCodeGen
 		Context c = new Context();
 		// Context context = new CO
 		#pragma warning disable CS8602 // Dereference of a possibly null reference.
-
 		foreach (INode? statement in statements)
 			statement.CodeGen(new CodeGenVisitor(), builder, module, c);
 		string directoryPath = "out";
