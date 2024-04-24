@@ -48,7 +48,11 @@ public class VaraibleDeclarationNode : INode
                 b.Linkage = LLVMLinkage.LLVMExternalLinkage;
             }
 
-            if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
+            if (
+                (typeRef == LLVMTypeRef.Int32
+                || typeRef == LLVMTypeRef.Int8
+                || typeRef == LLVMTypeRef.Int1) && ExpressionNode != null
+            )
             {
                 unsafe
                 {
@@ -72,7 +76,11 @@ public class VaraibleDeclarationNode : INode
             b = builder.BuildAlloca(typeRef, name);
         }
         context.AddNewVar(typeRef, name, b);
-        if (typeRef == LLVMTypeRef.Int32 && ExpressionNode != null)
+        if (
+            (typeRef == LLVMTypeRef.Int32
+            || typeRef == LLVMTypeRef.Int8
+            || typeRef == LLVMTypeRef.Int1) && ExpressionNode != null
+        )
         {
             return builder.BuildStore(
                 ExpressionNode.CodeGen(new IntegerExpressionVisitor(), builder, module, context),
@@ -86,6 +94,7 @@ public class VaraibleDeclarationNode : INode
                 b
             );
         }
+
         return b;
     }
 }

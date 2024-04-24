@@ -51,7 +51,7 @@ public class FunctionNode : INode
         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
 
         LLVMValueRef function = module.AddFunction(name, funcType);
-        context.AddFunction(name, this, function, funcType);
+        context.AddFunction(name, this, function, funcType, retType);
         if (isExtern)
         {
             function.Linkage = LLVMLinkage.LLVMExternalLinkage;

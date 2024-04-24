@@ -4,15 +4,23 @@ using Lexxer;
 public class IntegerNode : INode
 {
     public int n;
+    public LLVMTypeRef IntType;
 
-    public IntegerNode(int n)
+    // public IntegerNode(int n)
+    // {
+    //     this.n = n;
+    // }
+
+    public IntegerNode(int n, LLVMTypeRef type)
     {
         this.n = n;
+        this.IntType = type;
     }
 
-    public IntegerNode(Tokens n)
+    public IntegerNode(Tokens n, LLVMTypeRef type)
     {
         this.n = int.Parse(n.buffer);
+        this.IntType = type;
     }
 
     public LLVMValueRef CodeGen(

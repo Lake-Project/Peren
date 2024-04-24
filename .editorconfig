@@ -1,4 +1,4 @@
 [*.cs]
-
+[*.c]
 # Default severity for analyzer diagnostics with category 'Design'
 # dotnet_analyzer_diagnostic.category-Design.severity = none

@@ -1,5 +1,5 @@
 @echo off
-clang -c test.c -o out/test.o
+clang -c  test.c -o out/test.o
 
 cd out
 clang -c  output.ll -o output.o

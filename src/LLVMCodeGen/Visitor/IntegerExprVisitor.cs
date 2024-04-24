@@ -3,7 +3,12 @@ using Lexxer;
 
 public class IntegerExpressionVisitor : IVisitor
 {
-	private HashSet<LLVMTypeRef> AllowedTypes = new HashSet<LLVMTypeRef> { LLVMTypeRef.Int32 };
+	private HashSet<LLVMTypeRef> AllowedTypes = new HashSet<LLVMTypeRef>
+	{
+		LLVMTypeRef.Int32,
+		LLVMTypeRef.Int8,
+		LLVMTypeRef.Int1
+	};
 
 	public IntegerExpressionVisitor() { }
 
@@ -16,7 +21,15 @@ public class IntegerExpressionVisitor : IVisitor
 	{
 		unsafe
 		{
-			return LLVM.ConstInt(LLVM.Int32Type(), (ulong)node.n, 1);
+			context.AddToTypeCheckerType(node.IntType);
+			if (node.IntType == LLVMTypeRef.Int32)
+				return LLVM.ConstInt(LLVM.Int32Type(), (ulong)node.n, 1);
+			else if (node.IntType == LLVMTypeRef.Int8)
+				return LLVM.ConstInt(LLVM.Int8Type(), (ulong)node.n, 1);
+			else if (node.IntType == LLVMTypeRef.Int1)
+				return LLVM.ConstInt(LLVM.Int1Type(), (ulong)node.n, 1);
+			else
+				throw new Exception("unsupported intType");
 		}
 	}
 
@@ -107,6 +120,9 @@ public class IntegerExpressionVisitor : IVisitor
 	{
 		// throw new NotImplementedException();
 		Var l = context.GetVar(node.name);
+		if (!AllowedTypes.Contains(l.type))
+			throw new Exception("not allowed type");
+		context.AddToTypeCheckerType(l.type);
 		return builder.BuildLoad2(l.type, l.valueRef);
 	}
 
@@ -118,8 +134,9 @@ public class IntegerExpressionVisitor : IVisitor
 	)
 	{
 		Function fun = context.GetFunction(node.Name);
-		if (fun.f.retType == LLVMTypeRef.Void)
-			throw new Exception("");
+		if (!AllowedTypes.Contains(fun.retType))
+			throw new Exception("not allowed type "+fun.retType);
+		context.AddToTypeCheckerType(fun.type);
 		return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name);
 	}
 }

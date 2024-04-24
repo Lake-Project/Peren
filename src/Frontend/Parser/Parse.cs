@@ -52,7 +52,19 @@ public class Parse
         {
             if (Current.buffer.Contains("."))
                 return new FloatNode(Current);
-            return new IntegerNode(Current);
+            return new IntegerNode(Current, LLVMTypeRef.Int32);
+        }
+        else if (MatchAndRemove(TokenType.CHAR_LITERAL) != null)
+        {
+            return new IntegerNode(Current.buffer.ToCharArray()[0], LLVMTypeRef.Int8);
+        }
+        else if (MatchAndRemove(TokenType.TRUE) != null)
+        {
+            return new IntegerNode(1, LLVMTypeRef.Int1);
+        }
+        else if (MatchAndRemove(TokenType.FALSE) != null)
+        {
+            return new IntegerNode(0, LLVMTypeRef.Int1);
         }
         else if (MatchAndRemove(TokenType.WORD) != null)
         {
@@ -156,7 +168,8 @@ public class Parse
         {
             TokenType.INT => LLVMTypeRef.Int32,
             TokenType.FLOAT => LLVMTypeRef.Float,
-            // TokenType.WORD => LLVMTypeRef
+            TokenType.CHAR => LLVMTypeRef.Int8,
+            TokenType.BOOL => LLVMTypeRef.Int1,
             _ => LLVMTypeRef.Void
         };
     }

@@ -28,7 +28,11 @@ namespace Lexxer
         COMMA,
         NOT,
         XOR,
-        EXTERN
+        EXTERN,
+        UNSIGNED,
+        TRUE,
+        FALSE,
+        CHAR_LITERAL
     }
 
     public struct Tokens
@@ -71,6 +75,11 @@ namespace Lexxer
                     ["fn"] = new(TokenType.FUNCTION),
                     ["int"] = new(TokenType.INT),
                     ["float"] = new(TokenType.FLOAT),
+                    ["char"] = new(TokenType.CHAR),
+                    ["bool"] = new(TokenType.BOOL),
+                    ["unsigned"] = new(TokenType.UNSIGNED),
+                    ["true"] = new(TokenType.TRUE),
+                    ["false"] = new(TokenType.FALSE),
                     ["{"] = new(TokenType.BEGIN),
                     ["}"] = new(TokenType.END),
                     [";"] = new(TokenType.EOL),
@@ -182,11 +191,34 @@ namespace Lexxer
             List<Tokens> Tokens = new();
             int state = 1;
             StringBuilder Buffer = new();
+            bool isSTring = false;
             for (int i = 0; i < Lines.Length; i++)
             {
                 for (int nextToken = 0; nextToken < Lines[i].Length; nextToken++)
                 {
                     string CurrentToken = Lines[i][nextToken].ToString();
+                    if (CurrentToken == "\'")
+                    {
+                        if (Buffer.Length != 0)
+                        {
+                            if (isSTring)
+                            {
+                                Tokens.Add(new Tokens(TokenType.CHAR_LITERAL, Buffer.ToString()));
+                                Buffer.Clear();
+                            }
+                            else
+                            {
+                                groupings(Tokens, Buffer);
+                            }
+                        }
+                        isSTring = !isSTring;
+                        continue;
+                    }
+                    if (isSTring)
+                    {
+                        Buffer.Append(CurrentToken);
+                        continue;
+                    }
                     if (string.IsNullOrWhiteSpace(CurrentToken))
                     {
                         if (Buffer.Length != 0)
@@ -195,6 +227,7 @@ namespace Lexxer
                         }
                         continue;
                     }
+
                     if (state == 1)
                     {
                         Number(CurrentToken, Tokens, Buffer, ref state);
