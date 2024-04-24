@@ -121,7 +121,7 @@ public class IntegerExpressionVisitor : IVisitor
 		// throw new NotImplementedException();
 		Var l = context.GetVar(node.name);
 		if (!AllowedTypes.Contains(l.type))
-			throw new Exception("not allowed type");
+			throw new TypeAccessException("not allowed type");
 		context.AddToTypeCheckerType(l.type);
 		return builder.BuildLoad2(l.type, l.valueRef);
 	}
@@ -135,7 +135,7 @@ public class IntegerExpressionVisitor : IVisitor
 	{
 		Function fun = context.GetFunction(node.Name);
 		if (!AllowedTypes.Contains(fun.retType))
-			throw new Exception("not allowed type "+fun.retType);
+			throw new TypeAccessException("not allowed type "+fun.retType);
 		context.AddToTypeCheckerType(fun.type);
 		return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name);
 	}

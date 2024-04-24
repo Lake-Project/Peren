@@ -11,5 +11,6 @@ int main(int argc, char const *argv[])
     int s = test(1, 1);
     printf("%d \n",s);
     // unsigned int d = -1 - 3;
+    // float a = 'a';
     return 0;
 }
