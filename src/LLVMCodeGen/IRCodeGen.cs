@@ -29,7 +29,7 @@ public class IRCodeGen
 	{
 		var module = LLVMModuleRef.CreateWithName("main");
 		LLVMBuilderRef builder = module.Context.CreateBuilder();
-		Context c = new Context();
+		Context c = new();
 		// Context context = new CO
 		#pragma warning disable CS8602 // Dereference of a possibly null reference.
 		foreach (INode? statement in statements)

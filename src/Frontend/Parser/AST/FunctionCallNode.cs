@@ -21,34 +21,34 @@ public class FunctionCallNode : INode
         Context context
     )
     {
+        Dictionary<LLVMTypeRef, IVisitor> visitors =
+            new()
+            {
+                [LLVMTypeRef.Int32] = new IntegerExpressionVisitor(),
+                [LLVMTypeRef.Int16] = new IntegerExpressionVisitor(),
+                [LLVMTypeRef.Int8] = new IntegerExpressionVisitor(),
+                [LLVMTypeRef.Int1] = new IntegerExpressionVisitor(),
+                [LLVMTypeRef.Float] = new FloatExprVisitor(),
+            };
         Function fun = context.GetFunction(this.Name);
         LLVMValueRef[] values = new LLVMValueRef[fun.f.Parameters.Count];
         LLVMTypeRef[] differTypes = fun.f.paramTypes;
 
         for (int i = 0; i < values.Length; i++)
         {
-            if (
-                differTypes[i] == LLVMTypeRef.Int32
-                || differTypes[i] == LLVMTypeRef.Int8
-                || differTypes[i] == LLVMTypeRef.Int1
-            )
-            {
-                values[i] = ParamValues[i].CodeGen(
-                    new IntegerExpressionVisitor(),
-                    builder,
-                    module,
-                    context
-                );
-            }
-            else if (differTypes[i] == LLVMTypeRef.Float)
-            {
-                values[i] = ParamValues[i].CodeGen(
-                    new FloatExprVisitor(),
-                    builder,
-                    module,
-                    context
-                );
-            }
+            LLVMValueRef eq = ParamValues[i].CodeGen(
+                visitors[differTypes[i]],
+                builder,
+                module,
+                context
+            );
+            LLVMTypeRef type = context.GetFromTypeChecker();
+            if (type != differTypes[i])
+                if (differTypes[i].IntWidth <= type.IntWidth)
+                    eq = builder.BuildTrunc(eq, differTypes[i], "SET VAR");
+                else
+                    eq = builder.BuildSExt(eq, differTypes[i], "SET VAR");
+            values[i] = eq;
         }
         return visitor.Visit(this, builder, module, context);
     }
