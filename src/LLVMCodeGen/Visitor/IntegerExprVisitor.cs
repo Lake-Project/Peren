@@ -68,72 +68,40 @@ public class IntegerExpressionVisitor : IVisitor
         else
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-
-            // return builder.BuildAdd(
-            //     node.right.CodeGen(this, builder, module, context),
-            //     node.left.CodeGen(this, builder, module, context),
-            //     "addtmp"
-            // );
             LLVMValueRef L = node.left.CodeGen(this, builder, module, context);
             LLVMValueRef R = node.right.CodeGen(this, builder, module, context);
             LLVMTypeRef LType = context.GetFromTypeChecker();
             LLVMTypeRef RType = context.GetFromTypeChecker();
-            Console.WriteLine(LType);
-            Console.WriteLine(RType);
+
             if (LType == RType)
                 context.AddToTypeCheckerType(RType);
-
-            if (LType != RType)
+            else
             {
+                // if (LType.IntWidth > RType.IntWidth)
+                // {
+                //     Console.WriteLine("aa");
+                //     R = builder.BuildTrunc(R, LType, "truncate");
+                //     context.AddToTypeCheckerType(LType);
+                // }
+                // else
+                // {
+                //     R = builder.BuildSExt(R, LType, "truncate");
                 if (LType.IntWidth > RType.IntWidth)
-                {
-                    L = builder.BuildSExt(L, RType, "truncate");
-                    context.AddToTypeCheckerType(RType);
-                }
+                    R = builder.BuildTrunc(R, RType, "truncate");
                 else
-                {
-                    R = builder.BuildSExt(R, LType, "truncate");
-                    context.AddToTypeCheckerType(LType);
-                }
+                    R = builder.BuildSExt(R, RType, "truncate");
+                context.AddToTypeCheckerType(RType);
+                // }
             }
             return node.token.tokenType switch
             {
                 TokenType.ADDITION => builder.BuildAdd(L, R, "addtmp"),
+                TokenType.SUBTRACTION => builder.BuildSub(L, R, "subtmp"),
+                TokenType.MULTIPLICATION => builder.BuildMul(L, R, "multmp"),
+                TokenType.DIVISION => builder.BuildSDiv(L, R, "divtmp"),
+                TokenType.MODULAS => builder.BuildURem(L, R, "modtmp"),
                 _ => throw new Exception("unsupported op")
             };
-            // {
-            //     TokenType.ADDITION
-            //       => builder.BuildAdd(
-            //           node.right.CodeGen(this, builder, module, context),
-            //           node.left.CodeGen(this, builder, module, context),
-            //           "addtmp"
-            //       ),
-            //     TokenType.SUBTRACTION
-            //       => builder.BuildSub(
-            //           node.right.CodeGen(this, builder, module, context),
-            //           node.left.CodeGen(this, builder, module, context),
-            //           "subtmp"
-            //       ),
-            //     TokenType.MULTIPLICATION
-            //       => builder.BuildMul(
-            //           node.right.CodeGen(this, builder, module, context),
-            //           node.left.CodeGen(this, builder, module, context),
-            //           "multmp"
-            //       ),
-            //     TokenType.DIVISION
-            //       => builder.BuildSDiv(
-            //           node.right.CodeGen(this, builder, module, context),
-            //           node.left.CodeGen(this, builder, module, context),
-            //           "divtmp"
-            //       ),
-            //     TokenType.MODULAS
-            //       => builder.BuildURem(
-            //           node.right.CodeGen(this, builder, module, context),
-            //           node.left.CodeGen(this, builder, module, context),
-            //           "modtmp"
-            //       ),
-            //     _ => throw new Exception("unsupported op")
-            // };
         }
     }
 
