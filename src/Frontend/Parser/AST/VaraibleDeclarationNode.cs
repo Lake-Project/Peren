@@ -42,7 +42,6 @@ public class VaraibleDeclarationNode : INode
             b = module.AddGlobal(typeRef, name);
         else
             b = builder.BuildAlloca(typeRef, name);
-        context.AddNewVar(typeRef, name, b);
         if (isExtern)
         {
             b.Linkage = LLVMLinkage.LLVMExternalLinkage;
@@ -51,6 +50,10 @@ public class VaraibleDeclarationNode : INode
         if (ExpressionNode == null)
             return b;
         LLVMValueRef eq = context.HandleTypes(typeRef, builder, module, ExpressionNode);
+        if (eq.IsConstant)
+            context.AddNewVarAsConst(typeRef, name, b, eq);
+        else
+            context.AddNewVar(typeRef, name, b);
         if (context.ScopeSize() == 0)
         {
             unsafe
@@ -63,5 +66,10 @@ public class VaraibleDeclarationNode : INode
         {
             return builder.BuildStore(eq, b);
         }
+    }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -77,21 +77,11 @@ public class IntegerExpressionVisitor : IVisitor
                 context.AddToTypeCheckerType(RType);
             else
             {
-                // if (LType.IntWidth > RType.IntWidth)
-                // {
-                //     Console.WriteLine("aa");
-                //     R = builder.BuildTrunc(R, LType, "truncate");
-                //     context.AddToTypeCheckerType(LType);
-                // }
-                // else
-                // {
-                //     R = builder.BuildSExt(R, LType, "truncate");
                 if (LType.IntWidth > RType.IntWidth)
                     R = builder.BuildTrunc(R, RType, "truncate");
                 else
                     R = builder.BuildSExt(R, RType, "truncate");
                 context.AddToTypeCheckerType(RType);
-                // }
             }
             return node.token.tokenType switch
             {
@@ -114,9 +104,12 @@ public class IntegerExpressionVisitor : IVisitor
     {
         // throw new NotImplementedException();
         Var l = context.GetVar(node.name);
+
         if (!AllowedTypes.Contains(l.type))
             throw new TypeAccessException("not allowed type");
         context.AddToTypeCheckerType(l.type);
+        if (l.IsConstant)
+            return l.constant;
         return builder.BuildLoad2(l.type, l.valueRef);
     }
 

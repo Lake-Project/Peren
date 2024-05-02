@@ -39,4 +39,9 @@ public class IntegerNode : INode
     {
         return n.ToString();
     }
+
+    public void Transform(IOptimize optimizer, Context graph)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -50,4 +50,9 @@ public class OpNode : INode
             return "NULL";
         }
     }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }

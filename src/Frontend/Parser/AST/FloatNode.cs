@@ -24,4 +24,9 @@ public class FloatNode : INode
     {
 		return visitor.Visit(this, builder, module, context);
     }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }

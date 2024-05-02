@@ -78,11 +78,6 @@ public class Parse
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
         }
-        // else if (MatchAndRemove(TokenType.WORD) != null)
-        // {
-        // 	return new VaraibleReferenceNode(Current);
-        // }
-
         return null;
     }
 

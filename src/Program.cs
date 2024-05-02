@@ -1,10 +1,9 @@
 ﻿using LLVMSharp.Interop;
 using Lexxer;
 using System;
+
 class Program
 {
-
-
 	public static void Main()
 	{
 		LLVM.InitializeAllTargetInfos();

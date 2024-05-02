@@ -1,16 +1,31 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Lexxer;
 using LLVMSharp.Interop;
 
 public struct Var
 {
     public LLVMValueRef valueRef;
+    public Dictionary<string, Var> dependecyGraph;
     public LLVMTypeRef type;
+    public LLVMValueRef constant;
+    public bool IsConstant;
 
     public Var(LLVMTypeRef typeRef, LLVMValueRef valueRef)
     {
         this.valueRef = valueRef;
+        this.dependecyGraph = new Dictionary<string, Var>();
         this.type = typeRef;
+        IsConstant = false;
+    }
+
+    public Var(LLVMTypeRef typeRef, LLVMValueRef var, LLVMValueRef constant)
+    {
+        this.valueRef = var;
+        this.dependecyGraph = new Dictionary<string, Var>();
+        this.type = typeRef;
+        this.constant = constant;
+        IsConstant = true;
     }
 }
 
@@ -92,6 +107,54 @@ public sealed class Context
             }
         }
         ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, value));
+    }
+
+    public void AddNewVarAsConst(
+        LLVMTypeRef type,
+        string name,
+        LLVMValueRef var,
+        LLVMValueRef constant
+    )
+    {
+        for (int i = 0; i < ScopeDimension.Count; i++)
+        {
+            if (ScopeDimension[i].Vars.ContainsKey(name))
+            {
+                throw new VaraibleAlreadyDefinedException();
+            }
+        }
+        ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, var, constant));
+    }
+
+    public void UpdateConst(string name, LLVMValueRef val)
+    {
+        for (int i = 0; i < ScopeDimension.Count; i++)
+        {
+            if (ScopeDimension[i].Vars.ContainsKey(name))
+            {
+                Var a = ScopeDimension[i].Vars[name];
+                a.constant = val;
+                a.IsConstant = true;
+                ScopeDimension[i].Vars[name] = a;
+                return;
+            }
+        }
+        throw new VaraibleDoesntExistException();
+    }
+
+    public void removeConst(string name)
+    {
+        for (int i = 0; i < ScopeDimension.Count; i++)
+        {
+            if (ScopeDimension[i].Vars.ContainsKey(name))
+            {
+                Var a = ScopeDimension[i].Vars[name];
+                a.IsConstant = false;
+                ScopeDimension[i].Vars[name] = a;
+                return;
+            }
+        }
+        throw new VaraibleDoesntExistException();
     }
 
     public Var GetVar(string name)

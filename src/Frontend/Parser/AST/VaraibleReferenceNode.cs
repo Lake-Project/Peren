@@ -18,4 +18,9 @@ public class VaraibleReferenceNode : INode
     {
         return name;
     }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }

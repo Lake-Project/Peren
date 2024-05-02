@@ -78,4 +78,9 @@ public class FunctionNode : INode
         context.DeallocateScope();
         return function;
     }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
+    }
 }
