@@ -92,6 +92,8 @@ public class FloatExprVisitor : IVisitor
     )
     {
         Var l = context.GetVar(node.name);
+        if (l.IsConstant)
+            return l.constant;
         return builder.BuildLoad2(l.type, l.valueRef);
     }
 

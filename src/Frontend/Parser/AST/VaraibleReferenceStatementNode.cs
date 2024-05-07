@@ -24,7 +24,10 @@ public class VaraibleReferenceStatementNode : INode
             context.AddToTypeCheckerType(b.type);
             LLVMValueRef eq = context.HandleTypes(b.type, builder, module, expression);
             if (eq.IsConstant)
+            {
                 context.UpdateConst(name, eq);
+                return b.constant;
+            }
             else if (b.IsConstant)
                 context.removeConst(name);
             return builder.BuildStore(eq, b.valueRef);

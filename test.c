@@ -1,19 +1,30 @@
-#include <stdint.h>
-#include <stdio.h>
-int add(int a, int b)
-{
-    return a + b;
-}
+
 // extern volatile unsigned int a;
-extern char test(int a, int b);
+int add(int a ){
+    return a;
+}
 int main(int argc, char const *argv[])
 {
-    char s = test(1, 21);
-    int b = 0;
-    int a = 0; //a = 0
-    a = b; //a's dependcy graah: "b"
-    a = a + 1; // a: a, b
-    printf("%d\n",s);
+//     int d = 1;
+//    volatile int b = d + 1;
+//     b = 10;
+    // int s = test(1, 21);
+    // int i = 0;
+    // int a = argc;
+    // for( i = 0; i < a; i++){
+    //    add(i);
+    //    i = i * 2;
+    // }
+    // i += 10;
+    int d = 1;
+    d = d+1;
+    d += argc;
+    return d;
+    // int b = 0;
+    // int a = 0; //a = 0
+    // a = b; //a's dependcy graah: "b"
+    // a = a + 1; // a: a, b
+    // printf("%d\n",s);
 
     //good wya todo this
 
@@ -32,5 +43,5 @@ int main(int argc, char const *argv[])
     //at return. it goes through the list of vars/var references. if it doesnt turn up in the big traversal. it gets marked as dead code
     // and removed
     //
-    return b;
+    // return i;
 }

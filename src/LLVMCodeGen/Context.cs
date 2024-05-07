@@ -149,7 +149,7 @@ public sealed class Context
             if (ScopeDimension[i].Vars.ContainsKey(name))
             {
                 Var a = ScopeDimension[i].Vars[name];
-                a.IsConstant = false;
+				a.IsConstant = false;
                 ScopeDimension[i].Vars[name] = a;
                 return;
             }

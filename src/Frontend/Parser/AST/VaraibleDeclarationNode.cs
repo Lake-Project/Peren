@@ -7,6 +7,7 @@ public class VaraibleDeclarationNode : INode
     public LLVMTypeRef typeRef;
     public string name;
     public bool isExtern;
+    public bool isStruct;
 
     public VaraibleDeclarationNode(
         LLVMTypeRef type,
@@ -48,17 +49,22 @@ public class VaraibleDeclarationNode : INode
             return b;
         }
         if (ExpressionNode == null)
+        {
             return b;
+        }
         LLVMValueRef eq = context.HandleTypes(typeRef, builder, module, ExpressionNode);
-        if (eq.IsConstant)
-            context.AddNewVarAsConst(typeRef, name, b, eq);
-        else
-            context.AddNewVar(typeRef, name, b);
+        // if (eq.IsConstant)
+        // {
+        //     context.AddNewVarAsConst(typeRef, name, b, eq);
+        //     return b;
+        // }
+        // else
+        context.AddNewVar(typeRef, name, b);
         if (context.ScopeSize() == 0)
         {
             unsafe
             {
-                LLVM.SetInitializer(b, eq); // Initialize the global variable with value 42
+                LLVM.SetInitializer(b, eq);
                 return b;
             }
         }
