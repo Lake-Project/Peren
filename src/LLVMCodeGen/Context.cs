@@ -29,14 +29,26 @@ public struct Var
     }
 }
 
+public struct Types
+{
+    public LLVMTypeRef type;
+
+    public Types(LLVMTypeRef typeRef)
+    {
+        this.type = typeRef;
+    }
+}
+
 struct ScopeDimensions
 {
+    public Dictionary<string, Type> Types;
     public Dictionary<string, Var> Vars;
     public bool Returns;
 
     public ScopeDimensions()
     {
         Vars = new Dictionary<string, Var>();
+        Types = new Dictionary<string, Type>();
         Returns = false;
     }
 }
@@ -97,76 +109,85 @@ public sealed class Context
         ScopeDimension.RemoveAt(l);
     }
 
-    public void AddNewVar(LLVMTypeRef type, string name, LLVMValueRef value)
+    public void AddNewVar(LLVMTypeRef type, Tokens name, LLVMValueRef value)
     {
         for (int i = 0; i < ScopeDimension.Count; i++)
         {
-            if (ScopeDimension[i].Vars.ContainsKey(name))
+            if (
+                ScopeDimension[i].Vars.ContainsKey(name.buffer)
+                || ScopeDimension[i].Types.ContainsKey(name.buffer)
+            )
             {
-                throw new VaraibleAlreadyDefinedException();
+                throw new VaraibleAlreadyDefinedException(
+                    $"Varaible {name.buffer} already exists on line ${name.GetLine()}"
+                );
             }
         }
-        ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, value));
+        ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name.buffer, new Var(type, value));
     }
 
-    public void AddNewVarAsConst(
-        LLVMTypeRef type,
-        string name,
-        LLVMValueRef var,
-        LLVMValueRef constant
-    )
-    {
-        for (int i = 0; i < ScopeDimension.Count; i++)
-        {
-            if (ScopeDimension[i].Vars.ContainsKey(name))
-            {
-                throw new VaraibleAlreadyDefinedException();
-            }
-        }
-        ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, var, constant));
-    }
+    // public void AddNewVarAsConst(
+    //     LLVMTypeRef type,
+    //     string name,
+    //     LLVMValueRef var,
+    //     LLVMValueRef constant
+    // )
+    // {
+    //     for (int i = 0; i < ScopeDimension.Count; i++)
+    //     {
+    //         if (ScopeDimension[i].Vars.ContainsKey(name))
+    //         {
+    //             throw new VaraibleAlreadyDefinedException($"Varaible {}");
+    //         }
+    //     }
+    //     ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name, new Var(type, var, constant));
+    // }
 
-    public void UpdateConst(string name, LLVMValueRef val)
-    {
-        for (int i = 0; i < ScopeDimension.Count; i++)
-        {
-            if (ScopeDimension[i].Vars.ContainsKey(name))
-            {
-                Var a = ScopeDimension[i].Vars[name];
-                a.constant = val;
-                a.IsConstant = true;
-                ScopeDimension[i].Vars[name] = a;
-                return;
-            }
-        }
-        throw new VaraibleDoesntExistException();
-    }
+    // public void UpdateConst(string name, LLVMValueRef val)
+    // {
+    //     for (int i = 0; i < ScopeDimension.Count; i++)
+    //     {
+    //         if (ScopeDimension[i].Vars.ContainsKey(name))
+    //         {
+    //             Var a = ScopeDimension[i].Vars[name];
+    //             a.constant = val;
+    //             a.IsConstant = true;
+    //             ScopeDimension[i].Vars[name] = a;
+    //             return;
+    //         }
+    //     }
+    //     throw new VaraibleDoesntExistException(
+    //         $"Varaible {name.buffer} doesnt exist on like {name.GetLine()}"
+    //     );
+    // }
 
-    public void removeConst(string name)
-    {
-        for (int i = 0; i < ScopeDimension.Count; i++)
-        {
-            if (ScopeDimension[i].Vars.ContainsKey(name))
-            {
-                Var a = ScopeDimension[i].Vars[name];
-				a.IsConstant = false;
-                ScopeDimension[i].Vars[name] = a;
-                return;
-            }
-        }
-        throw new VaraibleDoesntExistException();
-    }
+    // public void removeConst(Tokens name)
+    // {
+    //     for (int i = 0; i < ScopeDimension.Count; i++)
+    //     {
+    //         if (ScopeDimension[i].Vars.ContainsKey(name.buffer))
+    //         {
+    //             Var a = ScopeDimension[i].Vars[name.buffer];
+    //             a.IsConstant = false;
+    //             ScopeDimension[i].Vars[name.buffer] = a;
+    //             return;
+    //         }
+    //     }
+    //     throw new VaraibleDoesntExistException(
+    //         $"Varaible {name.buffer} doesnt exist on like {name.GetLine()}"
+    //     );
+    // }
 
-    public Var GetVar(string name)
+    public Var GetVar(Tokens name)
     {
         for (int i = 0; i < ScopeDimension.Count; i++)
         {
-            if (ScopeDimension[i].Vars.ContainsKey(name))
+            if (ScopeDimension[i].Vars.ContainsKey(name.buffer))
             {
-                return ScopeDimension[i].Vars[name];
+                return ScopeDimension[i].Vars[name.buffer];
             }
         }
-        throw new VaraibleDoesntExistException();
+        throw new VaraibleDoesntExistException("$");
     }
 
     public void Setret()
@@ -187,11 +208,11 @@ public sealed class Context
         functions.Add(name, new Function(functionNode, value, type, retType));
     }
 
-    public Function GetFunction(string name)
+    public Function GetFunction(Tokens name)
     {
-        if (!functions.ContainsKey(name))
+        if (!functions.ContainsKey(name.buffer))
             throw new Exception("function doesnte exist");
-        return functions[name];
+        return functions[name.buffer];
     }
 
     public bool GetRet()
@@ -238,6 +259,12 @@ public sealed class Context
     }
 }
 
-public class VaraibleDoesntExistException : Exception { }
+public class VaraibleDoesntExistException : Exception
+{
+    public VaraibleDoesntExistException(string message) : base(message) { }
+}
 
-public class VaraibleAlreadyDefinedException : Exception { }
+public class VaraibleAlreadyDefinedException : Exception
+{
+    public VaraibleAlreadyDefinedException(string message) : base(message) { }
+}

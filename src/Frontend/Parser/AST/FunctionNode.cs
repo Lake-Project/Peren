@@ -7,11 +7,11 @@ public class FunctionNode : INode
     public bool isExtern;
     public List<VaraibleDeclarationNode> Parameters;
     public LLVMTypeRef retType;
-    public string name;
+    public Tokens name;
     public LLVMTypeRef[] paramTypes;
 
     public FunctionNode(
-        string name,
+        Tokens name,
         List<VaraibleDeclarationNode> Parameters,
         LLVMTypeRef retType,
         List<INode?> statements,
@@ -30,13 +30,13 @@ public class FunctionNode : INode
         this.isExtern = isExtern;
     }
 
-    public FunctionNode(Tokens name, List<INode?> statements)
-    {
-        this.name = name.buffer;
-        this.statements = statements;
-        this.Parameters = new List<VaraibleDeclarationNode>();
-        paramTypes = new LLVMTypeRef[0];
-    }
+    // public FunctionNode(Tokens name, List<INode?> statements)
+    // {
+    //     this.name = name.buffer;
+    //     this.statements = statements;
+    //     this.Parameters = new List<VaraibleDeclarationNode>();
+    //     paramTypes = new LLVMTypeRef[0];
+    // }
 
     public LLVMValueRef CodeGen(
         IVisitor visitor,
@@ -50,8 +50,8 @@ public class FunctionNode : INode
         // return visitor.visit(this, builder, module);
         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
 
-        LLVMValueRef function = module.AddFunction(name, funcType);
-        context.AddFunction(name, this, function, funcType, retType);
+        LLVMValueRef function = module.AddFunction(name.buffer, funcType);
+        context.AddFunction(name.buffer, this, function, funcType, retType);
         if (isExtern)
         {
             function.Linkage = LLVMLinkage.LLVMExternalLinkage;

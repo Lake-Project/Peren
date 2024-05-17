@@ -1,11 +1,12 @@
 using LLVMSharp.Interop;
+using Lexxer;
 
 public class VaraibleReferenceStatementNode : INode
 {
     public INode expression;
-    public string name;
+    public Tokens name;
 
-    public VaraibleReferenceStatementNode(string name, INode expresion)
+    public VaraibleReferenceStatementNode(Tokens name, INode expresion)
     {
         this.name = name;
         this.expression = expresion;
@@ -23,13 +24,13 @@ public class VaraibleReferenceStatementNode : INode
             Var b = context.GetVar(name);
             context.AddToTypeCheckerType(b.type);
             LLVMValueRef eq = context.HandleTypes(b.type, builder, module, expression);
-            if (eq.IsConstant)
-            {
-                context.UpdateConst(name, eq);
-                return b.constant;
-            }
-            else if (b.IsConstant)
-                context.removeConst(name);
+            // if (eq.IsConstant)
+            // {
+            //     context.UpdateConst(name, eq);
+            //     return b.constant;
+            // }
+            // else if (b.IsConstant)
+            //     context.removeConst(name);
             return builder.BuildStore(eq, b.valueRef);
         }
     }

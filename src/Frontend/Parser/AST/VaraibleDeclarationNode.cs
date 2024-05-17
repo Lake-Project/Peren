@@ -1,17 +1,18 @@
 using System.Linq.Expressions;
+using Lexxer;
 using LLVMSharp.Interop;
 
 public class VaraibleDeclarationNode : INode
 {
     public INode? ExpressionNode;
     public LLVMTypeRef typeRef;
-    public string name;
+    public Tokens name;
     public bool isExtern;
     public bool isStruct;
 
     public VaraibleDeclarationNode(
         LLVMTypeRef type,
-        string name,
+        Tokens name,
         INode? ExpressionNode,
         bool isExtern
     )
@@ -25,12 +26,11 @@ public class VaraibleDeclarationNode : INode
     public void AddToScope(LLVMBuilderRef builder, Context context, LLVMValueRef value)
     {
         // LLVMValueRef b = builder.BuildAlloca(typeRef, name);
-        context.AddNewVar(typeRef, name, builder.BuildAlloca(typeRef, name));
+        context.AddNewVar(typeRef, name, builder.BuildAlloca(typeRef, name.buffer));
         Var l = context.GetVar(name);
         builder.BuildStore(value, l.valueRef);
     }
 
-    // public VaraibleDeclarationNode()
     public LLVMValueRef CodeGen(
         IVisitor visitor,
         LLVMBuilderRef builder,
@@ -40,9 +40,9 @@ public class VaraibleDeclarationNode : INode
     {
         LLVMValueRef b;
         if (context.ScopeSize() == 0)
-            b = module.AddGlobal(typeRef, name);
+            b = module.AddGlobal(typeRef, name.buffer);
         else
-            b = builder.BuildAlloca(typeRef, name);
+            b = builder.BuildAlloca(typeRef, name.buffer);
         if (isExtern)
         {
             b.Linkage = LLVMLinkage.LLVMExternalLinkage;
@@ -53,12 +53,6 @@ public class VaraibleDeclarationNode : INode
             return b;
         }
         LLVMValueRef eq = context.HandleTypes(typeRef, builder, module, ExpressionNode);
-        // if (eq.IsConstant)
-        // {
-        //     context.AddNewVarAsConst(typeRef, name, b, eq);
-        //     return b;
-        // }
-        // else
         context.AddNewVar(typeRef, name, b);
         if (context.ScopeSize() == 0)
         {

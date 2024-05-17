@@ -1,13 +1,14 @@
 using LLVMSharp;
 using LLVMSharp.Interop;
+using Lexxer;
 
 public class FunctionCallNode : INode
 {
     private List<INode?> ParamValues;
-    public string Name;
+    public Tokens Name;
     public LLVMValueRef[] Values;
 
-    public FunctionCallNode(string name, List<INode?> ParamValues)
+    public FunctionCallNode(Tokens name, List<INode?> ParamValues)
     {
         this.Name = name;
         this.ParamValues = ParamValues;

@@ -7,3 +7,4 @@ test.lk
 *.ll
 *.exe
 .fake
+*.vs

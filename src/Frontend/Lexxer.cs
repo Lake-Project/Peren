@@ -38,11 +38,15 @@ namespace Lexxer
     public struct Tokens
     {
         public TokenType tokenType;
+
+        // public int lineNumber {get => ; set;};
+        private int lineNumber;
         public string buffer;
 
-        public Tokens(TokenType tokenType, string buffer)
+        public Tokens(TokenType tokenType, string buffer, int lineNumber)
         {
             this.tokenType = tokenType;
+            this.lineNumber = lineNumber;
             this.buffer = buffer;
         }
 
@@ -52,15 +56,25 @@ namespace Lexxer
             this.tokenType = tokenType;
         }
 
+        public void setLine(int lineNumber)
+        {
+            this.lineNumber = lineNumber;
+        }
+
+        public int GetLine()
+        {
+            return lineNumber;
+        }
+
         public override string ToString()
         {
-            return tokenType + " (" + buffer + ")";
+            return "lineNumber: " + lineNumber.ToString() + " " + tokenType + " (" + buffer + ")";
         }
     }
 
     public class LexTokens
     {
-        private void groupings(List<Tokens> tokens, StringBuilder buffer)
+        private void groupings(List<Tokens> tokens, StringBuilder buffer, int lineNumber)
         {
             Dictionary<string, Tokens> Type =
                 new()
@@ -93,15 +107,17 @@ namespace Lexxer
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
-                tokens.Add(new(TokenType.NUMBER, buffer.ToString()));
+                tokens.Add(new(TokenType.NUMBER, buffer.ToString(), lineNumber));
             }
             else if (Type.ContainsKey(buffer.ToString()))
             {
-                tokens.Add(Type[buffer.ToString()]);
+                Tokens a = Type[buffer.ToString()];
+                a.setLine(lineNumber);
+                tokens.Add(a);
             }
             else
             {
-                tokens.Add(new(TokenType.WORD, buffer.ToString()));
+                tokens.Add(new(TokenType.WORD, buffer.ToString(), lineNumber));
             }
 
             buffer.Clear();
@@ -111,17 +127,18 @@ namespace Lexxer
             string currentChar,
             List<Tokens> tokens,
             StringBuilder buffer,
-            ref int state
+            ref int state,
+            int lineNumber
         )
         {
             if (buffer.Length != 0)
             {
-                groupings(tokens, buffer);
+                groupings(tokens, buffer, lineNumber);
             }
             buffer.Append(currentChar);
             if (currentChar == "(" || currentChar == ")")
             {
-                groupings(tokens, buffer);
+                groupings(tokens, buffer, lineNumber);
             }
             state = 1;
         }
@@ -130,7 +147,8 @@ namespace Lexxer
             string currentChar,
             List<Tokens> tokens,
             StringBuilder buffer,
-            ref int state
+            ref int state,
+            int lineNumber
         )
         {
             // buffer += currentChar;
@@ -149,10 +167,10 @@ namespace Lexxer
             {
                 if (buffer.Length != 0)
                 {
-                    groupings(tokens, buffer);
+                    groupings(tokens, buffer, lineNumber);
                 }
                 buffer.Append(currentChar);
-                groupings(tokens, buffer);
+                groupings(tokens, buffer, lineNumber);
             }
             else if (
                 currentChar == "+"
@@ -167,7 +185,7 @@ namespace Lexxer
                 state = 2;
                 if (buffer.Length != 0)
                 {
-                    groupings(tokens, buffer);
+                    groupings(tokens, buffer, lineNumber);
                 }
                 buffer.Append(currentChar);
             }
@@ -175,10 +193,10 @@ namespace Lexxer
             {
                 if (buffer.Length != 0)
                 {
-                    groupings(tokens, buffer);
+                    groupings(tokens, buffer, lineNumber);
                 }
                 buffer.Append(currentChar);
-                groupings(tokens, buffer);
+                groupings(tokens, buffer, lineNumber);
             }
             else
             {
@@ -203,12 +221,14 @@ namespace Lexxer
                         {
                             if (isSTring)
                             {
-                                Tokens.Add(new Tokens(TokenType.CHAR_LITERAL, Buffer.ToString()));
+                                Tokens.Add(
+                                    new Tokens(TokenType.CHAR_LITERAL, Buffer.ToString(), i)
+                                );
                                 Buffer.Clear();
                             }
                             else
                             {
-                                groupings(Tokens, Buffer);
+                                groupings(Tokens, Buffer, i);
                             }
                         }
                         isSTring = !isSTring;
@@ -223,24 +243,24 @@ namespace Lexxer
                     {
                         if (Buffer.Length != 0)
                         {
-                            groupings(Tokens, Buffer);
+                            groupings(Tokens, Buffer, i);
                         }
                         continue;
                     }
 
                     if (state == 1)
                     {
-                        Number(CurrentToken, Tokens, Buffer, ref state);
+                        Number(CurrentToken, Tokens, Buffer, ref state, i);
                     }
                     else if (state == 2)
                     {
-                        Operand(CurrentToken, Tokens, Buffer, ref state);
+                        Operand(CurrentToken, Tokens, Buffer, ref state, i);
                     }
                 }
             }
             if (Buffer.Length != 0)
             {
-                groupings(Tokens, Buffer);
+                groupings(Tokens, Buffer, Lines.Length);
             }
             return Tokens;
         }

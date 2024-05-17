@@ -81,7 +81,7 @@ public class IntegerExpressionVisitor : IVisitor
                     R = builder.BuildTrunc(R, RType, "truncate");
                 else
                     R = builder.BuildSExt(R, RType, "truncate");
-                context.AddToTypeCheckerType(RType);
+                context.AddToTypeCheckerType(LType);
             }
             return node.token.tokenType switch
             {
@@ -124,6 +124,6 @@ public class IntegerExpressionVisitor : IVisitor
         if (!AllowedTypes.Contains(fun.retType))
             throw new TypeAccessException("not allowed type " + fun.retType);
         context.AddToTypeCheckerType(fun.type);
-        return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name);
+        return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name.buffer);
     }
 }
