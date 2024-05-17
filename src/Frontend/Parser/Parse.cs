@@ -183,10 +183,10 @@ public class Parse
     {
         Tokens name = Current;
         Tokens? a = MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("");
-        List<INode?> expr = new List<INode?>();
+        List<INode> expr = new List<INode>();
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
-            expr.Add(Expression());
+            expr.Add(Expression() ?? throw new Exception($"empty param on line {name.GetLine()}"));
             MatchAndRemove(TokenType.COMMA);
         }
 
@@ -196,10 +196,12 @@ public class Parse
     public INode ParseVarRef()
     {
         Tokens? name = Current;
-        Tokens? e = MatchAndRemove(TokenType.EQUALS) ?? throw new Exception("invalid equals");
+        Tokens? e =
+            MatchAndRemove(TokenType.EQUALS)
+            ?? throw new Exception($"invalid equals on Line {name.Value.GetLine()}");
         return new VaraibleReferenceStatementNode(
             name.Value,
-            Expression() ?? throw new Exception("poor refrence")
+            Expression() ?? throw new Exception($"poor refrence on line {name.Value.GetLine()}")
         );
     }
 

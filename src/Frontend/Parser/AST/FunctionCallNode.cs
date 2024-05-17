@@ -4,11 +4,11 @@ using Lexxer;
 
 public class FunctionCallNode : INode
 {
-    private List<INode?> ParamValues;
+    private List<INode> ParamValues;
     public Tokens Name;
     public LLVMValueRef[] Values;
 
-    public FunctionCallNode(Tokens name, List<INode?> ParamValues)
+    public FunctionCallNode(Tokens name, List<INode> ParamValues)
     {
         this.Name = name;
         this.ParamValues = ParamValues;
