@@ -119,7 +119,7 @@ public sealed class Context
             )
             {
                 throw new VaraibleAlreadyDefinedException(
-                    $"Varaible {name.buffer} already exists on line ${name.GetLine()}"
+                    $"Varaible {name.buffer} already exists on line ${name.GetLine() + 1}"
                 );
             }
         }
@@ -187,7 +187,9 @@ public sealed class Context
                 return ScopeDimension[i].Vars[name.buffer];
             }
         }
-        throw new VaraibleDoesntExistException("$");
+        throw new VaraibleDoesntExistException(
+            $"Varaible {name.buffer} doesnt exist on line {name.GetLine() + 1}"
+        );
     }
 
     public void Setret()
