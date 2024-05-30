@@ -9,6 +9,7 @@
 
   </PropertyGroup>
  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="libLLVM" Version="16.0.6" />
         <PackageReference Include="LLVMSharp" Version="16.0.0" />
 
