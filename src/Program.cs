@@ -13,8 +13,8 @@ class Program
         LLVM.InitializeAllAsmPrinters();
         LLVM.InitializeAllAsmParsers();
         // Console.WriteLine(args[0]);
-
-        new CommandLineFlags(new string[] { "test.lk", "-o", "Test.exe" });
+        new CommandLineFlags(args);
+        // new CommandLineFlags(new string[] { "test.lk", "--print-ir", "-o", "Test.exe" });
         // List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
         // // new LexTokens().printList(tokens);
         // Parse p = new Parse(tokens);

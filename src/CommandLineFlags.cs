@@ -48,16 +48,25 @@ public class CompileOptions
     }
 
     [Option('c', Default = false)]
-    public bool ObjectFiles { get; set; }
+    public bool CompileOnly { get; set; }
 
-    [Option("emit-ir", Required = false, Default = false, HelpText = "emit ir")]
+    [Option("emit-ir", Required = false, Default = false, HelpText = "saves ir to file")]
     public bool IrFile { get; set; }
+
+    [Option("print-ir", Required = false, Default = false, HelpText = "prints IR to console")]
+    public bool PrintIR { get; set; }
 
     [Option("dump-tokens", HelpText = "prints Tokens")]
     public bool PrintTokens { get; set; }
 
     [Option('o', "output", Default = "a.exe", HelpText = "output file")]
     public string OutputFile { get; set; }
+
+    [Option('a', "assembly", HelpText = "emit assembly file")]
+    public bool AssemblyFile { get; set; }
+
+    [Option('S', "compile-off", Default = false, HelpText = "doesnt link or emit an obj ")]
+    public bool CompileOff { get; set; }
 }
 
 public class CommandLineFlags
@@ -76,14 +85,7 @@ public class CommandLineFlags
 
     public void RunCompiler(CompileOptions compileOptions)
     {
-        Console.WriteLine($"input: {compileOptions.InputFiles}");
-        Console.WriteLine($"emit-ir: {compileOptions.IrFile}");
-        Console.WriteLine($"Object-Files: {compileOptions.ObjectFiles}");
-
-        Console.WriteLine($"outputfile : {compileOptions.OutputFile}");
-
         // Console.WriteLine($"-c: {compileOptions.ObjFile}");
-
         List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
         new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
         if (compileOptions.PrintTokens)
