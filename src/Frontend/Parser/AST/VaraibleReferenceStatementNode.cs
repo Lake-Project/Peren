@@ -1,5 +1,7 @@
-using LLVMSharp.Interop;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMSharp.Interop;
 
 public class VaraibleReferenceStatementNode : INode
 {
@@ -22,7 +24,6 @@ public class VaraibleReferenceStatementNode : INode
         unsafe
         {
             Var b = context.GetVar(name);
-            context.AddToTypeCheckerType(b.type);
             LLVMValueRef eq = context.HandleTypes(b.type, builder, module, expression);
             // if (eq.IsConstant)
             // {
@@ -35,7 +36,7 @@ public class VaraibleReferenceStatementNode : INode
         }
     }
 
-    public void Transform(IOptimize optimizer, Context context)
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         throw new NotImplementedException();
     }

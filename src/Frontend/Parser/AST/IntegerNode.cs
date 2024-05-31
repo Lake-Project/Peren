@@ -1,5 +1,7 @@
-using LLVMSharp.Interop;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMSharp.Interop;
 
 public class IntegerNode : INode
 {
@@ -35,13 +37,13 @@ public class IntegerNode : INode
         // throw new NotImplementedException();
     }
 
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    {
+        return visitor.SemanticAccept(this);
+    }
+
     public override string ToString()
     {
         return n.ToString();
-    }
-
-    public void Transform(IOptimize optimizer, Context graph)
-    {
-        throw new NotImplementedException();
     }
 }

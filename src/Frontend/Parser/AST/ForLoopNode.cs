@@ -1,3 +1,5 @@
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
 public class ForLoopNode : INode
@@ -8,6 +10,11 @@ public class ForLoopNode : INode
         LLVMModuleRef module,
         Context context
     )
+    {
+        throw new NotImplementedException();
+    }
+
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         throw new NotImplementedException();
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using CommandLine;
-using Lexxer;
-using LLVMSharp.Interop;
+﻿using LLVMSharp.Interop;
 
 class Program
 {

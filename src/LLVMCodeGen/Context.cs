@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
+using LacusLLVM.Frontend.Parser.AST;
 using Lexxer;
 using LLVMSharp.Interop;
 
@@ -73,7 +72,6 @@ public sealed class Context
 {
     private List<ScopeDimensions> ScopeDimension;
     private LLVMTypeRef _CurrentRetType;
-    private Stack<LLVMTypeRef> types;
     public Dictionary<string, Function> functions = new();
 
     // public Dictionary<string,
@@ -89,7 +87,6 @@ public sealed class Context
     {
         this.ScopeDimension = new List<ScopeDimensions>();
         AllocateScope();
-        this.types = new Stack<LLVMTypeRef>();
     }
 
     public void AllocateScope()
@@ -222,16 +219,6 @@ public sealed class Context
         return ScopeDimension[ScopeDimension.Count - 1].Returns;
     }
 
-    public void AddToTypeCheckerType(LLVMTypeRef type)
-    {
-        types.Push(type);
-    }
-
-    public LLVMTypeRef GetFromTypeChecker()
-    {
-        return types.Pop();
-    }
-
     public LLVMValueRef HandleTypes(
         LLVMTypeRef targetType,
         LLVMBuilderRef builder,
@@ -251,22 +238,18 @@ public sealed class Context
                 [LLVMTypeRef.Float] = new FloatExprVisitor(),
             };
         LLVMValueRef eq = expr.CodeGen(visitors[targetType], builder, module, this);
-        LLVMTypeRef type = this.GetFromTypeChecker();
-        if (type != targetType)
-            if (targetType.IntWidth < type.IntWidth)
-                eq = builder.BuildTrunc(eq, targetType, "SET VAR");
-            else
-                eq = builder.BuildSExt(eq, targetType, "SET VAR");
         return eq;
     }
 }
 
 public class VaraibleDoesntExistException : Exception
 {
-    public VaraibleDoesntExistException(string message) : base(message) { }
+    public VaraibleDoesntExistException(string message)
+        : base(message) { }
 }
 
 public class VaraibleAlreadyDefinedException : Exception
 {
-    public VaraibleAlreadyDefinedException(string message) : base(message) { }
+    public VaraibleAlreadyDefinedException(string message)
+        : base(message) { }
 }

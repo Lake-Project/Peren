@@ -1,3 +1,5 @@
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
@@ -27,6 +29,7 @@ public class FunctionNode : INode
         {
             paramTypes[i] = Parameters[i].typeRef;
         }
+
         this.isExtern = isExtern;
     }
 
@@ -37,6 +40,7 @@ public class FunctionNode : INode
     //     this.Parameters = new List<VaraibleDeclarationNode>();
     //     paramTypes = new LLVMTypeRef[0];
     // }
+
 
     public LLVMValueRef CodeGen(
         IVisitor visitor,
@@ -57,6 +61,7 @@ public class FunctionNode : INode
             function.Linkage = LLVMLinkage.LLVMExternalLinkage;
             return function;
         }
+
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         context.CurrentRetType = retType;
         builder.PositionAtEnd(entry);
@@ -70,13 +75,20 @@ public class FunctionNode : INode
         {
             statements[i].CodeGen(visitor, builder, module, context);
         }
+
         if (!context.GetRet())
         {
             if (retType == LLVMTypeRef.Void)
                 builder.BuildRetVoid();
         }
+
         context.DeallocateScope();
         return function;
+    }
+
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    {
+        return visitor.SemanticAccept(this);
     }
 
     public void Transform(IOptimize optimizer, Context context)

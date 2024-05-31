@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using System.Xml.Schema;
 using CommandLine;
-using CommandLine.Text;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
-using Microsoft.VisualBasic;
 
 public class CompileOptions
 {
@@ -92,6 +90,7 @@ public class CommandLineFlags
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
         Parse p = new Parse(tokens);
         List<INode?> s = p.ParseFile();
-        IRCodeGen.LLVM_Gen(s, compileOptions);
+        new SemanticAnaylsis().SemanticEntry(s);
+        // IRCodeGen.LLVM_Gen(s, compileOptions);
     }
 }

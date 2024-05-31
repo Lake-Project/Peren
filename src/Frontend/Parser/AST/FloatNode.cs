@@ -1,5 +1,7 @@
-using LLVMSharp.Interop;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMSharp.Interop;
 
 public class FloatNode : INode
 {
@@ -22,11 +24,11 @@ public class FloatNode : INode
         Context context
     )
     {
-		return visitor.Visit(this, builder, module, context);
+        return visitor.Visit(this, builder, module, context);
     }
 
-    public void Transform(IOptimize optimizer, Context context)
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
-        throw new NotImplementedException();
+        return visitor.SemanticAccept(this);
     }
 }

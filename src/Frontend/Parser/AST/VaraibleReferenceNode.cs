@@ -1,4 +1,5 @@
-using System.Linq.Expressions;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
@@ -22,13 +23,13 @@ public class VaraibleReferenceNode : INode
         return visitor.Visit(this, builder, module, context);
     }
 
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    {
+        throw new NotImplementedException();
+    }
+
     public override string ToString()
     {
         return name.ToString();
-    }
-
-    public void Transform(IOptimize optimizer, Context context)
-    {
-        throw new NotImplementedException();
     }
 }

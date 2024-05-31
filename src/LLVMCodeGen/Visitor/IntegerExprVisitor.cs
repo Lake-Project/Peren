@@ -1,5 +1,5 @@
-using LLVMSharp.Interop;
 using Lexxer;
+using LLVMSharp.Interop;
 
 public class IntegerExpressionVisitor : IVisitor
 {
@@ -21,15 +21,7 @@ public class IntegerExpressionVisitor : IVisitor
     {
         unsafe
         {
-            context.AddToTypeCheckerType(node.IntType);
-            if (node.IntType == LLVMTypeRef.Int32)
-                return LLVM.ConstInt(LLVM.Int32Type(), (ulong)node.n, 1);
-            else if (node.IntType == LLVMTypeRef.Int8)
-                return LLVM.ConstInt(LLVM.Int8Type(), (ulong)node.n, 1);
-            else if (node.IntType == LLVMTypeRef.Int1)
-                return LLVM.ConstInt(LLVM.Int1Type(), (ulong)node.n, 1);
-            else
-                throw new Exception("unsupported intType");
+            return LLVM.ConstInt(node.IntType, (ulong)node.n, 1);
         }
     }
 
@@ -70,19 +62,6 @@ public class IntegerExpressionVisitor : IVisitor
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             LLVMValueRef L = node.left.CodeGen(this, builder, module, context);
             LLVMValueRef R = node.right.CodeGen(this, builder, module, context);
-            LLVMTypeRef LType = context.GetFromTypeChecker();
-            LLVMTypeRef RType = context.GetFromTypeChecker();
-
-            if (LType == RType)
-                context.AddToTypeCheckerType(RType);
-            else
-            {
-                if (LType.IntWidth > RType.IntWidth)
-                    R = builder.BuildTrunc(R, RType, "truncate");
-                else
-                    R = builder.BuildSExt(R, RType, "truncate");
-                context.AddToTypeCheckerType(LType);
-            }
             return node.token.tokenType switch
             {
                 TokenType.ADDITION => builder.BuildAdd(L, R, "addtmp"),
@@ -107,7 +86,6 @@ public class IntegerExpressionVisitor : IVisitor
 
         if (!AllowedTypes.Contains(l.type))
             throw new TypeAccessException("not allowed type");
-        context.AddToTypeCheckerType(l.type);
         if (l.IsConstant)
             return l.constant;
         return builder.BuildLoad2(l.type, l.valueRef);
@@ -121,9 +99,6 @@ public class IntegerExpressionVisitor : IVisitor
     )
     {
         Function fun = context.GetFunction(node.Name);
-        if (!AllowedTypes.Contains(fun.retType))
-            throw new TypeAccessException("not allowed type " + fun.retType);
-        context.AddToTypeCheckerType(fun.type);
         return builder.BuildCall2(fun.type, fun.ValueRef, node.Values, fun.f.name.buffer);
     }
 }

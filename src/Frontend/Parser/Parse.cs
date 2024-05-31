@@ -1,7 +1,6 @@
+using LacusLLVM.Frontend.Parser.AST;
 using Lexxer;
 using LLVMSharp.Interop;
-using System;
-using System.Text.RegularExpressions;
 
 public class Parse
 {
@@ -28,12 +27,14 @@ public class Parse
         {
             return null;
         }
+
         if (TokenList[0].tokenType == type)
         {
             Current = TokenList[0];
             TokenList.RemoveAt(0);
             return Current;
         }
+
         return null;
     }
 
@@ -43,6 +44,7 @@ public class Parse
         {
             return true;
         }
+
         return false;
     }
 
@@ -78,6 +80,7 @@ public class Parse
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
         }
+
         return null;
     }
 
@@ -139,22 +142,23 @@ public class Parse
                         ? Current
                         : null;
         }
+
         return opNode;
     }
 
     public Tokens? GetTokenType()
     {
         return (MatchAndRemove(TokenType.FLOAT) != null)
-          ? Current
-          : (MatchAndRemove(TokenType.INT) != null)
-              ? Current
-              : (MatchAndRemove(TokenType.BOOL) != null)
-                  ? Current
-                  : (MatchAndRemove(TokenType.CHAR) != null)
-                      ? Current
-                      : (MatchAndRemove(TokenType.WORD) != null)
-                          ? Current
-                          : null;
+            ? Current
+            : (MatchAndRemove(TokenType.INT) != null)
+                ? Current
+                : (MatchAndRemove(TokenType.BOOL) != null)
+                    ? Current
+                    : (MatchAndRemove(TokenType.CHAR) != null)
+                        ? Current
+                        : (MatchAndRemove(TokenType.WORD) != null)
+                            ? Current
+                            : null;
     }
 
     public LLVMTypeRef TokenToLLVMType(TokenType type)
@@ -261,12 +265,14 @@ public class Parse
             param.Add((VaraibleDeclarationNode)ParseVar());
             MatchAndRemove(TokenType.COMMA);
         }
+
         LLVMTypeRef returnType = LLVMTypeRef.Void;
         if (MatchAndRemove(TokenType.RETURNS) != null)
         {
             Tokens? type = GetTokenType() ?? throw new Exception("inavlid retrun");
             returnType = TokenToLLVMType(type.Value.tokenType);
         }
+
         if (MatchAndRemove(TokenType.BEGIN) != null)
             statements = ParseBlock();
         return new FunctionNode(name, param, returnType, statements, isExtern);
@@ -287,6 +293,7 @@ public class Parse
             while (MatchAndRemove(TokenType.END) == null)
                 TokenList.RemoveAt(0);
         }
+
         return statements;
     }
 
@@ -298,6 +305,7 @@ public class Parse
             a.Add(GlobalStatements());
             MatchAndRemove(TokenType.EOL);
         }
+
         return a;
     }
 }

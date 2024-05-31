@@ -1,7 +1,5 @@
 @echo off
-clang -c  test.c -o out/test.o
-
-cd out
-clang -c  output.ll -o output.o
-clang test.o output.o -o a.exe
-a.exe
+clang -c  test.c -o test.o
+dotnet run -- test.lk -c -o Output.o
+clang test.o Output.o -o Out.exe
+Out.exe

@@ -1,4 +1,5 @@
-using System.Linq.Expressions;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
@@ -48,10 +49,12 @@ public class VaraibleDeclarationNode : INode
             b.Linkage = LLVMLinkage.LLVMExternalLinkage;
             return b;
         }
+
         if (ExpressionNode == null)
         {
             return b;
         }
+
         LLVMValueRef eq = context.HandleTypes(typeRef, builder, module, ExpressionNode);
         context.AddNewVar(typeRef, name, b);
         if (context.ScopeSize() == 0)
@@ -68,8 +71,8 @@ public class VaraibleDeclarationNode : INode
         }
     }
 
-    public void Transform(IOptimize optimizer, Context context)
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
-        throw new NotImplementedException();
+        return visitor.SemanticAccept(this);
     }
 }
