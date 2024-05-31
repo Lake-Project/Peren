@@ -1,12 +1,14 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class VaraibleReferenceStatementNode : INode
+public class VaraibleReferenceStatementNode : StatementNode
 {
     public INode expression;
     public Tokens name;
+    public int ScopeLocation { get; set; }
 
     public VaraibleReferenceStatementNode(Tokens name, INode expresion)
     {
@@ -36,7 +38,12 @@ public class VaraibleReferenceStatementNode : INode
         }
     }
 
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public override LLVMValueRef Visit(ExpressionVisit visit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         return visitor.SemanticAccept(this);
     }

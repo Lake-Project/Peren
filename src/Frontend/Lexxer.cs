@@ -32,7 +32,8 @@ namespace Lexxer
         UNSIGNED,
         TRUE,
         FALSE,
-        CHAR_LITERAL
+        CHAR_LITERAL,
+        VOID
     }
 
     public struct Tokens

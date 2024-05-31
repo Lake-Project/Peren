@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LLVMSharp.Interop;
 
 public class IRCodeGen
@@ -24,15 +25,15 @@ public class IRCodeGen
         module.Dispose();
     }
 
-    public static void LLVM_Gen(List<INode?> statements, CompileOptions compileOptions)
+    public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
         var module = LLVMModuleRef.CreateWithName("main");
         LLVMBuilderRef builder = module.Context.CreateBuilder();
-        Context c = new();
-        // Context context = new CO
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        foreach (INode? statement in statements)
-            statement.CodeGen(new CodeGenVisitor(), builder, module, c);
+        LLVMStatementVisitor visit = new LLVMStatementVisitor(builder, module);
+        statements.ForEach(n => n.Visit(visit));
+        // Context c = new Context();
+        // foreach (INode? statement in statements)
+        //     statement.CodeGen(new CodeGenVisitor(), builder, module, c);
         // string directoryPath = "out";
         // if (!Directory.Exists(directoryPath))
         // {
@@ -58,7 +59,7 @@ public class IRCodeGen
             features,
             opt,
             LLVMRelocMode.LLVMRelocPIC,
-            LLVMCodeModel.LLVMCodeModelLarge
+            LLVMCodeModel.LLVMCodeModelMedium
         );
         if (!compileOptions.CompileOff)
         {
@@ -93,6 +94,7 @@ public class IRCodeGen
             }
         }
 
+        //
         if (compileOptions.IrFile)
         {
             if (!Directory.Exists("lacus-IR"))
@@ -132,6 +134,7 @@ public class IRCodeGen
                 $"Assembly file file path: lacus-Assembly/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}"
             );
 
+        Console.WriteLine("Compiled sucessfully");
         // builder.BuildFPToSI
         // builder.BuildTrunc()
 

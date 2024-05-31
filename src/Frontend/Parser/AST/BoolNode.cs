@@ -3,8 +3,16 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class WhileLoopNode : StatementNode
+public class BoolNode : INode
 {
+    public bool value;
+    private INode _nodeImplementation;
+
+    public BoolNode(bool value)
+    {
+        this.value = value;
+    }
+
     public LLVMValueRef CodeGen(
         IVisitor visitor,
         LLVMBuilderRef builder,
@@ -15,13 +23,13 @@ public class WhileLoopNode : StatementNode
         throw new NotImplementedException();
     }
 
-    public override void Visit(StatementVisit visitor)
+    public LLVMValueRef Visit(ExpressionVisit visit)
     {
         throw new NotImplementedException();
     }
 
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
-        throw new NotImplementedException();
+        return visitor.SemanticAccept(this);
     }
 }

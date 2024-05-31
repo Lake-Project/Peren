@@ -1,9 +1,10 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class VaraibleDeclarationNode : INode
+public class VaraibleDeclarationNode : StatementNode
 {
     public INode? ExpressionNode;
     public LLVMTypeRef typeRef;
@@ -74,8 +75,14 @@ public class VaraibleDeclarationNode : INode
         }
     }
 
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         return visitor.SemanticAccept(this);
+    }
+
+    public override void Visit(StatementVisit visitor)
+    {
+        // base.Visit(visitor);
+        visitor.Visit(this);
     }
 }

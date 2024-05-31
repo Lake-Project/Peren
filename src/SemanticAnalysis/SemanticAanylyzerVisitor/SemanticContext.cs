@@ -66,9 +66,19 @@ public class SemanticContext<T>
         );
     }
 
+    public T GetValue(Tokens name, int index)
+    {
+        return Scopes[index].Get(name.buffer);
+    }
+
     public void DeallocateScope()
     {
         int l = Scopes.Count - 1;
         Scopes.RemoveAt(l);
+    }
+
+    public int GetSize()
+    {
+        return Scopes.Count - 1;
     }
 }

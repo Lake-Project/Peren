@@ -1,4 +1,5 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
@@ -25,6 +26,11 @@ public class FloatNode : INode
     )
     {
         return visitor.Visit(this, builder, module, context);
+    }
+
+    public LLVMValueRef Visit(ExpressionVisit visit)
+    {
+        return visit.Visit(this);
     }
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)

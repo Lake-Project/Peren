@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class ForLoopNode : INode
+public class ForLoopNode : StatementNode
 {
     public LLVMValueRef CodeGen(
         IVisitor visitor,
@@ -14,7 +16,12 @@ public class ForLoopNode : INode
         throw new NotImplementedException();
     }
 
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public override void Visit(StatementVisit visitor)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         throw new NotImplementedException();
     }

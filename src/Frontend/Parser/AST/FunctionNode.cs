@@ -1,14 +1,17 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class FunctionNode : INode
+public class FunctionNode : StatementNode
 {
-    public List<INode?> statements;
+    public List<StatementNode?> statements;
     public bool isExtern;
     public List<VaraibleDeclarationNode> Parameters;
     public LLVMTypeRef retType;
+    public Tokens returType;
+
     public Tokens name;
     public LLVMTypeRef[] paramTypes;
 
@@ -16,12 +19,14 @@ public class FunctionNode : INode
         Tokens name,
         List<VaraibleDeclarationNode> Parameters,
         LLVMTypeRef retType,
-        List<INode?> statements,
+        Tokens returType,
+        List<StatementNode?> statements,
         bool isExtern
     )
     {
         this.name = name;
         this.retType = retType;
+        this.returType = returType;
         this.statements = statements;
         this.Parameters = Parameters;
         this.paramTypes = new LLVMTypeRef[Parameters.Count];
@@ -30,6 +35,7 @@ public class FunctionNode : INode
             paramTypes[i] = Parameters[i].typeRef;
         }
 
+        this.returType = returType;
         this.isExtern = isExtern;
     }
 
@@ -86,9 +92,14 @@ public class FunctionNode : INode
         return function;
     }
 
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         return visitor.SemanticAccept(this);
+    }
+
+    public override void Visit(StatementVisit visitor)
+    {
+        visitor.Visit(this);
     }
 
     public void Transform(IOptimize optimizer, Context context)

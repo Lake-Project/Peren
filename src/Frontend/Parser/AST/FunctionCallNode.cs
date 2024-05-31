@@ -1,9 +1,10 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class FunctionCallNode : INode
+public class FunctionCallNode : StatementNode
 {
     private List<INode> ParamValues;
     public Tokens Name;
@@ -42,6 +43,16 @@ public class FunctionCallNode : INode
         }
 
         return visitor.Visit(this, builder, module, context);
+    }
+
+    public LLVMValueRef Visit(ExpressionVisit visit)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Visit(StatementVisit visitor)
+    {
+        base.Visit(visitor);
     }
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)

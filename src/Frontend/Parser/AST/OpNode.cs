@@ -1,4 +1,5 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
@@ -8,6 +9,7 @@ public class OpNode : INode
     public INode left;
     public INode right;
     public Tokens token;
+    public bool FloatExpr;
 
     public OpNode(INode left, INode right)
     {
@@ -20,6 +22,7 @@ public class OpNode : INode
         this.left = left;
         this.right = right;
         this.token = tokens;
+        FloatExpr = false;
     }
 
     public LLVMValueRef CodeGen(
@@ -31,6 +34,11 @@ public class OpNode : INode
     {
         // return solve.Solve(this, builder, module);
         return visitor.Visit(this, builder, module, context);
+    }
+
+    public LLVMValueRef Visit(ExpressionVisit visit)
+    {
+        return visit.Visit(this);
     }
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)

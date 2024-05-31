@@ -1,9 +1,10 @@
-using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class WhileLoopNode : StatementNode
+namespace LacusLLVM.Frontend.Parser.AST;
+
+public class BooleanExprNode : INode
 {
     public LLVMValueRef CodeGen(
         IVisitor visitor,
@@ -15,12 +16,12 @@ public class WhileLoopNode : StatementNode
         throw new NotImplementedException();
     }
 
-    public override void Visit(StatementVisit visitor)
+    public LLVMValueRef Visit(ExpressionVisit visit)
     {
         throw new NotImplementedException();
     }
 
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
+    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         throw new NotImplementedException();
     }

@@ -89,8 +89,8 @@ public class CommandLineFlags
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
         Parse p = new Parse(tokens);
-        List<INode?> s = p.ParseFile();
+        List<StatementNode> s = p.ParseFile();
         new SemanticAnaylsis().SemanticEntry(s);
-        // IRCodeGen.LLVM_Gen(s, compileOptions);
+        IRCodeGen.LLVM_Gen(s, compileOptions);
     }
 }

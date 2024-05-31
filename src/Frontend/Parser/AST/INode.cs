@@ -1,3 +1,4 @@
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
@@ -11,6 +12,8 @@ public interface INode
         LLVMModuleRef module,
         Context context
     );
+
+    public LLVMValueRef Visit(ExpressionVisit visit);
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor);
 }
