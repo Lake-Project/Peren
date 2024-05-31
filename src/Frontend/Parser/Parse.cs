@@ -222,13 +222,14 @@ public class Parse
     public INode ParseVar()
     {
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
+        Tokens Types = Current;
         bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         if (e != null)
-            return new VaraibleDeclarationNode(type, name.Value, Expression(), isExtern);
+            return new VaraibleDeclarationNode(type, Types, name.Value, Expression(), isExtern);
         else
-            return new VaraibleDeclarationNode(type, name.Value, null, isExtern);
+            return new VaraibleDeclarationNode(type, Types, name.Value, null, isExtern);
     }
 
     public INode? GlobalStatements()

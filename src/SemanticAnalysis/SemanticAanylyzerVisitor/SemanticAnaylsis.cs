@@ -6,6 +6,8 @@ public class SemanticAnaylsis
 {
     public void SemanticEntry(List<INode> nodes)
     {
-        nodes.ForEach(n => n.VisitSemanticAnaylsis(new SemanticVisitor(new Context())));
+        nodes.ForEach(n =>
+            n.VisitSemanticAnaylsis(new SemanticVisitor(new SemanticContext<SemanticVar>()))
+        );
     }
 }

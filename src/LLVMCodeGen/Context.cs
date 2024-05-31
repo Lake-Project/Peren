@@ -120,6 +120,7 @@ public sealed class Context
                 );
             }
         }
+
         ScopeDimension[ScopeDimension.Count - 1].Vars.Add(name.buffer, new Var(type, value));
     }
 
@@ -184,6 +185,7 @@ public sealed class Context
                 return ScopeDimension[i].Vars[name.buffer];
             }
         }
+
         throw new VaraibleDoesntExistException(
             $"Varaible {name.buffer} doesnt exist on line {name.GetLine() + 1}"
         );

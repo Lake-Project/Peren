@@ -25,7 +25,7 @@ public class VaraibleReferenceNode : INode
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
-        throw new NotImplementedException();
+        return visitor.SemanticAccept(this);
     }
 
     public override string ToString()

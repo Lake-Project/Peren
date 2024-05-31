@@ -8,19 +8,22 @@ public class VaraibleDeclarationNode : INode
     public INode? ExpressionNode;
     public LLVMTypeRef typeRef;
     public Tokens name;
+    public Tokens type;
     public bool isExtern;
     public bool isStruct;
 
     public VaraibleDeclarationNode(
-        LLVMTypeRef type,
+        LLVMTypeRef typeRef,
+        Tokens type,
         Tokens name,
         INode? ExpressionNode,
         bool isExtern
     )
     {
         this.ExpressionNode = ExpressionNode;
-        this.typeRef = type;
+        this.typeRef = typeRef;
         this.name = name;
+        this.type = type;
         this.isExtern = isExtern;
     }
 

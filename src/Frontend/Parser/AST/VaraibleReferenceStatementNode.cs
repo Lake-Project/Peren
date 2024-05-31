@@ -38,6 +38,6 @@ public class VaraibleReferenceStatementNode : INode
 
     public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
-        throw new NotImplementedException();
+        return visitor.SemanticAccept(this);
     }
 }
