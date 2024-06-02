@@ -1,5 +1,8 @@
-using LLVMSharp.Interop;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMSharp.Interop;
 
 public class IntegerNode : INode
 {
@@ -31,17 +34,15 @@ public class IntegerNode : INode
     )
     {
         return visitor.Visit(this, builder, module, scope);
+    }
 
-        // throw new NotImplementedException();
+    public T Visit<T>(ExpressionVisit<T> visit)
+    {
+        return visit.Visit(this);
     }
 
     public override string ToString()
     {
         return n.ToString();
-    }
-
-    public void Transform(IOptimize optimizer, Context graph)
-    {
-        throw new NotImplementedException();
     }
 }

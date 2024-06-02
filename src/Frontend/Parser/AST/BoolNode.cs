@@ -1,19 +1,16 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
-using Lexxer;
 using LLVMSharp.Interop;
 
-public class VaraibleReferenceNode : INode
+public class BoolNode : INode
 {
-    public Tokens name;
+    public bool value;
+    private INode _nodeImplementation;
 
-    public int ScopeLocation { get; set; }
-
-    public VaraibleReferenceNode(Tokens varName)
+    public BoolNode(bool value)
     {
-        name = varName;
-        ScopeLocation = -1;
+        this.value = value;
     }
 
     public LLVMValueRef CodeGen(
@@ -23,17 +20,11 @@ public class VaraibleReferenceNode : INode
         Context context
     )
     {
-        // throw new NotImplementedException();
-        return visitor.Visit(this, builder, module, context);
+        throw new NotImplementedException();
     }
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);
-    }
-
-    public override string ToString()
-    {
-        return name.ToString();
     }
 }

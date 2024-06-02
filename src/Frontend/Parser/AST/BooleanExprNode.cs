@@ -1,23 +1,11 @@
-using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
-using Lexxer;
 using LLVMSharp.Interop;
 
-public class FloatNode : INode
+namespace LacusLLVM.Frontend.Parser.AST;
+
+public class BooleanExprNode : INode
 {
-    public float n;
-
-    public FloatNode(float n)
-    {
-        this.n = n;
-    }
-
-    public FloatNode(Tokens n)
-    {
-        this.n = float.Parse(n.buffer);
-    }
-
     public LLVMValueRef CodeGen(
         IVisitor visitor,
         LLVMBuilderRef builder,
@@ -25,7 +13,7 @@ public class FloatNode : INode
         Context context
     )
     {
-        return visitor.Visit(this, builder, module, context);
+        throw new NotImplementedException();
     }
 
     public T Visit<T>(ExpressionVisit<T> visit)

@@ -1,9 +1,10 @@
-using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class WhileLoopNode : StatementNode
+namespace LacusLLVM.Frontend.Parser.AST;
+
+public class StatementNode : INode
 {
     public LLVMValueRef CodeGen(
         IVisitor visitor,
@@ -15,8 +16,13 @@ public class WhileLoopNode : StatementNode
         throw new NotImplementedException();
     }
 
-    public override void Visit(StatementVisit visitor)
+    public virtual T Visit<T>(ExpressionVisit<T> visit)
     {
-        visitor.Visit(this);
+        throw new NotImplementedException();
+    }
+
+    public virtual void Visit(StatementVisit visitor)
+    {
+        throw new NotImplementedException();
     }
 }

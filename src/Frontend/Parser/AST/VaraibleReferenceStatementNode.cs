@@ -1,10 +1,14 @@
-using LLVMSharp.Interop;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMSharp.Interop;
 
-public class VaraibleReferenceStatementNode : INode
+public class VaraibleReferenceStatementNode : StatementNode
 {
     public INode expression;
     public Tokens name;
+    public int ScopeLocation { get; set; }
 
     public VaraibleReferenceStatementNode(Tokens name, INode expresion)
     {
@@ -22,7 +26,6 @@ public class VaraibleReferenceStatementNode : INode
         unsafe
         {
             Var b = context.GetVar(name);
-            context.AddToTypeCheckerType(b.type);
             LLVMValueRef eq = context.HandleTypes(b.type, builder, module, expression);
             // if (eq.IsConstant)
             // {
@@ -35,8 +38,8 @@ public class VaraibleReferenceStatementNode : INode
         }
     }
 
-    public void Transform(IOptimize optimizer, Context context)
+    public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

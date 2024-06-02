@@ -1,25 +1,30 @@
-using System.Linq.Expressions;
+using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class VaraibleDeclarationNode : INode
+public class VaraibleDeclarationNode : StatementNode
 {
     public INode? ExpressionNode;
     public LLVMTypeRef typeRef;
     public Tokens name;
+    public Tokens type;
     public bool isExtern;
     public bool isStruct;
 
     public VaraibleDeclarationNode(
-        LLVMTypeRef type,
+        LLVMTypeRef typeRef,
+        Tokens type,
         Tokens name,
         INode? ExpressionNode,
         bool isExtern
     )
     {
         this.ExpressionNode = ExpressionNode;
-        this.typeRef = type;
+        this.typeRef = typeRef;
         this.name = name;
+        this.type = type;
         this.isExtern = isExtern;
     }
 
@@ -48,10 +53,12 @@ public class VaraibleDeclarationNode : INode
             b.Linkage = LLVMLinkage.LLVMExternalLinkage;
             return b;
         }
+
         if (ExpressionNode == null)
         {
             return b;
         }
+
         LLVMValueRef eq = context.HandleTypes(typeRef, builder, module, ExpressionNode);
         context.AddNewVar(typeRef, name, b);
         if (context.ScopeSize() == 0)
@@ -68,8 +75,9 @@ public class VaraibleDeclarationNode : INode
         }
     }
 
-    public void Transform(IOptimize optimizer, Context context)
+    public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
+        // base.Visit(visitor);
+        visitor.Visit(this);
     }
 }
