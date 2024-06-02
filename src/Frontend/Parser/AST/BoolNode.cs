@@ -23,13 +23,8 @@ public class BoolNode : INode
         throw new NotImplementedException();
     }
 
-    public LLVMValueRef Visit(ExpressionVisit visit)
+    public T Visit<T>(ExpressionVisit<T> visit)
     {
-        throw new NotImplementedException();
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
+        return visit.Visit(this);
     }
 }

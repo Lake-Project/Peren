@@ -17,11 +17,6 @@ public class WhileLoopNode : StatementNode
 
     public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
-    }
-
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

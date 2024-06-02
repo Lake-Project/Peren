@@ -72,4 +72,24 @@ public class LLVMStatementVisitor : StatementVisit
         _context.vars.DeallocateScope();
         _builderRef.BuildRetVoid();
     }
+
+    public override void Visit(ReturnNode node)
+    {
+        // _builderRef.BuildRet()
+    }
+
+    public override void Visit(CastNode node)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Visit(ForLoopNode node)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Visit(WhileLoopNode node)
+    {
+        throw new NotImplementedException();
+    }
 }

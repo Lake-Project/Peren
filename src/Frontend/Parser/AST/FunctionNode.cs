@@ -48,62 +48,52 @@ public class FunctionNode : StatementNode
     // }
 
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        context.AllocateScope();
-
-        // return visitor.visit(this, builder, module);
-        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
-
-        LLVMValueRef function = module.AddFunction(name.buffer, funcType);
-        context.AddFunction(name.buffer, this, function, funcType, retType);
-        if (isExtern)
-        {
-            function.Linkage = LLVMLinkage.LLVMExternalLinkage;
-            return function;
-        }
-
-        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
-        context.CurrentRetType = retType;
-        builder.PositionAtEnd(entry);
-        for (int i = 0; i < Parameters.Count; i++)
-        {
-            Parameters[i].AddToScope(builder, context, function.GetParam((uint)i));
-        }
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-
-        for (int i = 0; i < statements.Count; i++)
-        {
-            statements[i].CodeGen(visitor, builder, module, context);
-        }
-
-        if (!context.GetRet())
-        {
-            if (retType == LLVMTypeRef.Void)
-                builder.BuildRetVoid();
-        }
-
-        context.DeallocateScope();
-        return function;
-    }
-
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
-    }
+    //     public LLVMValueRef CodeGen(
+    //         IVisitor visitor,
+    //         LLVMBuilderRef builder,
+    //         LLVMModuleRef module,
+    //         Context context
+    //     )
+    //     {
+    //         context.AllocateScope();
+    //
+    //         // return visitor.visit(this, builder, module);
+    //         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
+    //
+    //         LLVMValueRef function = module.AddFunction(name.buffer, funcType);
+    //         context.AddFunction(name.buffer, this, function, funcType, retType);
+    //         if (isExtern)
+    //         {
+    //             function.Linkage = LLVMLinkage.LLVMExternalLinkage;
+    //             return function;
+    //         }
+    //
+    //         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
+    //         context.CurrentRetType = retType;
+    //         builder.PositionAtEnd(entry);
+    //         for (int i = 0; i < Parameters.Count; i++)
+    //         {
+    //             Parameters[i].AddToScope(builder, context, function.GetParam((uint)i));
+    //         }
+    // #pragma warning disable CS8602 // Dereference of a possibly null reference.
+    //
+    //         for (int i = 0; i < statements.Count; i++)
+    //         {
+    //             statements[i].CodeGen(visitor, builder, module, context);
+    //         }
+    //
+    //         if (!context.GetRet())
+    //         {
+    //             if (retType == LLVMTypeRef.Void)
+    //                 builder.BuildRetVoid();
+    //         }
+    //
+    //         context.DeallocateScope();
+    //         return function;
+    //     }
 
     public override void Visit(StatementVisit visitor)
     {
         visitor.Visit(this);
-    }
-
-    public void Transform(IOptimize optimizer, Context context)
-    {
-        throw new NotImplementedException();
     }
 }

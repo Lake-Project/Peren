@@ -34,18 +34,11 @@ public class IntegerNode : INode
     )
     {
         return visitor.Visit(this, builder, module, scope);
-
-        // throw new NotImplementedException();
     }
 
-    public LLVMValueRef Visit(ExpressionVisit visit)
+    public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
     }
 
     public override string ToString()

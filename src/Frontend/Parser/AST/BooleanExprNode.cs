@@ -16,13 +16,8 @@ public class BooleanExprNode : INode
         throw new NotImplementedException();
     }
 
-    public LLVMValueRef Visit(ExpressionVisit visit)
+    public T Visit<T>(ExpressionVisit<T> visit)
     {
-        throw new NotImplementedException();
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        throw new NotImplementedException();
+        return visit.Visit(this);
     }
 }

@@ -75,11 +75,6 @@ public class VaraibleDeclarationNode : StatementNode
         }
     }
 
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
-    }
-
     public override void Visit(StatementVisit visitor)
     {
         // base.Visit(visitor);

@@ -38,13 +38,8 @@ public class VaraibleReferenceStatementNode : StatementNode
         }
     }
 
-    public override LLVMValueRef Visit(ExpressionVisit visit)
+    public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
-    }
-
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
+        visitor.Visit(this);
     }
 }

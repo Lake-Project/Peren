@@ -14,4 +14,7 @@
         <PackageReference Include="LLVMSharp" Version="16.0.0" />
 
   </ItemGroup>
+ <ItemGroup>
+   <Folder Include="src\backend\" />
+ </ItemGroup>
 </Project>

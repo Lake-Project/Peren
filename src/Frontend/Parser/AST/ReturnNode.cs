@@ -56,16 +56,6 @@ public class ReturnNode : StatementNode
 
     public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
-    }
-
-    public override LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
-    }
-
-    public void Transform(IOptimize optimizer, Context context)
-    {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

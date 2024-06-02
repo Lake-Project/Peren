@@ -3,7 +3,7 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class CastNode : INode
+public class CastNode : StatementNode
 {
     public INode expr;
     public LLVMTypeRef castType;
@@ -34,13 +34,8 @@ public class CastNode : INode
         throw new NotImplementedException();
     }
 
-    public LLVMValueRef Visit(ExpressionVisit visit)
+    public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

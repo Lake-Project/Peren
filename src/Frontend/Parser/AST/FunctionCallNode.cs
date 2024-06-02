@@ -17,46 +17,41 @@ public class FunctionCallNode : StatementNode
         Values = new LLVMValueRef[0];
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
+    // public LLVMValueRef CodeGen(
+    //     IVisitor visitor,
+    //     LLVMBuilderRef builder,
+    //     LLVMModuleRef module,
+    //     Context context
+    // )
+    // {
+    //     // Dictionary<LLVMTypeRef, IVisitor> visitors =
+    //     //     new()
+    //     //     {
+    //     //         [LLVMTypeRef.Int32] = new IntegerExpressionVisitor(),
+    //     //         [LLVMTypeRef.Int16] = new IntegerExpressionVisitor(),
+    //     //         [LLVMTypeRef.Int8] = new IntegerExpressionVisitor(),
+    //     //         [LLVMTypeRef.Int1] = new IntegerExpressionVisitor(),
+    //     //         [LLVMTypeRef.Float] = new FloatExprVisitor(),
+    //     //     };
+    //     Function fun = context.GetFunction(this.Name);
+    //     LLVMValueRef[] values = new LLVMValueRef[fun.f.Parameters.Count];
+    //     LLVMTypeRef[] differTypes = fun.f.paramTypes;
+    //
+    //     for (int i = 0; i < values.Length; i++)
+    //     {
+    //         values[i] = context.HandleTypes(differTypes[i], builder, module, ParamValues[i]);
+    //     }
+    //
+    //     return visitor.Visit(this, builder, module, context);
+    // }
+
+    public override T Visit<T>(ExpressionVisit<T> visit)
     {
-        // Dictionary<LLVMTypeRef, IVisitor> visitors =
-        //     new()
-        //     {
-        //         [LLVMTypeRef.Int32] = new IntegerExpressionVisitor(),
-        //         [LLVMTypeRef.Int16] = new IntegerExpressionVisitor(),
-        //         [LLVMTypeRef.Int8] = new IntegerExpressionVisitor(),
-        //         [LLVMTypeRef.Int1] = new IntegerExpressionVisitor(),
-        //         [LLVMTypeRef.Float] = new FloatExprVisitor(),
-        //     };
-        Function fun = context.GetFunction(this.Name);
-        LLVMValueRef[] values = new LLVMValueRef[fun.f.Parameters.Count];
-        LLVMTypeRef[] differTypes = fun.f.paramTypes;
-
-        for (int i = 0; i < values.Length; i++)
-        {
-            values[i] = context.HandleTypes(differTypes[i], builder, module, ParamValues[i]);
-        }
-
-        return visitor.Visit(this, builder, module, context);
-    }
-
-    public LLVMValueRef Visit(ExpressionVisit visit)
-    {
-        throw new NotImplementedException();
+        return visit.Visit(this);
     }
 
     public override void Visit(StatementVisit visitor)
     {
-        base.Visit(visitor);
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

@@ -8,3 +8,4 @@ test.lk
 *.exe
 .fake
 *.vs
+/unused/*

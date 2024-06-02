@@ -13,7 +13,5 @@ public interface INode
         Context context
     );
 
-    public LLVMValueRef Visit(ExpressionVisit visit);
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor);
+    public T Visit<T>(ExpressionVisit<T> visit);
 }

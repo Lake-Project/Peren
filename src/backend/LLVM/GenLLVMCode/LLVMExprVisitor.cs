@@ -1,10 +1,11 @@
+using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
-public class LLVMExprVisitor : ExpressionVisit
+public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
 {
     private LLVMContext _context;
     private LLVMBuilderRef _builderRef;
@@ -65,6 +66,16 @@ public class LLVMExprVisitor : ExpressionVisit
     }
 
     public override LLVMValueRef Visit(VaraibleReferenceNode node)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override LLVMValueRef Visit(BooleanExprNode node)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override LLVMValueRef Visit(CharNode node)
     {
         throw new NotImplementedException();
     }

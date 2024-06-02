@@ -27,14 +27,9 @@ public class VaraibleReferenceNode : INode
         return visitor.Visit(this, builder, module, context);
     }
 
-    public LLVMValueRef Visit(ExpressionVisit visit)
+    public T Visit<T>(ExpressionVisit<T> visit)
     {
-        throw new NotImplementedException();
-    }
-
-    public LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
-    {
-        return visitor.SemanticAccept(this);
+        return visit.Visit(this);
     }
 
     public override string ToString()

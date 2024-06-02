@@ -16,17 +16,12 @@ public class StatementNode : INode
         throw new NotImplementedException();
     }
 
-    public virtual LLVMValueRef Visit(ExpressionVisit visit)
+    public virtual T Visit<T>(ExpressionVisit<T> visit)
     {
         throw new NotImplementedException();
     }
 
     public virtual void Visit(StatementVisit visitor)
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual LacusType VisitSemanticAnaylsis(SemanticVisitor visitor)
     {
         throw new NotImplementedException();
     }
