@@ -73,10 +73,7 @@ public class LLVMStatementVisitor : StatementVisit
         _builderRef.BuildRetVoid();
     }
 
-    public override void Visit(ReturnNode node)
-    {
-        // _builderRef.BuildRet()
-    }
+    public override void Visit(ReturnNode node) { }
 
     public override void Visit(CastNode node)
     {

@@ -77,6 +77,6 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
 
     public override LLVMValueRef Visit(CharNode node)
     {
-        throw new NotImplementedException();
+        return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)(node.value));
     }
 }
