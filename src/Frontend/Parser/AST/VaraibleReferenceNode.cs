@@ -1,6 +1,6 @@
+using System.Linq.Expressions;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
@@ -8,12 +8,9 @@ public class VaraibleReferenceNode : INode
 {
     public Tokens name;
 
-    public int ScopeLocation { get; set; }
-
     public VaraibleReferenceNode(Tokens varName)
     {
         name = varName;
-        ScopeLocation = -1;
     }
 
     public LLVMValueRef CodeGen(
@@ -29,11 +26,16 @@ public class VaraibleReferenceNode : INode
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
-        return visit.Visit(this);
+        throw new NotImplementedException(); //a
     }
 
     public override string ToString()
     {
         return name.ToString();
+    }
+
+    public void Transform(IOptimize optimizer, Context context)
+    {
+        throw new NotImplementedException();
     }
 }
