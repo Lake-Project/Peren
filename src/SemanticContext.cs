@@ -43,7 +43,7 @@ public class SemanticContext<T>
             if (Scopes[i].values.ContainsKey(name.buffer))
             {
                 throw new VaraibleAlreadyDefinedException(
-                    $"Varaible {name.buffer} already exists on line ${name.GetLine() + 1}"
+                    $"Variable {name.buffer} already exists on line ${name.GetLine() + 1}"
                 );
             }
         }

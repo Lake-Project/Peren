@@ -15,6 +15,6 @@
 
   </ItemGroup>
  <ItemGroup>
-   <Folder Include="src\backend\" />
+   <Folder Include="src\Backend\" />
  </ItemGroup>
 </Project>
