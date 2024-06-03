@@ -6,6 +6,7 @@ using LLVMSharp.Interop;
 
 public class VaraibleReferenceNode : INode
 {
+    public int ScopeLocation;
     public Tokens name;
 
     public VaraibleReferenceNode(Tokens varName)
@@ -26,16 +27,11 @@ public class VaraibleReferenceNode : INode
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
-        throw new NotImplementedException(); //a
+        return visit.Visit(this);
     }
 
     public override string ToString()
     {
         return name.ToString();
-    }
-
-    public void Transform(IOptimize optimizer, Context context)
-    {
-        throw new NotImplementedException();
     }
 }

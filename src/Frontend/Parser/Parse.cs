@@ -29,12 +29,14 @@ public class Parse
         {
             return null;
         }
+
         if (TokenList[0].tokenType == type)
         {
             Current = TokenList[0];
             TokenList.RemoveAt(0);
             return Current;
         }
+
         return null;
     }
 
@@ -44,6 +46,7 @@ public class Parse
         {
             return true;
         }
+
         return false;
     }
 
@@ -79,6 +82,7 @@ public class Parse
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
         }
+
         return null;
     }
 
@@ -140,6 +144,7 @@ public class Parse
                         ? Current
                         : null;
         }
+
         return opNode;
     }
 
@@ -170,7 +175,7 @@ public class Parse
         };
     }
 
-    public INode Statemnts()
+    public StatementNode Statemnts()
     {
         if (this.GetTokenType() != null && !LookAhead(TokenType.EQUALS))
             return ParseVar();
@@ -180,7 +185,7 @@ public class Parse
             throw new Exception("Statement invalid " + Current.ToString());
     }
 
-    public INode ParseFunctionCalls()
+    public FunctionCallNode ParseFunctionCalls()
     {
         Tokens name = Current;
         Tokens? a = MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("");
@@ -194,7 +199,7 @@ public class Parse
         return new FunctionCallNode(name, expr);
     }
 
-    public INode ParseVarRef()
+    public VaraibleReferenceStatementNode ParseVarRef()
     {
         Tokens? name = Current;
         Tokens? e =
@@ -206,7 +211,7 @@ public class Parse
         );
     }
 
-    public INode ParseWordType()
+    public StatementNode ParseWordType()
     {
         if (LookAhead(TokenType.EQUALS))
             return ParseVarRef();
@@ -216,19 +221,20 @@ public class Parse
             throw new Exception("invalid identifier statement");
     }
 
-    public INode ParseVar()
+    public VaraibleDeclarationNode ParseVar()
     {
+        Tokens type2 = Current;
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
         bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         if (e != null)
-            return new VaraibleDeclarationNode(type, name.Value, Expression(), isExtern);
+            return new VaraibleDeclarationNode(type, type2, name.Value, Expression(), isExtern);
         else
-            return new VaraibleDeclarationNode(type, name.Value, null, isExtern);
+            return new VaraibleDeclarationNode(type, type2, name.Value, null, isExtern);
     }
 
-    public INode? GlobalStatements()
+    public StatementNode GlobalStatements()
     {
         if (MatchAndRemove(TokenType.FUNCTION) != null)
             return PaseFunction();
@@ -240,18 +246,18 @@ public class Parse
             throw new Exception("Statement invalid");
     }
 
-    public INode? ParseStructs()
+    public StatementNode ParseStructs()
     {
         return null;
     }
 
-    public INode? PaseFunction()
+    public FunctionNode PaseFunction()
     {
         bool isExtern = false;
         if (MatchAndRemove(TokenType.EXTERN) != null)
             isExtern = true;
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
-        List<INode?> statements = new List<INode?>();
+        List<StatementNode?> statements = new List<StatementNode?>();
 
         MatchAndRemove(TokenType.OP_PAREN);
         List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
@@ -262,20 +268,22 @@ public class Parse
             param.Add((VaraibleDeclarationNode)ParseVar());
             MatchAndRemove(TokenType.COMMA);
         }
+
         LLVMTypeRef returnType = LLVMTypeRef.Void;
+        Tokens type = new Tokens(TokenType.VOID);
         if (MatchAndRemove(TokenType.RETURNS) != null)
         {
-            Tokens? type = GetTokenType() ?? throw new Exception("inavlid retrun");
-            returnType = TokenToLLVMType(type.Value.tokenType);
+            type = GetTokenType() ?? throw new Exception("inavlid retrun");
         }
+
         if (MatchAndRemove(TokenType.BEGIN) != null)
             statements = ParseBlock();
-        return new FunctionNode(name, param, returnType, statements, isExtern);
+        return new FunctionNode(name, param, returnType, type, statements, isExtern);
     }
 
-    public List<INode?> ParseBlock()
+    public List<StatementNode?> ParseBlock()
     {
-        List<INode?> statements = new();
+        List<StatementNode?> statements = new();
         while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
         {
             statements.Add(Statemnts());
@@ -288,17 +296,19 @@ public class Parse
             while (MatchAndRemove(TokenType.END) == null)
                 TokenList.RemoveAt(0);
         }
+
         return statements;
     }
 
     public List<StatementNode> ParseFile()
     {
-        List<INode?> a = new List<INode?>();
+        List<StatementNode> a = new List<StatementNode>();
         while (TokenList.Count != 0)
         {
             a.Add(GlobalStatements());
             MatchAndRemove(TokenType.EOL);
         }
+
         return a;
     }
 }
