@@ -56,19 +56,19 @@ public class Parse
         {
             if (Current.buffer.Contains("."))
                 return new FloatNode(Current);
-            return new IntegerNode(Current, LLVMTypeRef.Int32);
+            return new IntegerNode(Current);
         }
         else if (MatchAndRemove(TokenType.CHAR_LITERAL) != null)
         {
-            return new IntegerNode(Current.buffer.ToCharArray()[0], LLVMTypeRef.Int8);
+            return new CharNode(char.Parse(Current.buffer));
         }
         else if (MatchAndRemove(TokenType.TRUE) != null)
         {
-            return new IntegerNode(1, LLVMTypeRef.Int1);
+            return new BoolNode(true);
         }
         else if (MatchAndRemove(TokenType.FALSE) != null)
         {
-            return new IntegerNode(0, LLVMTypeRef.Int1);
+            return new BoolNode(false);
         }
         else if (MatchAndRemove(TokenType.WORD) != null)
         {
@@ -225,13 +225,14 @@ public class Parse
     {
         Tokens type2 = Current;
         LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
+        Tokens Type = Current;
         bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         if (e != null)
-            return new VaraibleDeclarationNode(type, type2, name.Value, Expression(), isExtern);
+            return new VaraibleDeclarationNode(Type, name.Value, Expression(), isExtern);
         else
-            return new VaraibleDeclarationNode(type, type2, name.Value, null, isExtern);
+            return new VaraibleDeclarationNode(Type, name.Value, null, isExtern);
     }
 
     public StatementNode GlobalStatements()
@@ -257,7 +258,7 @@ public class Parse
         if (MatchAndRemove(TokenType.EXTERN) != null)
             isExtern = true;
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
-        List<StatementNode?> statements = new List<StatementNode?>();
+        List<StatementNode> statements = new List<StatementNode>();
 
         MatchAndRemove(TokenType.OP_PAREN);
         List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
@@ -265,11 +266,10 @@ public class Parse
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
             GetTokenType();
-            param.Add((VaraibleDeclarationNode)ParseVar());
+            param.Add(ParseVar());
             MatchAndRemove(TokenType.COMMA);
         }
 
-        LLVMTypeRef returnType = LLVMTypeRef.Void;
         Tokens type = new Tokens(TokenType.VOID);
         if (MatchAndRemove(TokenType.RETURNS) != null)
         {
@@ -278,12 +278,12 @@ public class Parse
 
         if (MatchAndRemove(TokenType.BEGIN) != null)
             statements = ParseBlock();
-        return new FunctionNode(name, param, returnType, type, statements, isExtern);
+        return new FunctionNode(name, param, type, statements, isExtern);
     }
 
-    public List<StatementNode?> ParseBlock()
+    public List<StatementNode> ParseBlock()
     {
-        List<StatementNode?> statements = new();
+        List<StatementNode> statements = new();
         while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
         {
             statements.Add(Statemnts());

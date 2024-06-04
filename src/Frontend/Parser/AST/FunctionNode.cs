@@ -6,36 +6,26 @@ using LLVMSharp.Interop;
 
 public class FunctionNode : StatementNode
 {
-    public List<StatementNode?> statements;
+    public List<StatementNode> statements;
     public bool isExtern;
     public List<VaraibleDeclarationNode> Parameters;
-    public LLVMTypeRef retType;
-    public Tokens returType;
+    public Tokens retType;
 
     public Tokens name;
-    public LLVMTypeRef[] paramTypes;
 
     public FunctionNode(
         Tokens name,
         List<VaraibleDeclarationNode> Parameters,
-        LLVMTypeRef retType,
-        Tokens returType,
-        List<StatementNode?> statements,
+        Tokens retType,
+        List<StatementNode> statements,
         bool isExtern
     )
     {
         this.name = name;
         this.retType = retType;
-        this.returType = returType;
         this.statements = statements;
         this.Parameters = Parameters;
-        this.paramTypes = new LLVMTypeRef[Parameters.Count];
-        for (int i = 0; i < Parameters.Count; i++)
-        {
-            paramTypes[i] = Parameters[i].typeRef;
-        }
 
-        this.returType = returType;
         this.isExtern = isExtern;
     }
 

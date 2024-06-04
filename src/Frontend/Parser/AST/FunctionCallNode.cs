@@ -8,13 +8,11 @@ public class FunctionCallNode : StatementNode
 {
     private List<INode> ParamValues;
     public Tokens Name;
-    public LLVMValueRef[] Values;
 
     public FunctionCallNode(Tokens name, List<INode> ParamValues)
     {
         this.Name = name;
         this.ParamValues = ParamValues;
-        Values = new LLVMValueRef[0];
     }
 
     // public LLVMValueRef CodeGen(
