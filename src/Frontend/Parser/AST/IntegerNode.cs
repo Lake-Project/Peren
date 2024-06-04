@@ -19,16 +19,6 @@ public class IntegerNode : INode
         this.n = int.Parse(n.buffer);
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context scope
-    )
-    {
-        return visitor.Visit(this, builder, module, scope);
-    }
-
     public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);

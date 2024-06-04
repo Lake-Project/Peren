@@ -13,16 +13,6 @@ public class BoolNode : INode
         this.value = value;
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        throw new NotImplementedException();
-    }
-
     public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);

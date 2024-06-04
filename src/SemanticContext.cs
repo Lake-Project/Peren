@@ -1,4 +1,5 @@
 using Lexxer;
+using Lexxer.SemanticAnalysis;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 

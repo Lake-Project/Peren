@@ -2,7 +2,6 @@ using System;
 using System.Text.RegularExpressions;
 using LacusLLVM.Frontend.Parser.AST;
 using Lexxer;
-using LLVMSharp.Interop;
 
 public class Parse
 {
@@ -163,18 +162,6 @@ public class Parse
                             : null;
     }
 
-    public LLVMTypeRef TokenToLLVMType(TokenType type)
-    {
-        return type switch
-        {
-            TokenType.INT => LLVMTypeRef.Int32,
-            TokenType.FLOAT => LLVMTypeRef.Float,
-            TokenType.CHAR => LLVMTypeRef.Int8,
-            TokenType.BOOL => LLVMTypeRef.Int1,
-            _ => LLVMTypeRef.Void
-        };
-    }
-
     public StatementNode Statemnts()
     {
         if (this.GetTokenType() != null && !LookAhead(TokenType.EQUALS))
@@ -223,12 +210,11 @@ public class Parse
 
     public VaraibleDeclarationNode ParseVar()
     {
-        Tokens type2 = Current;
-        LLVMTypeRef type = TokenToLLVMType(Current.tokenType);
         Tokens Type = Current;
         bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
+
         if (e != null)
             return new VaraibleDeclarationNode(Type, name.Value, Expression(), isExtern);
         else
@@ -254,9 +240,7 @@ public class Parse
 
     public FunctionNode PaseFunction()
     {
-        bool isExtern = false;
-        if (MatchAndRemove(TokenType.EXTERN) != null)
-            isExtern = true;
+        bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
         List<StatementNode> statements = new List<StatementNode>();
 

@@ -25,17 +25,6 @@ public class OpNode : INode
         FloatExpr = false;
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        // return solve.Solve(this, builder, module);
-        return visitor.Visit(this, builder, module, context);
-    }
-
     public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);

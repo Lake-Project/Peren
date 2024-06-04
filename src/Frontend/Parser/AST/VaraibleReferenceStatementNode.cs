@@ -16,28 +16,6 @@ public class VaraibleReferenceStatementNode : StatementNode
         this.expression = expresion;
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        unsafe
-        {
-            Var b = context.GetVar(name);
-            LLVMValueRef eq = context.HandleTypes(b.type, builder, module, expression);
-            // if (eq.IsConstant)
-            // {
-            //     context.UpdateConst(name, eq);
-            //     return b.constant;
-            // }
-            // else if (b.IsConstant)
-            //     context.removeConst(name);
-            return builder.BuildStore(eq, b.valueRef);
-        }
-    }
-
     public override void Visit(StatementVisit visitor)
     {
         visitor.Visit(this);

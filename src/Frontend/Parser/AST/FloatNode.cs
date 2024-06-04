@@ -17,16 +17,6 @@ public class FloatNode : INode
         this.n = float.Parse(n.buffer);
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        return visitor.Visit(this, builder, module, context);
-    }
-
     public T Visit<T>(ExpressionVisit<T> visit)
     {
         return visit.Visit(this);

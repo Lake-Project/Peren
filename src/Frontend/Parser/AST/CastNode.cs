@@ -24,16 +24,6 @@ public class CastNode : StatementNode
         this.expr = expr;
     }
 
-    public LLVMValueRef CodeGen(
-        IVisitor visitor,
-        LLVMBuilderRef builder,
-        LLVMModuleRef module,
-        Context context
-    )
-    {
-        throw new NotImplementedException();
-    }
-
     public override void Visit(StatementVisit visitor)
     {
         visitor.Visit(this);
