@@ -1,4 +1,5 @@
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.Frontend.SemanticAnalysis;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
@@ -17,17 +18,17 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
 
     public override LacusType Visit(IntegerNode node)
     {
-        return new LacusType(TypeEnum.INTEGER);
+        return new IntegerType();
     }
 
     public override LacusType Visit(FloatNode node)
     {
-        return new LacusType(TypeEnum.FLOAT);
+        return new FloatType();
     }
 
     public override LacusType Visit(BoolNode node)
     {
-        return new LacusType(TypeEnum.BOOL);
+        return new BoolType();
     }
 
     public override LacusType Visit(FunctionCallNode node)
@@ -39,11 +40,37 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
     {
         LacusType LType = node.right.Visit(this);
         LacusType RType = node.left.Visit(this);
+        if (AssignedType is FloatType)
+            node.FloatExpr = true;
+        if (AssignedType.CanAccept(LType) && AssignedType.CanAccept(RType))
+        {
+            if (LType.GetType() == RType.GetType())
+            {
+                if (LType is not FloatType)
+                    node.FloatExpr = false;
+                return LType;
+            }
+            else if (
+                LType.GetType() != RType.GetType()
+                && RType.GetType() != AssignedType.GetType()
+            )
+            {
+                if (RType is not FloatType)
+                    node.FloatExpr = false;
+                return RType;
+            }
+            else if (
+                LType.GetType() != RType.GetType()
+                && LType.GetType() != AssignedType.GetType()
+            )
+            {
+                if (LType is not FloatType)
+                    node.FloatExpr = false;
+                return LType;
+            }
+        }
 
-        if (LType.Type == TypeEnum.VOID || RType.Type == TypeEnum.VOID)
-            throw new Exception("type error");
-        else
-            return LType;
+        throw new Exception("Type error assigned ");
     }
 
     public override LacusType Visit(VaraibleReferenceNode node)
@@ -60,6 +87,6 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
 
     public override LacusType Visit(CharNode node)
     {
-        throw new NotImplementedException();
+        return new CharType();
     }
 }

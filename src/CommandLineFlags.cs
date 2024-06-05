@@ -90,7 +90,7 @@ public class CommandLineFlags
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
         Parse p = new Parse(tokens);
         List<StatementNode> s = p.ParseFile();
-        // new SemanticAnaylsis().SemanticEntry(s);
+        new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }
 }

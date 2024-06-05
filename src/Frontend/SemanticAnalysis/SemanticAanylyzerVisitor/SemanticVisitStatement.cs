@@ -1,4 +1,6 @@
+using LacusLLVM.Frontend.SemanticAnalysis;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using Lexxer;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
@@ -27,9 +29,14 @@ public class SemanticVisitStatement : StatementVisit
     {
         _Context.AddValue(
             node.name,
-            new SemanticVar(new LacusType(TypeEnum.INTEGER), _Context.GetSize())
+            new SemanticVar(tokenToLacusType(node.type), _Context.GetSize())
         );
-        node.ExpressionNode.Visit(new SemanticVisitExpr(_Context, new LacusType(TypeEnum.INTEGER)));
+
+        LacusType t = node.ExpressionNode.Visit(
+            new SemanticVisitExpr(_Context, tokenToLacusType(node.type))
+        );
+        if (!tokenToLacusType(node.type).CanAccept(t))
+            throw new Exception("type error");
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
@@ -70,5 +77,17 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(WhileLoopNode node)
     {
         throw new NotImplementedException();
+    }
+
+    private LacusType tokenToLacusType(Tokens type)
+    {
+        return type.tokenType switch
+        {
+            TokenType.INT => new IntegerType(),
+            TokenType.BOOL => new BoolType(),
+            TokenType.FLOAT => new FloatType(),
+            TokenType.CHAR => new CharType(),
+            _ => throw new Exception("error")
+        };
     }
 }
