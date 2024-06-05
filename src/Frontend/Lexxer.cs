@@ -122,6 +122,8 @@ namespace Lexxer
                     [">"] = new(TokenType.GT),
                     ["<"] = new(TokenType.LT),
                     ["<="] = new(TokenType.LTE),
+                    [">>"] = new(TokenType.R_SHIFT),
+                    ["<<"] = new(TokenType.L_SHIFT),
                     [">="] = new(TokenType.GTE),
                     ["if"] = new(TokenType.IF),
                     ["while"] = new(TokenType.WHILE),

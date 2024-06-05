@@ -70,7 +70,11 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
             }
         }
 
-        throw new Exception("Type error assigned ");
+        throw new TypeMisMatchException(
+            $"type  {AssignedType} cant fit "
+                + $"{(AssignedType.CanAccept(LType)
+                                            ? RType : LType)}"
+        );
     }
 
     public override LacusType Visit(VaraibleReferenceNode node)

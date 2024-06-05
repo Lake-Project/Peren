@@ -36,7 +36,10 @@ public class SemanticVisitStatement : StatementVisit
             new SemanticVisitExpr(_Context, tokenToLacusType(node.type))
         );
         if (!tokenToLacusType(node.type).CanAccept(t))
-            throw new Exception("type error");
+            throw new TypeMisMatchException(
+                $"type {t} cant fit "
+                    + $"{tokenToLacusType(node.type)} on line {node.type.GetLine()}"
+            );
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
@@ -44,6 +47,10 @@ public class SemanticVisitStatement : StatementVisit
         SemanticVar v = _Context.GetValue(node.name);
         LacusType l = node.expression.Visit(new SemanticVisitExpr(_Context, v.VarType));
         node.ScopeLocation = v.ScopeLocation;
+        if (v.VarType.CanAccept(l))
+            throw new TypeMisMatchException(
+                $"type {l} cant fit " + $"{v.VarType} on line {node.name.GetLine()}"
+            );
     }
 
     public override void Visit(FunctionCallNode node)
