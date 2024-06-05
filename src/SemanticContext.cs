@@ -80,6 +80,6 @@ public class SemanticContext<T>
 
     public int GetSize()
     {
-        return Scopes.Count - 1;
+        return Scopes.Count;
     }
 }

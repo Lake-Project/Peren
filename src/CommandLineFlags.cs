@@ -88,6 +88,7 @@ public class CommandLineFlags
         new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
+
         Parse p = new Parse(tokens);
         List<StatementNode> s = p.ParseFile();
         new SemanticAnaylsis().SemanticEntry(s);

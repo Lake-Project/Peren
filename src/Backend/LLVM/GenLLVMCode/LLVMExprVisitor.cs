@@ -67,7 +67,8 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
 
     public override LLVMValueRef Visit(VaraibleReferenceNode node)
     {
-        throw new NotImplementedException();
+        LLVMVar a = _context.vars.GetValue(node.name, node.ScopeLocation);
+        return _builderRef.BuildLoad2(a.Type, a.Value);
     }
 
     public override LLVMValueRef Visit(BooleanExprNode node)

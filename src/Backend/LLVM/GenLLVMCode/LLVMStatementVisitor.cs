@@ -65,7 +65,7 @@ public class LLVMStatementVisitor : StatementVisit
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
-        LLVMVar a = _context.vars.GetValue(node.name);
+        LLVMVar a = _context.vars.GetValue(node.name, node.ScopeLocation);
         _builderRef.BuildStore(
             node.expression.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef)),
             a.Value
