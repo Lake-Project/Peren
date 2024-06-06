@@ -128,9 +128,9 @@ public class LLVMStatementVisitor : StatementVisit
         _context.vars.AllocateScope();
         foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
         {
-            var llvmParam = function.GetParam((uint)index);
+            var LLVMParam = function.GetParam((uint)index);
             var name = param.name.buffer;
-            llvmParam.Name = name;
+            LLVMParam.Name = name;
             _context.vars.AddValue(
                 param.name,
                 new LLVMVar(
