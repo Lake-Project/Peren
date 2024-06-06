@@ -57,6 +57,7 @@ public class LLVMStatementVisitor : StatementVisit
     private LLVMBuilderRef _builderRef;
     private LLVMModuleRef _moduleRef;
     private LLVMFunction currentFunction;
+    private bool returns;
 
     public LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
     {
@@ -115,18 +116,37 @@ public class LLVMStatementVisitor : StatementVisit
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         currentFunction = new LLVMFunction(funcType, ToLLVMType(node.retType), function);
         _context.functions.AddValue(node.name, currentFunction);
-        if (currentFunction.returnType == LLVMTypeRef.Void)
-        {
-            LLVMBasicBlockRef voids = function.AppendBasicBlock("return");
-            currentFunction.retVoidblock = voids;
-            _builderRef.PositionAtEnd(voids);
-            _builderRef.BuildRetVoid();
-        }
+        // if (currentFunction.returnType == LLVMTypeRef.Void)
+        // {
+        //     LLVMBasicBlockRef voids = function.AppendBasicBlock("return");
+        //     currentFunction.retVoidblock = voids;
+        //     _builderRef.PositionAtEnd(voids);
+        //     _builderRef.BuildRetVoid();
+        // }
 
         _builderRef.PositionAtEnd(entry);
         _context.vars.AllocateScope();
-        node.Parameters.ForEach(n => n.Visit(this));
+        foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
+        {
+            var llvmParam = function.GetParam((uint)index);
+            var name = param.name.buffer;
+            llvmParam.Name = name;
+            _context.vars.AddValue(
+                param.name,
+                new LLVMVar(
+                    _builderRef.BuildAlloca(ToLLVMType(param.type), name),
+                    ToLLVMType(param.type)
+                )
+            );
+            _builderRef.BuildStore(
+                function.GetParam((uint)index),
+                _context.vars.GetValue(param.name).Value
+            );
+        }
+
         node.statements.ForEach(n => n.Visit(this));
+        if (!returns && currentFunction.returnType == LLVMTypeRef.Void)
+            _builderRef.BuildRetVoid();
         _context.vars.DeallocateScope();
     }
 
@@ -134,7 +154,8 @@ public class LLVMStatementVisitor : StatementVisit
     {
         if (currentFunction.returnType == LLVMTypeRef.Void)
         {
-            _builderRef.BuildBr(currentFunction.retVoidblock);
+            _builderRef.BuildRetVoid();
+            returns = true;
         }
         else
         {

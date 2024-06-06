@@ -71,6 +71,8 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
             TokenType.DIVISION => _builderRef.BuildSDiv(L, R, "divtmp"),
             TokenType.OR => _builderRef.BuildOr(L, R, "modtmp"),
             TokenType.AND => _builderRef.BuildAnd(L, R, "modtmp"),
+            TokenType.R_SHIFT => _builderRef.BuildLShr(L, R, "bitshift"),
+            TokenType.L_SHIFT => _builderRef.BuildShl(L, R, "bitshift"),
             _ => throw new Exception("unsupported int op")
         };
     }
@@ -93,6 +95,7 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
                 TokenType.LTE => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLE, L, R, "cmp"),
                 TokenType.GT => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGT, L, R, "cmp"),
                 TokenType.GTE => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGE, L, R, "cmp"),
+
                 _ => throw new Exception("not accepted op")
             };
         return node.op.tokenType switch

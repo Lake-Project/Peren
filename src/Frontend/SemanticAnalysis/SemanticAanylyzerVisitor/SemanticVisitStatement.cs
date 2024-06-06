@@ -91,14 +91,17 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(VaraibleDeclarationNode node)
     {
         p.AddVar(node.name, new SemanticVar(tokenToLacusType(node.type), p.Vars.GetSize()));
-        LacusType t = node.ExpressionNode.Visit(
-            new SemanticVisitExpr(p, tokenToLacusType(node.type))
-        );
-        if (!tokenToLacusType(node.type).CanAccept(t))
-            throw new TypeMisMatchException(
-                $"type {t} cant fit "
-                    + $"{tokenToLacusType(node.type)} on line {node.type.GetLine()}"
+        if (node.ExpressionNode != null)
+        {
+            LacusType t = node.ExpressionNode.Visit(
+                new SemanticVisitExpr(p, tokenToLacusType(node.type))
             );
+            if (!tokenToLacusType(node.type).CanAccept(t))
+                throw new TypeMisMatchException(
+                    $"type {t} cant fit "
+                        + $"{tokenToLacusType(node.type)} on line {node.type.GetLine()}"
+                );
+        }
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)

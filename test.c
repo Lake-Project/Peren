@@ -1,9 +1,12 @@
 #include <stdio.h>
 
-int main(int argc, char const *argv[])
+
+extern int add(int a, int b);
+
+int main(int argc, char const* argv[])
 {
-
-    printf("hello world");
+    printf("hello owlrd");
+    int a = add(1, 1);
+    printf("result: %d \n", a);
     return 0;
-
 }
