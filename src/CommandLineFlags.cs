@@ -85,7 +85,7 @@ public class CommandLineFlags
     {
         // Console.WriteLine($"-c: {compileOptions.ObjFile}");
         List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
-        new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
+
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 

@@ -16,7 +16,21 @@ public struct LLVMVar
     }
 };
 
-public struct LLVMFunction { };
+public struct LLVMFunction
+{
+    public LLVMTypeRef returnType;
+    public LLVMTypeRef FunctionType;
+    public LLVMValueRef FunctionValue;
+
+    public LLVMBasicBlockRef retVoidblock;
+
+    public LLVMFunction(LLVMTypeRef functionType, LLVMTypeRef typeRef, LLVMValueRef valueRef)
+    {
+        this.returnType = typeRef;
+        this.FunctionValue = valueRef;
+        this.FunctionType = functionType;
+    }
+};
 
 public struct LLVMType
 {
@@ -42,6 +56,7 @@ public class LLVMStatementVisitor : StatementVisit
     private LLVMContext _context;
     private LLVMBuilderRef _builderRef;
     private LLVMModuleRef _moduleRef;
+    private LLVMFunction currentFunction;
 
     public LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
     {
@@ -74,7 +89,16 @@ public class LLVMStatementVisitor : StatementVisit
 
     public override void Visit(FunctionCallNode node)
     {
-        throw new NotImplementedException();
+        LLVMFunction a = _context.functions.GetValue(node.Name);
+        _builderRef.BuildCall2(
+            a.FunctionType,
+            a.FunctionValue,
+            node.ParamValues.Select(n =>
+                    n.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef))
+                )
+                .ToArray(),
+            "funcCall"
+        );
     }
 
     public override void Visit(FunctionNode node)
@@ -89,15 +113,36 @@ public class LLVMStatementVisitor : StatementVisit
         // node.Parameters.ForEach(n => n.Visit(this));
         LLVMValueRef function = _moduleRef.AddFunction(node.name.buffer, funcType);
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
+        currentFunction = new LLVMFunction(funcType, ToLLVMType(node.retType), function);
+        _context.functions.AddValue(node.name, currentFunction);
+        if (currentFunction.returnType == LLVMTypeRef.Void)
+        {
+            LLVMBasicBlockRef voids = function.AppendBasicBlock("return");
+            currentFunction.retVoidblock = voids;
+            _builderRef.PositionAtEnd(voids);
+            _builderRef.BuildRetVoid();
+        }
+
         _builderRef.PositionAtEnd(entry);
         _context.vars.AllocateScope();
         node.Parameters.ForEach(n => n.Visit(this));
         node.statements.ForEach(n => n.Visit(this));
         _context.vars.DeallocateScope();
-        _builderRef.BuildRetVoid();
     }
 
-    public override void Visit(ReturnNode node) { }
+    public override void Visit(ReturnNode node)
+    {
+        if (currentFunction.returnType == LLVMTypeRef.Void)
+        {
+            _builderRef.BuildBr(currentFunction.retVoidblock);
+        }
+        else
+        {
+            _builderRef.BuildRet(
+                node.expression.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef))
+            );
+        }
+    }
 
     public override void Visit(CastNode node)
     {

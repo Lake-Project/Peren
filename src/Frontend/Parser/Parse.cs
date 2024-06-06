@@ -85,9 +85,33 @@ public class Parse
         return null;
     }
 
-    private INode? Term()
+    private INode? BoolExpr()
     {
         INode? opNode = Factor(); //returns a mathOPNode.
+        Tokens? op =
+            (MatchAndRemove(TokenType.GT) != null)
+                ? Current
+                : (MatchAndRemove(TokenType.LT) != null)
+                    ? Current
+                    : (MatchAndRemove(TokenType.BOOL_EQ) != null)
+                        ? Current
+                        : (MatchAndRemove(TokenType.LTE) != null)
+                            ? Current
+                            : (MatchAndRemove(TokenType.LTE) != null)
+                                ? Current
+                                : null;
+        if (op != null)
+        {
+            INode? right = Factor();
+            opNode = new BooleanExprNode(opNode, right, op.Value);
+        }
+
+        return opNode;
+    }
+
+    private INode? Term()
+    {
+        INode? opNode = BoolExpr(); //returns a mathOPNode.
 
         Tokens? op =
             (MatchAndRemove(TokenType.MULTIPLICATION) != null)
@@ -96,12 +120,20 @@ public class Parse
                     ? Current
                     : (MatchAndRemove(TokenType.MODULAS) != null)
                         ? Current
-                        : null;
+                        : MatchAndRemove(TokenType.AND) != null
+                            ? Current
+                            : MatchAndRemove(TokenType.OR) != null
+                                ? Current
+                                : MatchAndRemove(TokenType.L_SHIFT) != null
+                                    ? Current
+                                    : MatchAndRemove(TokenType.R_SHIFT) != null
+                                        ? Current
+                                        : null;
         if (opNode == null && op != null)
             throw new Exception("unauthorized statement");
         while (op != null)
         {
-            INode? right = Factor();
+            INode? right = BoolExpr();
             if (right == null && op != null)
                 throw new Exception("unauthorized statement");
             opNode = new OpNode(opNode, right, op.Value);
@@ -112,7 +144,15 @@ public class Parse
                         ? Current
                         : (MatchAndRemove(TokenType.MODULAS) != null)
                             ? Current
-                            : null;
+                            : MatchAndRemove(TokenType.AND) != null
+                                ? Current
+                                : MatchAndRemove(TokenType.OR) != null
+                                    ? Current
+                                    : MatchAndRemove(TokenType.L_SHIFT) != null
+                                        ? Current
+                                        : MatchAndRemove(TokenType.R_SHIFT) != null
+                                            ? Current
+                                            : null;
         }
 
         return opNode;
@@ -164,7 +204,7 @@ public class Parse
 
     public StatementNode Statemnts()
     {
-        if (this.GetTokenType() != null && !LookAhead(TokenType.EQUALS))
+        if (this.GetTokenType() != null && !LookAhead(TokenType.OP_PAREN))
             return ParseVar();
         else if (Current.tokenType == TokenType.WORD)
             return ParseWordType();

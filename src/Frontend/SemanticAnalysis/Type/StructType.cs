@@ -7,6 +7,7 @@ public class StructType : LacusType
 
     public override bool CanAccept(LacusType type)
     {
+        if (type.name == this.name) { }
         throw new NotImplementedException();
     }
 }

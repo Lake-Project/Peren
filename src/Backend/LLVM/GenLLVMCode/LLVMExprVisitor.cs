@@ -35,7 +35,16 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
 
     public override LLVMValueRef Visit(FunctionCallNode node)
     {
-        throw new NotImplementedException();
+        LLVMFunction a = _context.functions.GetValue(node.Name);
+        return _builderRef.BuildCall2(
+            a.FunctionType,
+            a.FunctionValue,
+            node.ParamValues.Select(n =>
+                    n.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef))
+                ) //oprams
+                .ToArray(), //params
+            "funcCall"
+        );
     }
 
     public override LLVMValueRef Visit(OpNode node)
@@ -60,7 +69,8 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
             TokenType.SUBTRACTION => _builderRef.BuildSub(L, R, "subtmp"),
             TokenType.MULTIPLICATION => _builderRef.BuildMul(L, R, "multmp"),
             TokenType.DIVISION => _builderRef.BuildSDiv(L, R, "divtmp"),
-            TokenType.MODULAS => _builderRef.BuildURem(L, R, "modtmp"),
+            TokenType.OR => _builderRef.BuildOr(L, R, "modtmp"),
+            TokenType.AND => _builderRef.BuildAnd(L, R, "modtmp"),
             _ => throw new Exception("unsupported int op")
         };
     }
@@ -73,7 +83,27 @@ public class LLVMExprVisitor : ExpressionVisit<LLVMValueRef>
 
     public override LLVMValueRef Visit(BooleanExprNode node)
     {
-        throw new NotImplementedException();
+        LLVMValueRef L = node.left.Visit(this);
+        LLVMValueRef R = node.right.Visit(this);
+        if (!node.isFloat)
+            return node.op.tokenType switch
+            {
+                TokenType.BOOL_EQ => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntEQ, L, R, "cmp"),
+                TokenType.LT => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLT, L, R, "cmp"),
+                TokenType.LTE => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLE, L, R, "cmp"),
+                TokenType.GT => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGT, L, R, "cmp"),
+                TokenType.GTE => _builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGE, L, R, "cmp"),
+                _ => throw new Exception("not accepted op")
+            };
+        return node.op.tokenType switch
+        {
+            TokenType.BOOL_EQ => _builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOEQ, L, R, "cmp"),
+            TokenType.LT => _builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOLT, L, R, "cmp"),
+            TokenType.LTE => _builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOLE, L, R, "cmp"),
+            TokenType.GT => _builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGT, L, R, "cmp"),
+            TokenType.GTE => _builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGE, L, R, "cmp"),
+            _ => throw new Exception("not accepted op")
+        };
     }
 
     public override LLVMValueRef Visit(CharNode node)

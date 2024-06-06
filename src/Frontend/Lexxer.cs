@@ -117,8 +117,8 @@ namespace Lexxer
                     ["~"] = new(TokenType.NOT),
                     ["extern"] = new(TokenType.EXTERN),
                     ["^"] = new(TokenType.XOR),
-                    ["and"] = new(TokenType.OR),
-                    ["or"] = new(TokenType.AND),
+                    ["and"] = new(TokenType.AND),
+                    ["or"] = new(TokenType.OR),
                     [">"] = new(TokenType.GT),
                     ["<"] = new(TokenType.LT),
                     ["<="] = new(TokenType.LTE),
@@ -130,6 +130,7 @@ namespace Lexxer
                     ["mod"] = new(TokenType.MOD),
                     ["Array"] = new(TokenType.ARRAY),
                     ["import"] = new(TokenType.IMPORT),
+                    ["=="] = new(TokenType.BOOL_EQ),
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
@@ -184,9 +185,18 @@ namespace Lexxer
             {
                 buffer.Append(currentChar);
             }
+            else if (currentChar == "=" || currentChar == "<" || currentChar == ">")
+            {
+                if (buffer.Length != 0)
+                {
+                    groupings(tokens, buffer, lineNumber);
+                }
+
+                state = 3;
+                buffer.Append(currentChar);
+            }
             else if (
                 currentChar == ":"
-                || currentChar == "="
                 || currentChar == ";"
                 || currentChar == "{"
                 || currentChar == "}"
@@ -235,13 +245,43 @@ namespace Lexxer
             }
         }
 
+        private void Equals(
+            string currentChar,
+            List<Tokens> tokens,
+            StringBuilder buffer,
+            ref int state,
+            int lineNumber
+        )
+        {
+            if (currentChar == "=")
+            {
+                buffer.Append(currentChar);
+            }
+            else if (currentChar == ">" || currentChar == "<")
+            {
+                buffer.Append(currentChar);
+            }
+            else
+            {
+                if (buffer.Length != 0)
+                    groupings(tokens, buffer, lineNumber);
+                buffer.Append(currentChar);
+                state = 1;
+                return;
+            }
+
+            if (buffer.Length != 0)
+                groupings(tokens, buffer, lineNumber);
+            state = 1;
+        }
+
         public List<Tokens> Lex(string[] Lines)
         {
             List<Tokens> Tokens = new();
             int state = 1;
             StringBuilder Buffer = new();
             bool isSTring = false;
-            bool comment = true;
+            bool comment = false;
             for (int i = 0; i < Lines.Length; i++)
             {
                 for (int nextToken = 0; nextToken < Lines[i].Length; nextToken++)
@@ -250,7 +290,7 @@ namespace Lexxer
 
                     if (comment)
                     {
-                        if (nextToken > 1)
+                        if (nextToken >= 1)
                         {
                             if (Lines[i][nextToken - 1] == '*' && Lines[i][nextToken] == ')')
                                 comment = false;
@@ -307,13 +347,17 @@ namespace Lexxer
                         continue;
                     }
 
-                    if (state == 1)
+                    switch (state)
                     {
-                        Number(CurrentToken, Tokens, Buffer, ref state, i);
-                    }
-                    else if (state == 2)
-                    {
-                        Operand(CurrentToken, Tokens, Buffer, ref state, i);
+                        case 1:
+                            Number(CurrentToken, Tokens, Buffer, ref state, i);
+                            break;
+                        case 2:
+                            Operand(CurrentToken, Tokens, Buffer, ref state, i);
+                            break;
+                        case 3:
+                            Equals(CurrentToken, Tokens, Buffer, ref state, i);
+                            break;
                     }
                 }
             }
@@ -324,14 +368,6 @@ namespace Lexxer
             }
 
             return Tokens;
-        }
-
-        public void printList(List<Tokens> tokens)
-        {
-            foreach (Tokens token in tokens)
-            {
-                Console.WriteLine(token.ToString());
-            }
         }
     }
 }

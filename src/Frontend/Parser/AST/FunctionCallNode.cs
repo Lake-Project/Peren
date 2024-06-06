@@ -6,7 +6,7 @@ using LLVMSharp.Interop;
 
 public class FunctionCallNode : StatementNode
 {
-    private List<INode> ParamValues;
+    public List<INode> ParamValues;
     public Tokens Name;
 
     public FunctionCallNode(Tokens name, List<INode> ParamValues)

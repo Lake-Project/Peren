@@ -48,12 +48,12 @@ public class SemanticContext<T>
                 );
             }
         }
-
-        Scopes[Scopes.Count - 1].Add(name.buffer, value);
+        Scopes[^1].Add(name.buffer, value);
     }
 
     public T GetValue(Tokens name)
     {
+        Scopes.ForEach(n => n.values.Keys.ToList().ForEach(n => Console.WriteLine(n)));
         for (int i = 0; i < Scopes.Count; i++)
         {
             if (Scopes[i].Contains(name.buffer))
@@ -80,6 +80,6 @@ public class SemanticContext<T>
 
     public int GetSize()
     {
-        return Scopes.Count;
+        return Scopes.Count - 1;
     }
 }
