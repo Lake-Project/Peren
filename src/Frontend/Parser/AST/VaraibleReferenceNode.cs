@@ -4,15 +4,10 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class VaraibleReferenceNode : INode
+public class VaraibleReferenceNode(Tokens varName) : INode
 {
     public int ScopeLocation;
-    public Tokens name;
-
-    public VaraibleReferenceNode(Tokens varName)
-    {
-        name = varName;
-    }
+    public Tokens Name { get; set; } = varName;
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
@@ -21,6 +16,6 @@ public class VaraibleReferenceNode : INode
 
     public override string ToString()
     {
-        return name.ToString();
+        return Name.ToString();
     }
 }

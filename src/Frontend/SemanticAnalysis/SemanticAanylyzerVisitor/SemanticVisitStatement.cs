@@ -90,28 +90,28 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(VaraibleDeclarationNode node)
     {
-        p.AddVar(node.name, new SemanticVar(tokenToLacusType(node.type), p.Vars.GetSize()));
+        p.AddVar(node.Name, new SemanticVar(tokenToLacusType(node.Type), p.Vars.GetSize()));
         if (node.ExpressionNode != null)
         {
             LacusType t = node.ExpressionNode.Visit(
-                new SemanticVisitExpr(p, tokenToLacusType(node.type))
+                new SemanticVisitExpr(p, tokenToLacusType(node.Type))
             );
-            if (!tokenToLacusType(node.type).CanAccept(t))
+            if (!tokenToLacusType(node.Type).CanAccept(t))
                 throw new TypeMisMatchException(
                     $"type {t} cant fit "
-                        + $"{tokenToLacusType(node.type)} on line {node.type.GetLine()}"
+                        + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
                 );
         }
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
-        SemanticVar v = p.GetVar(node.name);
-        LacusType l = node.expression.Visit(new SemanticVisitExpr(p, v.VarType));
+        SemanticVar v = p.GetVar(node.Name);
+        LacusType l = node.Expression.Visit(new SemanticVisitExpr(p, v.VarType));
         node.ScopeLocation = v.ScopeLocation;
         if (v.VarType.CanAccept(l))
             throw new TypeMisMatchException(
-                $"type {l} cant fit " + $"{v.VarType} on line {node.name.GetLine()}"
+                $"type {l} cant fit " + $"{v.VarType} on line {node.Name.GetLine()}"
             );
     }
 
@@ -133,23 +133,23 @@ public class SemanticVisitStatement : StatementVisit
     {
         p.Vars.AllocateScope();
         var f = new SemanticFunction(
-            tokenToLacusType(node.retType),
-            node.Parameters.Select(n => tokenToLacusType(n.type)) //grab all params
+            tokenToLacusType(node.RetType),
+            node.Parameters.Select(n => tokenToLacusType(n.Type)) //grab all params
                 .ToList() // to list of lacus type
         );
-        p.Functions.AddValue(node.name, f);
+        p.Functions.AddValue(node.Name, f);
         function = f;
         node.Parameters.ForEach(n => n.Visit(this));
-        node.statements.ForEach(n => n.Visit(this));
+        node.Statements.ForEach(n => n.Visit(this));
         p.Vars.DeallocateScope();
     }
 
     public override void Visit(ReturnNode node)
     {
         LacusType t = new VoidType();
-        if (node.expression != null)
+        if (node.Expression != null)
         {
-            t = node.expression.Visit(new SemanticVisitExpr(p, function.retType));
+            t = node.Expression.Visit(new SemanticVisitExpr(p, function.retType));
         }
 
         if (!function.retType.CanAccept(t))

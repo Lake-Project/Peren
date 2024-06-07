@@ -4,20 +4,9 @@ using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class IntegerNode : INode
+public class IntegerNode(Tokens value) : INode
 {
-    public int n;
-
-    // public IntegerNode(int n)
-    // {
-    //     this.n = n;
-    // }
-
-
-    public IntegerNode(Tokens n)
-    {
-        this.n = int.Parse(n.buffer);
-    }
+    public int Value { get; set; } = int.Parse(value.buffer);
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
@@ -26,6 +15,6 @@ public class IntegerNode : INode
 
     public override string ToString()
     {
-        return n.ToString();
+        return Value.ToString();
     }
 }

@@ -50,38 +50,27 @@ namespace Lexxer
         IMPORT,
     }
 
-    public struct Tokens
+    public struct Tokens(TokenType tokenType, string buffer, int number)
     {
-        public TokenType tokenType;
-        private int lineNumber;
-        public string buffer;
-
-        public Tokens(TokenType tokenType, string buffer, int lineNumber)
-        {
-            this.tokenType = tokenType;
-            this.lineNumber = lineNumber;
-            this.buffer = buffer;
-        }
+        public TokenType tokenType = tokenType;
+        public string buffer = buffer;
 
         public Tokens(TokenType tokenType)
-        {
-            this.buffer = "";
-            this.tokenType = tokenType;
-        }
+            : this(tokenType, "", 0) { }
 
-        public void setLine(int lineNumber)
+        public void SetLine(int lineNumber)
         {
-            this.lineNumber = lineNumber;
+            number = lineNumber;
         }
 
         public int GetLine()
         {
-            return lineNumber;
+            return number;
         }
 
         public override string ToString()
         {
-            return "lineNumber: " + lineNumber.ToString() + " " + tokenType + " (" + buffer + ")";
+            return "lineNumber: " + number.ToString() + " " + tokenType + " (" + buffer + ")";
         }
     }
 
@@ -139,7 +128,7 @@ namespace Lexxer
             else if (Type.ContainsKey(buffer.ToString()))
             {
                 Tokens a = Type[buffer.ToString()];
-                a.setLine(lineNumber);
+                a.SetLine(lineNumber);
                 tokens.Add(a);
             }
             else

@@ -3,19 +3,12 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class FloatNode : INode
+public class FloatNode(float n) : INode
 {
-    public float n;
-
-    public FloatNode(float n)
-    {
-        this.n = n;
-    }
+    public float Value { get; set; } = n;
 
     public FloatNode(Tokens n)
-    {
-        this.n = float.Parse(n.buffer);
-    }
+        : this(float.Parse(n.buffer)) { }
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {

@@ -63,7 +63,7 @@ public class SemanticContext<T>
         }
 
         throw new VaraibleDoesntExistException(
-            $"Varaible {name.buffer} doesnt exist on line {name.GetLine() + 1}"
+            $"Identifier {name.buffer} doesnt exist on line {name.GetLine() + 1}"
         );
     }
 

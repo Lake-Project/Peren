@@ -4,83 +4,20 @@ using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class FunctionNode : StatementNode
+public class FunctionNode(
+    Tokens name,
+    List<VaraibleDeclarationNode> parameters,
+    Tokens retType,
+    List<StatementNode> statements,
+    bool isExtern
+) : StatementNode
 {
-    public List<StatementNode> statements;
-    public bool isExtern;
-    public List<VaraibleDeclarationNode> Parameters;
-    public Tokens retType;
+    public List<StatementNode> Statements { get; set; } = statements;
+    public bool IsExtern { get; set; } = isExtern;
+    public List<VaraibleDeclarationNode> Parameters { get; set; } = parameters;
+    public Tokens RetType { get; set; } = retType;
 
-    public Tokens name;
-
-    public FunctionNode(
-        Tokens name,
-        List<VaraibleDeclarationNode> Parameters,
-        Tokens retType,
-        List<StatementNode> statements,
-        bool isExtern
-    )
-    {
-        this.name = name;
-        this.retType = retType;
-        this.statements = statements;
-        this.Parameters = Parameters;
-
-        this.isExtern = isExtern;
-    }
-
-    // public FunctionNode(Tokens name, List<INode?> statements)
-    // {
-    //     this.name = name.buffer;
-    //     this.statements = statements;
-    //     this.Parameters = new List<VaraibleDeclarationNode>();
-    //     paramTypes = new LLVMTypeRef[0];
-    // }
-
-
-    //     public LLVMValueRef CodeGen(
-    //         IVisitor visitor,
-    //         LLVMBuilderRef builder,
-    //         LLVMModuleRef module,
-    //         Context context
-    //     )
-    //     {
-    //         context.AllocateScope();
-    //
-    //         // return visitor.visit(this, builder, module);
-    //         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(retType, paramTypes, false);
-    //
-    //         LLVMValueRef function = module.AddFunction(name.buffer, funcType);
-    //         context.AddFunction(name.buffer, this, function, funcType, retType);
-    //         if (isExtern)
-    //         {
-    //             function.Linkage = LLVMLinkage.LLVMExternalLinkage;
-    //             return function;
-    //         }
-    //
-    //         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
-    //         context.CurrentRetType = retType;
-    //         builder.PositionAtEnd(entry);
-    //         for (int i = 0; i < Parameters.Count; i++)
-    //         {
-    //             Parameters[i].AddToScope(builder, context, function.GetParam((uint)i));
-    //         }
-    // #pragma warning disable CS8602 // Dereference of a possibly null reference.
-    //
-    //         for (int i = 0; i < statements.Count; i++)
-    //         {
-    //             statements[i].CodeGen(visitor, builder, module, context);
-    //         }
-    //
-    //         if (!context.GetRet())
-    //         {
-    //             if (retType == LLVMTypeRef.Void)
-    //                 builder.BuildRetVoid();
-    //         }
-    //
-    //         context.DeallocateScope();
-    //         return function;
-    //     }
+    public Tokens Name { get; set; } = name;
 
     public override void Visit(StatementVisit visitor)
     {

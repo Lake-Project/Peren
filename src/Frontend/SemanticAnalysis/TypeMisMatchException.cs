@@ -1,5 +1,1 @@
-public class TypeMisMatchException : Exception
-{
-    public TypeMisMatchException(string message)
-        : base(message) { }
-}
+public class TypeMisMatchException(string message) : Exception(message);

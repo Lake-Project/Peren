@@ -4,32 +4,19 @@ using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
-public struct LLVMVar
+public struct LLVMVar(LLVMValueRef valueRef, LLVMTypeRef typeRef)
 {
-    public LLVMValueRef Value { get; set; }
-    public LLVMTypeRef Type { get; set; }
-
-    public LLVMVar(LLVMValueRef valueRef, LLVMTypeRef typeRef)
-    {
-        Value = valueRef;
-        Type = typeRef;
-    }
+    public LLVMValueRef Value { get; set; } = valueRef;
+    public LLVMTypeRef Type { get; set; } = typeRef;
 };
 
-public struct LLVMFunction
+public struct LLVMFunction(LLVMTypeRef functionType, LLVMTypeRef returnType, LLVMValueRef valueRef)
 {
-    public LLVMTypeRef returnType;
-    public LLVMTypeRef FunctionType;
-    public LLVMValueRef FunctionValue;
+    public LLVMTypeRef returnType = returnType;
+    public LLVMTypeRef FunctionType = functionType;
+    public LLVMValueRef FunctionValue = valueRef;
 
     public LLVMBasicBlockRef retVoidblock;
-
-    public LLVMFunction(LLVMTypeRef functionType, LLVMTypeRef typeRef, LLVMValueRef valueRef)
-    {
-        this.returnType = typeRef;
-        this.FunctionValue = valueRef;
-        this.FunctionType = functionType;
-    }
 };
 
 public struct LLVMType
@@ -51,51 +38,43 @@ public struct LLVMContext
     }
 }
 
-public class LLVMStatementVisitor : StatementVisit
+public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
+    : StatementVisit
 {
-    private LLVMContext _context;
-    private LLVMBuilderRef _builderRef;
-    private LLVMModuleRef _moduleRef;
-    private LLVMFunction currentFunction;
-    private bool returns;
-
-    public LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
-    {
-        _builderRef = builderRef;
-        _moduleRef = moduleRef;
-        _context = new LLVMContext();
-    }
+    private LLVMContext Context { get; } = new();
+    private LLVMFunction _currentFunction;
+    private bool _returns;
 
     public override void Visit(VaraibleDeclarationNode node)
     {
-        var value = _builderRef.BuildAlloca(ToLLVMType(node.type), node.name.buffer);
-        _context.vars.AddValue(node.name, new LLVMVar(value, ToLLVMType(node.type)));
+        var value = builderRef.BuildAlloca(ToLLVMType(node.Type), node.Name.buffer);
+        Context.vars.AddValue(node.Name, new LLVMVar(value, ToLLVMType(node.Type)));
         if (node.ExpressionNode != null)
         {
             LLVMValueRef eq = node.ExpressionNode.Visit(
-                new LLVMExprVisitor(_context, _builderRef, _moduleRef)
+                new LLVMExprVisitor(Context, builderRef, moduleRef)
             );
-            _builderRef.BuildStore(eq, value);
+            builderRef.BuildStore(eq, value);
         }
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
-        LLVMVar a = _context.vars.GetValue(node.name, node.ScopeLocation);
-        _builderRef.BuildStore(
-            node.expression.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef)),
+        LLVMVar a = Context.vars.GetValue(node.Name, node.ScopeLocation);
+        builderRef.BuildStore(
+            node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
             a.Value
         );
     }
 
     public override void Visit(FunctionCallNode node)
     {
-        LLVMFunction a = _context.functions.GetValue(node.Name);
-        _builderRef.BuildCall2(
+        LLVMFunction a = Context.functions.GetValue(node.Name);
+        builderRef.BuildCall2(
             a.FunctionType,
             a.FunctionValue,
             node.ParamValues.Select(n =>
-                    n.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef))
+                    n.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
                 )
                 .ToArray(),
             "funcCall"
@@ -105,17 +84,17 @@ public class LLVMStatementVisitor : StatementVisit
     public override void Visit(FunctionNode node)
     {
         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(
-            ToLLVMType(node.retType),
+            ToLLVMType(node.RetType),
             node.Parameters //params
-                .Select(n => ToLLVMType(n.type)) //converts param types
+                .Select(n => ToLLVMType(n.Type)) //converts param types
                 .ToArray(), //to an array
             false
         );
         // node.Parameters.ForEach(n => n.Visit(this));
-        LLVMValueRef function = _moduleRef.AddFunction(node.name.buffer, funcType);
+        LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
-        currentFunction = new LLVMFunction(funcType, ToLLVMType(node.retType), function);
-        _context.functions.AddValue(node.name, currentFunction);
+        _currentFunction = new LLVMFunction(funcType, ToLLVMType(node.RetType), function);
+        Context.functions.AddValue(node.Name, _currentFunction);
         // if (currentFunction.returnType == LLVMTypeRef.Void)
         // {
         //     LLVMBasicBlockRef voids = function.AppendBasicBlock("return");
@@ -124,43 +103,43 @@ public class LLVMStatementVisitor : StatementVisit
         //     _builderRef.BuildRetVoid();
         // }
 
-        _builderRef.PositionAtEnd(entry);
-        _context.vars.AllocateScope();
+        builderRef.PositionAtEnd(entry);
+        Context.vars.AllocateScope();
         foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
         {
             var LLVMParam = function.GetParam((uint)index);
-            var name = param.name.buffer;
+            var name = param.Name.buffer;
             LLVMParam.Name = name;
-            _context.vars.AddValue(
-                param.name,
+            Context.vars.AddValue(
+                param.Name,
                 new LLVMVar(
-                    _builderRef.BuildAlloca(ToLLVMType(param.type), name),
-                    ToLLVMType(param.type)
+                    builderRef.BuildAlloca(ToLLVMType(param.Type), name),
+                    ToLLVMType(param.Type)
                 )
             );
-            _builderRef.BuildStore(
+            builderRef.BuildStore(
                 function.GetParam((uint)index),
-                _context.vars.GetValue(param.name).Value
+                Context.vars.GetValue(param.Name).Value
             );
         }
 
-        node.statements.ForEach(n => n.Visit(this));
-        if (!returns && currentFunction.returnType == LLVMTypeRef.Void)
-            _builderRef.BuildRetVoid();
-        _context.vars.DeallocateScope();
+        node.Statements.ForEach(n => n.Visit(this));
+        if (!_returns && _currentFunction.returnType == LLVMTypeRef.Void)
+            builderRef.BuildRetVoid();
+        Context.vars.DeallocateScope();
     }
 
     public override void Visit(ReturnNode node)
     {
-        if (currentFunction.returnType == LLVMTypeRef.Void)
+        if (_currentFunction.returnType == LLVMTypeRef.Void)
         {
-            _builderRef.BuildRetVoid();
-            returns = true;
+            builderRef.BuildRetVoid();
+            _returns = true;
         }
         else
         {
-            _builderRef.BuildRet(
-                node.expression.Visit(new LLVMExprVisitor(_context, _builderRef, _moduleRef))
+            builderRef.BuildRet(
+                node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
             );
         }
     }
@@ -184,7 +163,7 @@ public class LLVMStatementVisitor : StatementVisit
     {
         if (type.tokenType == TokenType.WORD)
         {
-            return _context.types.GetValue(type).typeRef;
+            return Context.types.GetValue(type).typeRef;
         }
 
         return type.tokenType switch

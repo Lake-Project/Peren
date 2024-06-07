@@ -4,26 +4,18 @@ using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class OpNode : INode
+public class OpNode(INode left, INode right, Tokens tokens) : INode
 {
-    public INode left;
-    public INode right;
-    public Tokens token;
-    public bool FloatExpr;
+    public INode Left { get; set; } = left;
+    public INode Right { get; set; } = right;
+    public Tokens Token { get; set; } = tokens;
+    public bool FloatExpr { get; set; } = false;
 
-    public OpNode(INode left, INode right)
-    {
-        this.left = left;
-        this.right = right;
-    }
-
-    public OpNode(INode left, INode right, Tokens tokens)
-    {
-        this.left = left;
-        this.right = right;
-        this.token = tokens;
-        FloatExpr = false;
-    }
+    // public OpNode(INode left, INode right)
+    // {
+    //     this.left = left;
+    //     this.right = right;
+    // }
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {
@@ -32,17 +24,17 @@ public class OpNode : INode
 
     public override string ToString()
     {
-        if (left == null && right != null)
+        if (Left == null && Right != null)
         {
-            return right.ToString() + " " + token.ToString();
+            return Right.ToString() + " " + Token.ToString();
         }
-        else if (right == null && left != null)
+        else if (Right == null && Left != null)
         {
-            return left.ToString() + " " + token.ToString();
+            return Left.ToString() + " " + Token.ToString();
         }
-        else if (right != null && left != null)
+        else if (Right != null && Left != null)
         {
-            return right.ToString() + " " + left.ToString() + " " + token.ToString();
+            return Right.ToString() + " " + Left.ToString() + " " + Token.ToString();
         }
         else
         {

@@ -4,17 +4,10 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
-public class SemanticVisitExpr : ExpressionVisit<LacusType>
+public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
+    : ExpressionVisit<LacusType>
 {
-    public SemanticProgram _Context { get; set; }
-
-    public LacusType AssignedType;
-
-    public SemanticVisitExpr(SemanticProgram program, LacusType AssignedType)
-    {
-        this.AssignedType = AssignedType;
-        this._Context = program;
-    }
+    public SemanticProgram Context { get; set; } = program;
 
     public override LacusType Visit(IntegerNode node)
     {
@@ -33,13 +26,13 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
 
     public override LacusType Visit(FunctionCallNode node)
     {
-        SemanticFunction f = _Context.GetFunction(node.Name);
+        SemanticFunction f = Context.GetFunction(node.Name);
         if (node.ParamValues.Count != f.ParamTypes.Count)
             throw new Exception("no matching type");
         for (int i = 0; i < f.ParamTypes.Count; i++)
         {
             LacusType t = node.ParamValues[i]
-                .Visit(new SemanticVisitExpr(_Context, f.ParamTypes[i]));
+                .Visit(new SemanticVisitExpr(Context, f.ParamTypes[i]));
             if (!f.ParamTypes[i].CanAccept(t))
                 throw new Exception("error");
         }
@@ -49,12 +42,12 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
 
     public override LacusType Visit(OpNode node)
     {
-        LacusType LType = node.left.Visit(this);
-        LacusType RType = node.right.Visit(this);
-        if (AssignedType is FloatType)
+        LacusType LType = node.Left.Visit(this);
+        LacusType RType = node.Right.Visit(this);
+        if (assignedType is FloatType)
             node.FloatExpr = true;
 
-        if (AssignedType is BoolType)
+        if (assignedType is BoolType)
         {
             if (LType.CanAccept(RType) && LType.GetType() == RType.GetType())
             {
@@ -64,13 +57,13 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
             }
 
             throw new TypeMisMatchException(
-                $"type  {AssignedType} cant fit "
-                    + $"{(AssignedType.CanAccept(LType)
+                $"type  {assignedType} cant fit "
+                    + $"{(assignedType.CanAccept(LType)
                     ? RType : LType)}"
             );
         }
 
-        if (AssignedType.CanAccept(LType) && AssignedType.CanAccept(RType))
+        if (assignedType.CanAccept(LType) && assignedType.CanAccept(RType))
         {
             if (LType.GetType() == RType.GetType())
             {
@@ -80,7 +73,7 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
             }
             else if (
                 LType.GetType() != RType.GetType()
-                && RType.GetType() != AssignedType.GetType()
+                && RType.GetType() != assignedType.GetType()
             )
             {
                 if (RType is not FloatType)
@@ -89,7 +82,7 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
             }
             else if (
                 LType.GetType() != RType.GetType()
-                && LType.GetType() != AssignedType.GetType()
+                && LType.GetType() != assignedType.GetType()
             )
             {
                 if (LType is not FloatType)
@@ -99,15 +92,15 @@ public class SemanticVisitExpr : ExpressionVisit<LacusType>
         }
 
         throw new TypeMisMatchException(
-            $"type  {AssignedType} cant fit "
-                + $"{(AssignedType.CanAccept(LType)
+            $"type  {assignedType} cant fit "
+                + $"{(assignedType.CanAccept(LType)
                 ? RType : LType)}"
         );
     }
 
     public override LacusType Visit(VaraibleReferenceNode node)
     {
-        SemanticVar v = _Context.GetVar(node.name);
+        SemanticVar v = Context.GetVar(node.Name);
         node.ScopeLocation = v.ScopeLocation;
         return v.VarType;
     }

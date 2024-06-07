@@ -3,14 +3,9 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class CastNode : StatementNode
+public class CastNode(INode expr) : StatementNode
 {
-    public INode expr;
-
-    public CastNode(INode expr)
-    {
-        this.expr = expr;
-    }
+    public INode expr = expr;
 
     public override void Visit(StatementVisit visitor)
     {

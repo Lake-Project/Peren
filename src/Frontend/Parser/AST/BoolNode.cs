@@ -3,15 +3,10 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class BoolNode : INode
+public class BoolNode(bool value) : INode
 {
-    public bool value;
+    public bool Value { get; set; } = value;
     private INode _nodeImplementation;
-
-    public BoolNode(bool value)
-    {
-        this.value = value;
-    }
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {

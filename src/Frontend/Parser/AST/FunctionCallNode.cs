@@ -4,16 +4,10 @@ using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
 
-public class FunctionCallNode : StatementNode
+public class FunctionCallNode(Tokens name, List<INode> paramValues) : StatementNode
 {
-    public List<INode> ParamValues;
-    public Tokens Name;
-
-    public FunctionCallNode(Tokens name, List<INode> ParamValues)
-    {
-        this.Name = name;
-        this.ParamValues = ParamValues;
-    }
+    public List<INode> ParamValues { get; set; } = paramValues;
+    public Tokens Name { get; set; } = name;
 
     // public LLVMValueRef CodeGen(
     //     IVisitor visitor,

@@ -4,14 +4,9 @@ using LLVMSharp.Interop;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class CharNode : INode
+public class CharNode(char value) : INode
 {
-    public char value { get; set; }
-
-    public CharNode(char value)
-    {
-        this.value = value;
-    }
+    public char Value { get; set; } = value;
 
     public T Visit<T>(ExpressionVisit<T> visit)
     {

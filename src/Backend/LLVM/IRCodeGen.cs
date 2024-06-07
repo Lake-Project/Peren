@@ -5,46 +5,12 @@ using LLVMSharp.Interop;
 
 public class IRCodeGen
 {
-    private static void LLVMCreateFile(LLVMModuleRef module, string file)
-    {
-        // Specify the directory path
-        string directoryPath = "out";
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-
-        if (file == "")
-        {
-            file = "output.ll";
-        }
-
-        string filePath = Path.Combine(directoryPath, file);
-        File.WriteAllText(filePath, module.ToString());
-        Console.WriteLine("code successfully compiled");
-        module.Dispose();
-    }
-
     public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
         var module = LLVMModuleRef.CreateWithName("main");
         LLVMBuilderRef builder = module.Context.CreateBuilder();
         LLVMStatementVisitor visit = new LLVMStatementVisitor(builder, module);
         statements.ForEach(n => n.Visit(visit));
-        // Context c = new Context();
-        // foreach (INode? statement in statements)
-        //     statement.CodeGen(new CodeGenVisitor(), builder, module, c);
-        // string directoryPath = "out";
-        // if (!Directory.Exists(directoryPath))
-        // {
-        //     Directory.CreateDirectory(directoryPath);
-        // }
-
-        // string filePath = Path.Combine(directoryPath, compileOptions.OutputFile);
-        // if (compileOptions.IrFile)
-        //     File.WriteAllText(filePath, module.ToString());
-        // Console.WriteLine("code successfully compiled");
-        // Console.WriteLine("IR code gen file path: " + filePath);
 
         //outputting directly to an object file
         //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html

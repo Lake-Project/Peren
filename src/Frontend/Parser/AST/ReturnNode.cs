@@ -3,21 +3,9 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class ReturnNode : StatementNode
+public class ReturnNode(INode? expression) : StatementNode
 {
-    public INode? expression;
-    public LLVMTypeRef type;
-
-    public ReturnNode(LLVMTypeRef type, INode Expression)
-    {
-        this.expression = Expression;
-        this.type = type;
-    }
-
-    public ReturnNode(INode? Expression)
-    {
-        this.expression = Expression;
-    }
+    public INode? Expression { get; set; } = expression;
 
     public override void Visit(StatementVisit visitor)
     {

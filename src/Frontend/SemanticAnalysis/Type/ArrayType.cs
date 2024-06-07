@@ -1,10 +1,7 @@
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class ArrayType : LacusType
+public class ArrayType(LacusType type) : LacusType(type)
 {
-    public ArrayType(LacusType type)
-        : base(type) { }
-
     public override bool CanAccept(LacusType type)
     {
         if (simplerType != null && type.simplerType != null)
