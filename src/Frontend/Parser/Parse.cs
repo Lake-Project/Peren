@@ -97,7 +97,7 @@ public class Parse
                         ? Current
                         : (MatchAndRemove(TokenType.LTE) != null)
                             ? Current
-                            : (MatchAndRemove(TokenType.LTE) != null)
+                            : (MatchAndRemove(TokenType.GTE) != null)
                                 ? Current
                                 : null;
         if (op != null)
@@ -202,12 +202,39 @@ public class Parse
                             : null;
     }
 
+    public ElseNode ParseElse()
+    {
+        List<StatementNode> statementNodes = new();
+        if (MatchAndRemove(TokenType.ELSE) != null)
+        {
+            MatchAndRemove(TokenType.BEGIN);
+            statementNodes = ParseBlock();
+        }
+
+        return new ElseNode(statementNodes);
+    }
+
+    public StatementNode ParseIf()
+    {
+        MatchAndRemove(TokenType.OP_PAREN);
+        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        MatchAndRemove(TokenType.CL_PAREN);
+        MatchAndRemove(TokenType.BEGIN);
+        List<StatementNode> statementNodes = ParseBlock();
+        return new IfNode(expr, ParseElse(), statementNodes);
+    }
+
     public StatementNode Statemnts()
     {
-        if (this.GetTokenType() != null && !LookAhead(TokenType.OP_PAREN))
+        if (
+            this.GetTokenType() != null
+            && (!LookAhead(TokenType.EQUALS) && !LookAhead(TokenType.OP_PAREN))
+        )
             return ParseVar();
         else if (Current.tokenType == TokenType.WORD)
             return ParseWordType();
+        else if (MatchAndRemove(TokenType.IF) != null)
+            return ParseIf();
         else
             throw new Exception("Statement invalid " + Current.ToString());
     }
@@ -245,7 +272,7 @@ public class Parse
         else if (LookAhead(TokenType.OP_PAREN))
             return ParseFunctionCalls();
         else
-            throw new Exception("invalid identifier statement");
+            throw new Exception($"invalid identifier statement {Current.ToString()}");
     }
 
     public VaraibleDeclarationNode ParseVar()

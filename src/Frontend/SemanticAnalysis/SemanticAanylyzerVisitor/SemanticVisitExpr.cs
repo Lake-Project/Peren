@@ -57,7 +57,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
             }
 
             throw new TypeMisMatchException(
-                $"type  {assignedType} cant fit "
+                $"type aa  {assignedType} cant fit "
                     + $"{(assignedType.CanAccept(LType)
                     ? RType : LType)}"
             );
@@ -92,7 +92,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         }
 
         throw new TypeMisMatchException(
-            $"type  {assignedType} cant fit "
+            $"type  a {assignedType} cant fit "
                 + $"{(assignedType.CanAccept(LType)
                 ? RType : LType)}"
         );

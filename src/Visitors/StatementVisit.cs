@@ -1,3 +1,4 @@
+using LacusLLVM.Frontend.Parser.AST;
 using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
@@ -12,4 +13,5 @@ public abstract class StatementVisit
     public abstract void Visit(CastNode node);
     public abstract void Visit(ForLoopNode node);
     public abstract void Visit(WhileLoopNode node);
+    public abstract void Visit(IfNode node);
 }

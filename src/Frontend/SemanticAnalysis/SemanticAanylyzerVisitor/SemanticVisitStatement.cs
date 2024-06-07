@@ -1,3 +1,4 @@
+using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.Frontend.SemanticAnalysis;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
@@ -99,7 +100,7 @@ public class SemanticVisitStatement : StatementVisit
             if (!tokenToLacusType(node.Type).CanAccept(t))
                 throw new TypeMisMatchException(
                     $"type {t} cant fit "
-                        + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
+                    + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
                 );
         }
     }
@@ -109,7 +110,7 @@ public class SemanticVisitStatement : StatementVisit
         SemanticVar v = p.GetVar(node.Name);
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(p, v.VarType));
         node.ScopeLocation = v.ScopeLocation;
-        if (v.VarType.CanAccept(l))
+        if (!v.VarType.CanAccept(l))
             throw new TypeMisMatchException(
                 $"type {l} cant fit " + $"{v.VarType} on line {node.Name.GetLine()}"
             );
@@ -169,6 +170,17 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(WhileLoopNode node)
     {
         throw new NotImplementedException();
+    }
+
+    public override void Visit(IfNode node)
+    {
+        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
+        p.Vars.AllocateScope();
+        node.StatementNodes.ForEach(n => n.Visit(this));
+        p.Vars.DeallocateScope();
+        p.Vars.AllocateScope();
+        node.ElseNode.StatementNodes.ForEach(n => n.Visit(this));
+        p.Vars.DeallocateScope();
     }
 
     private LacusType tokenToLacusType(Tokens type)

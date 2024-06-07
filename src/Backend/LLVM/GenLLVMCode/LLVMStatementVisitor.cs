@@ -1,3 +1,4 @@
+using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 using LLVMSharp.Interop;
@@ -102,7 +103,6 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         //     _builderRef.PositionAtEnd(voids);
         //     _builderRef.BuildRetVoid();
         // }
-
         builderRef.PositionAtEnd(entry);
         Context.vars.AllocateScope();
         foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
@@ -157,6 +157,26 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
     public override void Visit(WhileLoopNode node)
     {
         throw new NotImplementedException();
+    }
+
+    public override void Visit(IfNode node)
+    {
+        LLVMValueRef v = node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
+
+        Context.vars.AllocateScope();
+        LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if b");
+        LLVMBasicBlockRef Else = _currentFunction.FunctionValue.AppendBasicBlock("else b");
+        LLVMBasicBlockRef After = _currentFunction.FunctionValue.AppendBasicBlock("after b");
+        builderRef.BuildCondBr(v, If, Else);
+        builderRef.PositionAtEnd(If);
+        node.StatementNodes.ForEach(n => n.Visit(this));
+        Context.vars.DeallocateScope();
+        Context.vars.AllocateScope();
+        builderRef.PositionAtEnd(Else);
+        node.ElseNode.StatementNodes.ForEach(n => n.Visit(this));
+        Context.vars.DeallocateScope();
+        builderRef.BuildBr(After); 
+        builderRef.PositionAtEnd(After);
     }
 
     public LLVMTypeRef ToLLVMType(Tokens type)

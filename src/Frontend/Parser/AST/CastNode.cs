@@ -5,7 +5,7 @@ using LLVMSharp.Interop;
 
 public class CastNode(INode expr) : StatementNode
 {
-    public INode expr = expr;
+    public INode Expr { get; set; } = expr;
 
     public override void Visit(StatementVisit visitor)
     {

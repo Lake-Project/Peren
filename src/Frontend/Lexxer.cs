@@ -48,6 +48,7 @@ namespace Lexxer
         MOD,
         ARRAY,
         IMPORT,
+        ELSE
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -115,6 +116,8 @@ namespace Lexxer
                     ["<<"] = new(TokenType.L_SHIFT),
                     [">="] = new(TokenType.GTE),
                     ["if"] = new(TokenType.IF),
+                    ["else"] = new(TokenType.ELSE),
+
                     ["while"] = new(TokenType.WHILE),
                     ["mod"] = new(TokenType.MOD),
                     ["Array"] = new(TokenType.ARRAY),
