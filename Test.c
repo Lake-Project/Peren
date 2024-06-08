@@ -1,7 +1,7 @@
 #include <stdio.h>
-extern int testFunction(int n);
+extern int f(int x);
 int main()
 {
-    int a = testFunction(2);
+    int a = f(4);
     printf("out: %d \n",a);
 }

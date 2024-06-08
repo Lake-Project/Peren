@@ -207,7 +207,6 @@ public class Parse
         List<StatementNode> statementNodes = new();
         if (MatchAndRemove(TokenType.ELSE) != null)
         {
-            MatchAndRemove(TokenType.BEGIN);
             statementNodes = ParseBlock();
         }
 
@@ -219,7 +218,6 @@ public class Parse
         MatchAndRemove(TokenType.OP_PAREN);
         INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
-        MatchAndRemove(TokenType.BEGIN);
         List<StatementNode> statementNodes = ParseBlock();
         return new IfNode(expr, ParseElse(), statementNodes);
     }
@@ -327,27 +325,35 @@ public class Parse
             type = GetTokenType() ?? throw new Exception("inavlid retrun");
         }
 
-        if (MatchAndRemove(TokenType.BEGIN) != null)
-            statements = ParseBlock();
+        statements = ParseBlock();
         return new FunctionNode(name, param, type, statements, isExtern);
     }
 
     public List<StatementNode> ParseBlock()
     {
         List<StatementNode> statements = new();
-        while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
+        if (MatchAndRemove(TokenType.BEGIN) != null)
         {
-            statements.Add(Statemnts());
-            MatchAndRemove(TokenType.EOL);
-        }
+            while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
+            {
+                statements.Add(Statemnts());
+                MatchAndRemove(TokenType.EOL);
+            }
 
-        if (Current.tokenType == TokenType.RETURN)
+            if (Current.tokenType == TokenType.RETURN)
+            {
+                statements.Add(new ReturnNode(Expression()));
+                while (MatchAndRemove(TokenType.END) == null)
+                    TokenList.RemoveAt(0);
+            }
+        }
+        else
         {
-            statements.Add(new ReturnNode(Expression()));
-            while (MatchAndRemove(TokenType.END) == null)
-                TokenList.RemoveAt(0);
+            if (MatchAndRemove(TokenType.RETURN) == null)
+                statements.Add(Statemnts());
+            else
+                statements.Add(new ReturnNode(Expression()));
         }
-
         return statements;
     }
 

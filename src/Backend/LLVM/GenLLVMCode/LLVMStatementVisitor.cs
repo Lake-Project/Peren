@@ -164,19 +164,37 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         LLVMValueRef v = node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
 
         Context.vars.AllocateScope();
-        LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if b");
-        LLVMBasicBlockRef Else = _currentFunction.FunctionValue.AppendBasicBlock("else b");
-        LLVMBasicBlockRef After = _currentFunction.FunctionValue.AppendBasicBlock("after b");
-        builderRef.BuildCondBr(v, If, Else);
-        builderRef.PositionAtEnd(If);
-        node.StatementNodes.ForEach(n => n.Visit(this));
-        Context.vars.DeallocateScope();
-        Context.vars.AllocateScope();
-        builderRef.PositionAtEnd(Else);
-        node.ElseNode.StatementNodes.ForEach(n => n.Visit(this));
-        Context.vars.DeallocateScope();
-        builderRef.BuildBr(After); 
-        builderRef.PositionAtEnd(After);
+        if (node.ElseNode.StatementNodes.Count != 0)
+        {
+            LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
+            LLVMBasicBlockRef Else = _currentFunction.FunctionValue.AppendBasicBlock("else");
+            LLVMBasicBlockRef After = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
+            Context.vars.AllocateScope();
+            builderRef.BuildCondBr(v, If, Else);
+            builderRef.PositionAtEnd(If);
+
+            node.StatementNodes.ForEach(n => n.Visit(this));
+            builderRef.BuildBr(After);
+            Context.vars.DeallocateScope();
+            Context.vars.AllocateScope();
+            builderRef.PositionAtEnd(Else);
+            node.ElseNode.StatementNodes.ForEach(n => n.Visit(this));
+            Context.vars.DeallocateScope();
+            builderRef.BuildBr(After);
+            builderRef.PositionAtEnd(After);
+        }
+        else
+        {
+            LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
+            LLVMBasicBlockRef After = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
+            builderRef.BuildCondBr(v, If, After);
+            Context.vars.AllocateScope();
+            builderRef.PositionAtEnd(If);
+            node.StatementNodes.ForEach(n => n.Visit(this));
+            Context.vars.DeallocateScope();
+            builderRef.BuildBr(After);
+            builderRef.PositionAtEnd(After);
+        }
     }
 
     public LLVMTypeRef ToLLVMType(Tokens type)
