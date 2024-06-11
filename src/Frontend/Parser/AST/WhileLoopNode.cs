@@ -5,8 +5,5 @@ using LLVMSharp.Interop;
 
 public class WhileLoopNode : StatementNode
 {
-    public override void Visit(StatementVisit visitor)
-    {
-        visitor.Visit(this);
-    }
+    public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

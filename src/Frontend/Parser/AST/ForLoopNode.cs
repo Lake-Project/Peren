@@ -6,8 +6,5 @@ using LLVMSharp.Interop;
 
 public class ForLoopNode : StatementNode
 {
-    public override void Visit(StatementVisit visitor)
-    {
-        visitor.Visit(this);
-    }
+    public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

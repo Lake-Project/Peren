@@ -9,10 +9,7 @@ public class VaraibleReferenceNode(Tokens varName) : INode
     public int ScopeLocation;
     public Tokens Name { get; set; } = varName;
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 
     public override string ToString()
     {

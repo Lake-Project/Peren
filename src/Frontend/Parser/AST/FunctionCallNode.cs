@@ -9,41 +9,7 @@ public class FunctionCallNode(Tokens name, List<INode> paramValues) : StatementN
     public List<INode> ParamValues { get; set; } = paramValues;
     public Tokens Name { get; set; } = name;
 
-    // public LLVMValueRef CodeGen(
-    //     IVisitor visitor,
-    //     LLVMBuilderRef builder,
-    //     LLVMModuleRef module,
-    //     Context context
-    // )
-    // {
-    //     // Dictionary<LLVMTypeRef, IVisitor> visitors =
-    //     //     new()
-    //     //     {
-    //     //         [LLVMTypeRef.Int32] = new IntegerExpressionVisitor(),
-    //     //         [LLVMTypeRef.Int16] = new IntegerExpressionVisitor(),
-    //     //         [LLVMTypeRef.Int8] = new IntegerExpressionVisitor(),
-    //     //         [LLVMTypeRef.Int1] = new IntegerExpressionVisitor(),
-    //     //         [LLVMTypeRef.Float] = new FloatExprVisitor(),
-    //     //     };
-    //     Function fun = context.GetFunction(this.Name);
-    //     LLVMValueRef[] values = new LLVMValueRef[fun.f.Parameters.Count];
-    //     LLVMTypeRef[] differTypes = fun.f.paramTypes;
-    //
-    //     for (int i = 0; i < values.Length; i++)
-    //     {
-    //         values[i] = context.HandleTypes(differTypes[i], builder, module, ParamValues[i]);
-    //     }
-    //
-    //     return visitor.Visit(this, builder, module, context);
-    // }
+    public override T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 
-    public override T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
-
-    public override void Visit(StatementVisit visitor)
-    {
-        visitor.Visit(this);
-    }
+    public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

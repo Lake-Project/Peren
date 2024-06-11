@@ -12,8 +12,5 @@ public class VaraibleDeclarationNode(Tokens type, Tokens name, INode expressionN
     public Tokens Type { get; set; } = type;
     public bool IsExtern { get; set; } = isExtern;
 
-    public override void Visit(StatementVisit visitor)
-    {
-        visitor.Visit(this);
-    }
+    public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

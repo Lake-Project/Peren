@@ -10,8 +10,5 @@ public class FloatNode(float n) : INode
     public FloatNode(Tokens n)
         : this(float.Parse(n.buffer)) { }
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

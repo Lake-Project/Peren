@@ -9,11 +9,8 @@ public class CastNode(INode expr, Tokens type) : INode
     public INode Expr { get; set; } = expr;
 
     public Tokens type = type;
-    
+
     public Tokens inferredtype;
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

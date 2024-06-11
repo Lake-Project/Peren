@@ -8,8 +8,5 @@ public class CharNode(char value) : INode
 {
     public char Value { get; set; } = value;
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

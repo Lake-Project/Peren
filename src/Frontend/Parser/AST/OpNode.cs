@@ -11,16 +11,7 @@ public class OpNode(INode left, INode right, Tokens tokens) : INode
     public Tokens Token { get; set; } = tokens;
     public bool FloatExpr { get; set; } = false;
 
-    // public OpNode(INode left, INode right)
-    // {
-    //     this.left = left;
-    //     this.right = right;
-    // }
-
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 
     public override string ToString()
     {

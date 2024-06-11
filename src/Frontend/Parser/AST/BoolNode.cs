@@ -8,8 +8,5 @@ public class BoolNode(bool value) : INode
     public bool Value { get; set; } = value;
     private INode _nodeImplementation;
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        return visit.Visit(this);
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

@@ -8,8 +8,5 @@ public class StructNode : INode
     public List<VaraibleDeclarationNode> vars;
     public Tokens name;
 
-    public T Visit<T>(ExpressionVisit<T> visit)
-    {
-        throw new NotImplementedException();
-    }
+    public T Visit<T>(ExpressionVisit<T> visit) => throw new NotImplementedException();
 }
