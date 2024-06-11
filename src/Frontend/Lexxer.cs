@@ -48,7 +48,9 @@ namespace Lexxer
         MOD,
         ARRAY,
         IMPORT,
-        ELSE
+        ELSE,
+        BOOL_AND,
+        BOOL_OR,
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -109,6 +111,8 @@ namespace Lexxer
                     ["^"] = new(TokenType.XOR),
                     ["and"] = new(TokenType.AND),
                     ["or"] = new(TokenType.OR),
+                    ["|"] = new(TokenType.OR),
+                    ["&"] = new(TokenType.AND),
                     [">"] = new(TokenType.GT),
                     ["<"] = new(TokenType.LT),
                     ["<="] = new(TokenType.LTE),

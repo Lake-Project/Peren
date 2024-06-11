@@ -1,4 +1,8 @@
-﻿using LLVMSharp.Interop;
+﻿using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor.Backend.Interpter;
+using Lexxer;
+using Lexxer.Parser;
+using LLVMSharp.Interop;
 
 class Program
 {
@@ -10,9 +14,13 @@ class Program
         LLVM.InitializeAllAsmPrinters();
         LLVM.InitializeAllAsmParsers();
         // Console.WriteLine(args[0]);
+
         new CommandLineFlags(args);
         // new CommandLineFlags(new string[] { "test.lk", "--print-ir", "-o", "Test.exe" });
         // List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
+        // MonadicParser p = new MonadicParser(tokens);
+        // INode v = p.Parse().Value;
+        // Console.WriteLine("value: "+v.Visit(new InpretExpr()));
         // // new LexTokens().printList(tokens);
         // Parse p = new Parse(tokens);
         // List<INode?> d = p.ParseFile();

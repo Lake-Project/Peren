@@ -78,10 +78,10 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(BooleanExprNode node)
     {
-        LLVMValueRef L = node.left.Visit(this);
-        LLVMValueRef R = node.right.Visit(this);
-        if (!node.isFloat)
-            return node.op.tokenType switch
+        LLVMValueRef L = node.Left.Visit(this);
+        LLVMValueRef R = node.Right.Visit(this);
+        if (!node.IsFloat)
+            return node.Op.tokenType switch
             {
                 TokenType.BOOL_EQ => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntEQ, L, R, "cmp"),
                 TokenType.LT => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLT, L, R, "cmp"),
@@ -91,7 +91,7 @@ public class LLVMExprVisitor(
 
                 _ => throw new Exception("not accepted op")
             };
-        return node.op.tokenType switch
+        return node.Op.tokenType switch
         {
             TokenType.BOOL_EQ => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOEQ, L, R, "cmp"),
             TokenType.LT => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOLT, L, R, "cmp"),
@@ -105,5 +105,42 @@ public class LLVMExprVisitor(
     public override LLVMValueRef Visit(CharNode node)
     {
         return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)(node.Value));
+    }
+
+    public override LLVMValueRef Visit(CastNode node)
+    {
+        var v = node.Expr.Visit(this);
+        var Target = node.type.tokenType switch
+        {
+            TokenType.INT => (LLVMTypeRef.Int32),
+            TokenType.FLOAT => LLVMTypeRef.Float,
+            TokenType.BOOL => LLVMTypeRef.Int1,
+            TokenType.CHAR => LLVMTypeRef.Int8,
+            _ => throw new Exception("unaccepted type")
+        };
+        var Inffered = node.inferredtype.tokenType switch
+        {
+            TokenType.INT => (LLVMTypeRef.Int32),
+            TokenType.FLOAT => LLVMTypeRef.Float,
+            TokenType.BOOL => LLVMTypeRef.Int1,
+            TokenType.CHAR => LLVMTypeRef.Int8,
+            _ => throw new Exception("unaccepted type")
+        };
+
+        if (Inffered == LLVMTypeRef.Float && (Target == LLVMTypeRef.Int1 || Target == LLVMTypeRef.Int8 ||
+                                              Target == LLVMTypeRef.Int16 ||
+                                              Target == LLVMTypeRef.Int32))
+            return builderRef.BuildCast(LLVMOpcode.LLVMFPToSI, v, node.type.tokenType switch
+            {
+                TokenType.INT => (LLVMTypeRef.Int32),
+                TokenType.FLOAT => LLVMTypeRef.Float,
+                TokenType.BOOL => LLVMTypeRef.Int1,
+                TokenType.CHAR => LLVMTypeRef.Int8,
+                _ => throw new Exception("unaccepted type")
+            });
+        else if (Target.IntWidth < Inffered.IntWidth)
+            return builderRef.BuildSExt(v, Target);
+        else
+            return builderRef.BuildTrunc(v, Target);
     }
 }

@@ -50,7 +50,6 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
     {
         var value = builderRef.BuildAlloca(ToLLVMType(node.Type), node.Name.buffer);
         Context.vars.AddValue(node.Name, new LLVMVar(value, ToLLVMType(node.Type)));
-        if (node.ExpressionNode != null)
         {
             LLVMValueRef eq = node.ExpressionNode.Visit(
                 new LLVMExprVisitor(Context, builderRef, moduleRef)
@@ -93,23 +92,27 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         );
         // node.Parameters.ForEach(n => n.Visit(this));
         LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
-        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         _currentFunction = new LLVMFunction(funcType, ToLLVMType(node.RetType), function);
         Context.functions.AddValue(node.Name, _currentFunction);
-        // if (currentFunction.returnType == LLVMTypeRef.Void)
-        // {
-        //     LLVMBasicBlockRef voids = function.AppendBasicBlock("return");
-        //     currentFunction.retVoidblock = voids;
-        //     _builderRef.PositionAtEnd(voids);
-        //     _builderRef.BuildRetVoid();
-        // }
+        if (node.IsExtern)
+        {
+            function.Linkage = LLVMLinkage.LLVMExternalLinkage;
+            return;
+        }
+
+        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         builderRef.PositionAtEnd(entry);
         Context.vars.AllocateScope();
-        foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
+        foreach (var (param
+                     , index) in node
+                     .Parameters
+                     .Select((param,
+                         index) => (param,
+                         index)))
         {
-            var LLVMParam = function.GetParam((uint)index);
+            var llvmParam = function.GetParam((uint)index);
             var name = param.Name.buffer;
-            LLVMParam.Name = name;
+            llvmParam.Name = name;
             Context.vars.AddValue(
                 param.Name,
                 new LLVMVar(
@@ -139,7 +142,8 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         else
         {
             builderRef.BuildRet(
-                node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
+                (node.Expression ?? throw new Exception("null return "))
+                .Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
             );
         }
     }
@@ -168,20 +172,20 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         {
             LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
             LLVMBasicBlockRef Else = _currentFunction.FunctionValue.AppendBasicBlock("else");
-            LLVMBasicBlockRef After = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
+            LLVMBasicBlockRef after = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
             Context.vars.AllocateScope();
             builderRef.BuildCondBr(v, If, Else);
             builderRef.PositionAtEnd(If);
 
             node.StatementNodes.ForEach(n => n.Visit(this));
-            builderRef.BuildBr(After);
+            builderRef.BuildBr(after);
             Context.vars.DeallocateScope();
             Context.vars.AllocateScope();
             builderRef.PositionAtEnd(Else);
             node.ElseNode.StatementNodes.ForEach(n => n.Visit(this));
             Context.vars.DeallocateScope();
-            builderRef.BuildBr(After);
-            builderRef.PositionAtEnd(After);
+            builderRef.BuildBr(after);
+            builderRef.PositionAtEnd(after);
         }
         else
         {
@@ -196,6 +200,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
             builderRef.PositionAtEnd(After);
         }
     }
+
 
     public LLVMTypeRef ToLLVMType(Tokens type)
     {

@@ -77,6 +77,27 @@ public class Parse
         }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
         {
+            TokenList.ForEach(n => Console.WriteLine(n));
+            Tokens? type =
+                MatchAndRemove(TokenType.INT) != null
+                    ? Current
+                    : MatchAndRemove(TokenType.FLOAT) != null
+                        ? Current
+                        : MatchAndRemove(TokenType.BOOL) != null
+                            ? Current
+                            : MatchAndRemove(TokenType.CHAR) != null
+                                ? Current
+                                : null;
+            if (type != null)
+            {
+                Console.WriteLine("type != null");
+                MatchAndRemove(TokenType.CL_PAREN);
+
+                INode? b = Factor();
+                Console.WriteLine(type);
+                return new CastNode(b, type.Value);
+            }
+
             INode? a = Expression();
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
@@ -325,7 +346,8 @@ public class Parse
             type = GetTokenType() ?? throw new Exception("inavlid retrun");
         }
 
-        statements = ParseBlock();
+        if (!isExtern)
+            statements = ParseBlock();
         return new FunctionNode(name, param, type, statements, isExtern);
     }
 
@@ -334,7 +356,9 @@ public class Parse
         List<StatementNode> statements = new();
         if (MatchAndRemove(TokenType.BEGIN) != null)
         {
-            while (MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null)
+            while (
+                MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
+            )
             {
                 statements.Add(Statemnts());
                 MatchAndRemove(TokenType.EOL);
@@ -354,6 +378,7 @@ public class Parse
             else
                 statements.Add(new ReturnNode(Expression()));
         }
+
         return statements;
     }
 

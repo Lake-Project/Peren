@@ -1,6 +1,7 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.Frontend.SemanticAnalysis;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using Lexxer;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
@@ -58,7 +59,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
             throw new TypeMisMatchException(
                 $"type aa  {assignedType} cant fit "
-                    + $"{(assignedType.CanAccept(LType)
+                + $"{(assignedType.CanAccept(LType)
                     ? RType : LType)}"
             );
         }
@@ -93,7 +94,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
         throw new TypeMisMatchException(
             $"type  a {assignedType} cant fit "
-                + $"{(assignedType.CanAccept(LType)
+            + $"{(assignedType.CanAccept(LType)
                 ? RType : LType)}"
         );
     }
@@ -107,12 +108,12 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(BooleanExprNode node)
     {
-        LacusType LType = node.left.Visit(this);
-        LacusType RType = node.right.Visit(this);
+        LacusType LType = node.Left.Visit(this);
+        LacusType RType = node.Right.Visit(this);
         if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
         {
             if (LType is FloatType)
-                node.isFloat = true;
+                node.IsFloat = true;
             return new BoolType();
         }
 
@@ -122,5 +123,32 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     public override LacusType Visit(CharNode node)
     {
         return new CharType();
+    }
+
+    public override LacusType Visit(CastNode node)
+    {
+        LacusType t = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType()));
+        Func<LacusType, Tokens> ToTokens = (t) =>
+        {
+            return t switch
+            {
+                FloatType => new Tokens(TokenType.FLOAT),
+                CharType => new Tokens(TokenType.CHAR),
+                BoolType => new Tokens(TokenType.BOOL),
+                IntegerType => new Tokens(TokenType.INT),
+                _ => throw new Exception("unknown type")
+            };
+        };
+
+        node.inferredtype = ToTokens(t);
+        return node.type.tokenType switch
+        {
+            TokenType.INT => new IntegerType(),
+            TokenType.BOOL => new BoolType(),
+            TokenType.FLOAT => new FloatType(),
+            TokenType.CHAR => new CharType(),
+            TokenType.VOID => new VoidType(),
+            _ => throw new Exception($"type {node.type} is unknown ")
+        };
     }
 }

@@ -16,6 +16,6 @@
 
   </ItemGroup>
  <ItemGroup>
-   <Folder Include="src\Backend\" />
+   <ClCompile Include="lacus-IR\Test.c" />
  </ItemGroup>
 </Project>

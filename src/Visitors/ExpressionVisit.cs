@@ -13,4 +13,5 @@ public abstract class ExpressionVisit<T>
     public abstract T Visit(VaraibleReferenceNode node);
     public abstract T Visit(BooleanExprNode node);
     public abstract T Visit(CharNode node);
+    public abstract T Visit(CastNode node);
 }
