@@ -48,6 +48,8 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(VaraibleDeclarationNode node)
     {
+        if (Context.vars.GetSize() == 0)
+            return;
         var value = builderRef.BuildAlloca(ToLLVMType(node.Type), node.Name.buffer);
         Context.vars.AddValue(node.Name, new LLVMVar(value, ToLLVMType(node.Type)));
         {
@@ -103,12 +105,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
         builderRef.PositionAtEnd(entry);
         Context.vars.AllocateScope();
-        foreach (var (param
-                     , index) in node
-                     .Parameters
-                     .Select((param,
-                         index) => (param,
-                         index)))
+        foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
         {
             var llvmParam = function.GetParam((uint)index);
             var name = param.Name.buffer;
@@ -125,7 +122,6 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
                 Context.vars.GetValue(param.Name).Value
             );
         }
-
         node.Statements.ForEach(n => n.Visit(this));
         if (!_returns && _currentFunction.returnType == LLVMTypeRef.Void)
             builderRef.BuildRetVoid();
@@ -142,8 +138,9 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         else
         {
             builderRef.BuildRet(
-                (node.Expression ?? throw new Exception("null return "))
-                .Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
+                (node.Expression ?? throw new Exception("null return ")).Visit(
+                    new LLVMExprVisitor(Context, builderRef, moduleRef)
+                )
             );
         }
     }
@@ -160,7 +157,17 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(WhileLoopNode node)
     {
-        throw new NotImplementedException();
+        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("loop.body");
+        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
+
+        LLVMValueRef v = node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
+        // builderRef.BuildCondBr(loopCond, loopBody, loopEnd);
+
+        Context.vars.AllocateScope();
+        builderRef.PositionAtEnd(loopBody);
+        node.StatementNodes.ForEach(n => n.Visit(this));
+        Context.vars.DeallocateScope();
+        builderRef.PositionAtEnd(loopEnd);
     }
 
     public override void Visit(IfNode node)
@@ -200,7 +207,6 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
             builderRef.PositionAtEnd(After);
         }
     }
-
 
     public LLVMTypeRef ToLLVMType(Tokens type)
     {

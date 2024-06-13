@@ -100,7 +100,7 @@ public class SemanticVisitStatement : StatementVisit
             if (!tokenToLacusType(node.Type).CanAccept(t))
                 throw new TypeMisMatchException(
                     $"type {t} cant fit "
-                    + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
+                        + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
                 );
         }
     }
@@ -132,6 +132,7 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(FunctionNode node)
     {
+        Console.WriteLine("fm rettye SA: "+tokenToLacusType(node.RetType));
         p.Vars.AllocateScope();
         var f = new SemanticFunction(
             tokenToLacusType(node.RetType),
@@ -139,7 +140,8 @@ public class SemanticVisitStatement : StatementVisit
                 .ToList() // to list of lacus type
         );
         p.Functions.AddValue(node.Name, f);
-        function = f;
+        this.function = f;
+        Console.WriteLine("after wierd: "+function.retType);
         node.Parameters.ForEach(n => n.Visit(this));
         node.Statements.ForEach(n => n.Visit(this));
         p.Vars.DeallocateScope();
@@ -152,7 +154,12 @@ public class SemanticVisitStatement : StatementVisit
         {
             t = node.Expression.Visit(new SemanticVisitExpr(p, function.retType));
         }
-
+        else
+        {
+            Console.WriteLine("NULL t0T ");
+        }
+        Console.WriteLine(function.retType);
+        Console.WriteLine(t);
         if (!function.retType.CanAccept(t))
             throw new Exception("type error");
     }
@@ -169,7 +176,10 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(WhileLoopNode node)
     {
-        throw new NotImplementedException();
+        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
+        p.Vars.AllocateScope();
+        node.StatementNodes.ForEach(n => n.Visit(this));
+        p.Vars.DeallocateScope();
     }
 
     public override void Visit(IfNode node)
@@ -185,6 +195,7 @@ public class SemanticVisitStatement : StatementVisit
 
     private LacusType tokenToLacusType(Tokens type)
     {
+        Console.WriteLine("sa: "+type);
         return type.tokenType switch
         {
             TokenType.INT => new IntegerType(),

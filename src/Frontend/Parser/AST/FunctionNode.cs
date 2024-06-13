@@ -20,4 +20,9 @@ public class FunctionNode(
     public Tokens Name { get; set; } = name;
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
+
+    public override string ToString()
+    {
+        return $"{Name} : {statements.Count} : {RetType}";
+    }
 }

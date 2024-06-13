@@ -6,7 +6,7 @@ public class SemanticAnaylsis
 {
     public void SemanticEntry(List<StatementNode> nodes)
     {
-        SemanticVisitStatement s = new SemanticVisitStatement();
+        var s = new SemanticVisitStatement();
         nodes.ForEach(n => n.Visit(s));
     }
 }

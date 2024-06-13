@@ -254,6 +254,8 @@ public class Parse
             return ParseWordType();
         else if (MatchAndRemove(TokenType.IF) != null)
             return ParseIf();
+        else if (MatchAndRemove(TokenType.WHILE) != null)
+            return ParseWhile();
         else
             throw new Exception("Statement invalid " + Current.ToString());
     }
@@ -322,6 +324,15 @@ public class Parse
     public StatementNode ParseStructs()
     {
         return null;
+    }
+
+    public StatementNode ParseWhile()
+    {
+        MatchAndRemove(TokenType.OP_PAREN);
+        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        MatchAndRemove(TokenType.CL_PAREN);
+        List<StatementNode> statementNodes = ParseBlock();
+        return new WhileLoopNode(expr, statementNodes);
     }
 
     public FunctionNode PaseFunction()

@@ -15,11 +15,21 @@ class Program
         LLVM.InitializeAllAsmParsers();
         // Console.WriteLine(args[0]);
 
-        new CommandLineFlags(args);
+         new CommandLineFlags(args);
         // new CommandLineFlags(new string[] { "test.lk", "--print-ir", "-o", "Test.exe" });
-        // List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines("test.lk"));
-        // MonadicParser p = new MonadicParser(tokens);
-        // INode v = p.Parse().Value;
+        // List<Tokens> tokens = new LexTokens().Lex(
+        //
+        // new string[]
+        // {
+        //          
+        // "fn factorial(int n) returns int{\n    if(n == 0)\n    {\n        return 1;\n   }\n    return n;\n}\n"
+        // //         
+        // });
+             
+        // MonadicParser<INode> p = new (tokens);
+        // List<StatementNode> v = p.ParseFile();
+        
+    
         // Console.WriteLine("value: "+v.Visit(new InpretExpr()));
         // // new LexTokens().printList(tokens);
         // Parse p = new Parse(tokens);

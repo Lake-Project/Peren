@@ -3,7 +3,11 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using LLVMSharp.Interop;
 
-public class WhileLoopNode : StatementNode
+public class WhileLoopNode(INode expr, List<StatementNode> statementNodes) : StatementNode
 {
+    public INode Expression { get; set; } = expr;
+
+    public List<StatementNode> StatementNodes { get; set; } = statementNodes;
+
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

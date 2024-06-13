@@ -1,5 +1,5 @@
 #include <stdio.h>
-extern int f(int a, int b);
+extern int factorial(int a);
 
 long add(int a, int b)
 {
@@ -8,6 +8,6 @@ long add(int a, int b)
 
 int main()
 {
-    long a = f(1, 1);
+    long a = factorial(1);
     printf("out: %d \n", a);
 }
