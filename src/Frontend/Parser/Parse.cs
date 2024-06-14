@@ -8,6 +8,8 @@ public class Parse
     public List<Tokens> TokenList;
     private Tokens Current;
 
+    public Stack<Tokens> attributes = new();
+
     public Parse(List<Tokens> tokenList)
     {
         this.TokenList = tokenList;
@@ -15,15 +17,6 @@ public class Parse
 
     private Tokens? MatchAndRemove(TokenType type)
     {
-        // Current = new Tokens();
-        // foreach (Tokens token in TokenList)
-        // {
-        //     Console.WriteLine(token.ToString());
-        // }
-        // Console.WriteLine("type: " + type);
-
-        // Console.WriteLine("");
-
         if (TokenList.Count == 0)
         {
             return null;
@@ -33,6 +26,21 @@ public class Parse
         {
             Current = TokenList[0];
             TokenList.RemoveAt(0);
+            return Current;
+        }
+
+        return null;
+    }
+
+    public Tokens? MatchAndRemove(TokenType[] tokenTypes)
+    {
+        if (!TokenList.Any())
+            return null;
+        if (tokenTypes.ToList().Any(n => n == TokenList[0].tokenType))
+        {
+            Current = TokenList[0];
+            TokenList.RemoveAt(0);
+
             return Current;
         }
 
@@ -77,7 +85,6 @@ public class Parse
         }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
         {
-            TokenList.ForEach(n => Console.WriteLine(n));
             Tokens? type =
                 MatchAndRemove(TokenType.INT) != null
                     ? Current
@@ -208,6 +215,96 @@ public class Parse
         return opNode;
     }
 
+    public List<INode> ParseTuples()
+    {
+        List<INode> expr = new List<INode>();
+
+        while (MatchAndRemove(TokenType.CL_PAREN) == null)
+        {
+            expr.Add(
+                Expression()
+                    ?? throw new Exception( //e
+                        $"need all types tuple on line {Current.GetLine()}"
+                    )
+            );
+            MatchAndRemove(TokenType.COMMA);
+        }
+
+        return expr;
+    }
+
+    public FunctionCallNode ParseFunctionCalls()
+    {
+        Tokens name = Current;
+        Tokens? a =
+            MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("function is a tuple type");
+        List<INode> expr = ParseTuples();
+        return new FunctionCallNode(name, expr);
+    }
+
+    public ElseNode? ParseElse()
+    {
+        List<StatementNode> statementNodes = new();
+        if (MatchAndRemove(TokenType.ELSE) != null)
+        {
+            statementNodes = ParseBlock();
+        }
+
+        return new ElseNode(statementNodes);
+    }
+
+    public IfNode ParseIf()
+    {
+        MatchAndRemove(TokenType.OP_PAREN);
+        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        MatchAndRemove(TokenType.CL_PAREN);
+        List<StatementNode> statementNodes = ParseBlock();
+        return new IfNode(expr, ParseElse(), statementNodes);
+    }
+
+    public List<StatementNode> ParseBlock()
+    {
+        List<StatementNode> statements = new();
+        if (MatchAndRemove(TokenType.BEGIN) != null)
+        {
+            while (
+                MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
+            )
+            {
+                statements.Add(Statements());
+                MatchAndRemove(TokenType.EOL);
+            }
+
+            if (Current.tokenType == TokenType.RETURN)
+            {
+                statements.Add(new ReturnNode(Expression()));
+                while (MatchAndRemove(TokenType.END) == null)
+                    TokenList.RemoveAt(0);
+            }
+        }
+        else
+        {
+            if (MatchAndRemove(TokenType.RETURN) == null)
+                statements.Add(Statements());
+            else
+                statements.Add(new ReturnNode(Expression()));
+        }
+
+        return statements;
+    }
+
+    public StatementNode ParseWordType()
+    {
+        if (LookAhead(TokenType.EQUALS))
+            return ParseVarRef();
+        else if (LookAhead(TokenType.OP_PAREN))
+            return ParseFunctionCalls();
+        else if (LookAhead(TokenType.WORD))
+            return ParseVar();
+        else
+            throw new Exception($"invalid identifier statement {Current.ToString()}");
+    }
+
     public Tokens? GetTokenType()
     {
         return (MatchAndRemove(TokenType.FLOAT) != null)
@@ -223,55 +320,34 @@ public class Parse
                             : null;
     }
 
-    public ElseNode ParseElse()
+    public StatementNode Statements()
     {
-        List<StatementNode> statementNodes = new();
-        if (MatchAndRemove(TokenType.ELSE) != null)
+        if (MatchAndRemove(TokenType.WORD) != null)
         {
-            statementNodes = ParseBlock();
-        }
-
-        return new ElseNode(statementNodes);
-    }
-
-    public StatementNode ParseIf()
-    {
-        MatchAndRemove(TokenType.OP_PAREN);
-        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
-        MatchAndRemove(TokenType.CL_PAREN);
-        List<StatementNode> statementNodes = ParseBlock();
-        return new IfNode(expr, ParseElse(), statementNodes);
-    }
-
-    public StatementNode Statemnts()
-    {
-        if (
-            this.GetTokenType() != null
-            && (!LookAhead(TokenType.EQUALS) && !LookAhead(TokenType.OP_PAREN))
-        )
-            return ParseVar();
-        else if (Current.tokenType == TokenType.WORD)
             return ParseWordType();
+        }
+        else if (
+            MatchAndRemove(new[] { TokenType.INT, TokenType.FLOAT, TokenType.BOOL, TokenType.CHAR })
+            != null
+        )
+        {
+            return ParseVar();
+        }
         else if (MatchAndRemove(TokenType.IF) != null)
             return ParseIf();
         else if (MatchAndRemove(TokenType.WHILE) != null)
             return ParseWhile();
+        else if (
+            MatchAndRemove(TokenType.EXTERN) != null
+            || MatchAndRemove(TokenType.UNSIGNED) != null
+            || MatchAndRemove(TokenType.CONST) != null
+        )
+        {
+            attributes.Push(Current);
+            return Statements();
+        }
         else
             throw new Exception("Statement invalid " + Current.ToString());
-    }
-
-    public FunctionCallNode ParseFunctionCalls()
-    {
-        Tokens name = Current;
-        Tokens? a = MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("");
-        List<INode> expr = new List<INode>();
-        while (MatchAndRemove(TokenType.CL_PAREN) == null)
-        {
-            expr.Add(Expression() ?? throw new Exception($"empty param on line {name.GetLine()}"));
-            MatchAndRemove(TokenType.COMMA);
-        }
-
-        return new FunctionCallNode(name, expr);
     }
 
     public VaraibleReferenceStatementNode ParseVarRef()
@@ -286,27 +362,28 @@ public class Parse
         );
     }
 
-    public StatementNode ParseWordType()
-    {
-        if (LookAhead(TokenType.EQUALS))
-            return ParseVarRef();
-        else if (LookAhead(TokenType.OP_PAREN))
-            return ParseFunctionCalls();
-        else
-            throw new Exception($"invalid identifier statement {Current.ToString()}");
-    }
-
     public VaraibleDeclarationNode ParseVar()
     {
         Tokens Type = Current;
-        bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
+        (bool unsigned, bool isExtern, bool isConst) attributesTuple = (false, false, false);
+        while (attributes.ToList().Any())
+        {
+            Tokens v = attributes.Pop();
+            if (v.tokenType == TokenType.UNSIGNED)
+                attributesTuple.unsigned = true;
+            else if (v.tokenType == TokenType.EXTERN)
+                attributesTuple.isExtern = true;
+            else if (v.tokenType == TokenType.CONST)
+                attributesTuple.isConst = true;
+        }
+
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
 
         if (e != null)
-            return new VaraibleDeclarationNode(Type, name.Value, Expression(), isExtern);
+            return new VaraibleDeclarationNode(Type, name.Value, Expression(), attributesTuple);
         else
-            return new VaraibleDeclarationNode(Type, name.Value, null, isExtern);
+            return new VaraibleDeclarationNode(Type, name.Value, null, attributesTuple);
     }
 
     public StatementNode GlobalStatements()
@@ -360,37 +437,6 @@ public class Parse
         if (!isExtern)
             statements = ParseBlock();
         return new FunctionNode(name, param, type, statements, isExtern);
-    }
-
-    public List<StatementNode> ParseBlock()
-    {
-        List<StatementNode> statements = new();
-        if (MatchAndRemove(TokenType.BEGIN) != null)
-        {
-            while (
-                MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
-            )
-            {
-                statements.Add(Statemnts());
-                MatchAndRemove(TokenType.EOL);
-            }
-
-            if (Current.tokenType == TokenType.RETURN)
-            {
-                statements.Add(new ReturnNode(Expression()));
-                while (MatchAndRemove(TokenType.END) == null)
-                    TokenList.RemoveAt(0);
-            }
-        }
-        else
-        {
-            if (MatchAndRemove(TokenType.RETURN) == null)
-                statements.Add(Statemnts());
-            else
-                statements.Add(new ReturnNode(Expression()));
-        }
-
-        return statements;
     }
 
     public List<StatementNode> ParseFile()

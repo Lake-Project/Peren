@@ -127,17 +127,27 @@ public class LLVMExprVisitor(
             _ => throw new Exception("unaccepted type")
         };
 
-        if (Inffered == LLVMTypeRef.Float && (Target == LLVMTypeRef.Int1 || Target == LLVMTypeRef.Int8 ||
-                                              Target == LLVMTypeRef.Int16 ||
-                                              Target == LLVMTypeRef.Int32))
-            return builderRef.BuildCast(LLVMOpcode.LLVMFPToSI, v, node.type.tokenType switch
-            {
-                TokenType.INT => (LLVMTypeRef.Int32),
-                TokenType.FLOAT => LLVMTypeRef.Float,
-                TokenType.BOOL => LLVMTypeRef.Int1,
-                TokenType.CHAR => LLVMTypeRef.Int8,
-                _ => throw new Exception("unaccepted type")
-            });
+        if (
+            Inffered == LLVMTypeRef.Float
+            && (
+                Target == LLVMTypeRef.Int1
+                || Target == LLVMTypeRef.Int8
+                || Target == LLVMTypeRef.Int16
+                || Target == LLVMTypeRef.Int32
+            )
+        )
+            return builderRef.BuildCast(
+                LLVMOpcode.LLVMFPToSI,
+                v,
+                node.type.tokenType switch
+                {
+                    TokenType.INT => (LLVMTypeRef.Int32),
+                    TokenType.FLOAT => LLVMTypeRef.Float,
+                    TokenType.BOOL => LLVMTypeRef.Int1,
+                    TokenType.CHAR => LLVMTypeRef.Int8,
+                    _ => throw new Exception("unaccepted type")
+                }
+            );
         else if (Target.IntWidth < Inffered.IntWidth)
             return builderRef.BuildSExt(v, Target);
         else

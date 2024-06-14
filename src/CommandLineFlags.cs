@@ -3,7 +3,6 @@ using CommandLine;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
-using Lexxer.Parser;
 using LLVMSharp.Interop;
 
 public class CompileOptions
@@ -91,9 +90,7 @@ public class CommandLineFlags
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 
         // Parse p = new MonadicParser<INode>(tokens);
-        List<StatementNode> s = new Parse(tokens)
-        .ParseFile();
-        s.ForEach(n => Console.WriteLine(n.ToString()));
+        List<StatementNode> s = new Parse(tokens).ParseFile();
         new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }

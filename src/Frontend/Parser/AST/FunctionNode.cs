@@ -21,8 +21,8 @@ public class FunctionNode(
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 
-    public override string ToString()
-    {
-        return $"{Name} : {statements.Count} : {RetType}";
-    }
+    // public override string ToString()
+    // {
+    //     return $"{Name} : {statements.Count} : {RetType}";
+    // }
 }

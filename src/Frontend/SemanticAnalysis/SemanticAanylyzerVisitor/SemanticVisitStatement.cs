@@ -10,10 +10,17 @@ public struct SemanticVar
     public LacusType VarType { get; set; }
     public int ScopeLocation { get; set; }
 
-    public SemanticVar(LacusType type, int scopeLocation)
+    public (bool unsigned, bool isExtern, bool isConst) AttributesTupe { get; set; }
+
+    public SemanticVar(
+        LacusType type,
+        int scopeLocation,
+        (bool unsigned, bool isExtern, bool isConst) attributesTuple
+    )
     {
         VarType = type;
         ScopeLocation = scopeLocation;
+        AttributesTupe = attributesTuple;
     }
 }
 
@@ -91,7 +98,10 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(VaraibleDeclarationNode node)
     {
-        p.AddVar(node.Name, new SemanticVar(tokenToLacusType(node.Type), p.Vars.GetSize()));
+        p.AddVar(
+            node.Name,
+            new SemanticVar(tokenToLacusType(node.Type), p.Vars.GetSize(), node.AttributesTuple)
+        );
         if (node.ExpressionNode != null)
         {
             LacusType t = node.ExpressionNode.Visit(
@@ -108,7 +118,12 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = p.GetVar(node.Name);
+
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(p, v.VarType));
+        if (v.AttributesTupe.isConst)
+            throw new Exception(
+                $"type const {v.VarType} cant fit into {l} on line {node.Name.GetLine()}"
+            );
         node.ScopeLocation = v.ScopeLocation;
         if (!v.VarType.CanAccept(l))
             throw new TypeMisMatchException(
@@ -132,7 +147,6 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(FunctionNode node)
     {
-        Console.WriteLine("fm rettye SA: "+tokenToLacusType(node.RetType));
         p.Vars.AllocateScope();
         var f = new SemanticFunction(
             tokenToLacusType(node.RetType),
@@ -141,7 +155,6 @@ public class SemanticVisitStatement : StatementVisit
         );
         p.Functions.AddValue(node.Name, f);
         this.function = f;
-        Console.WriteLine("after wierd: "+function.retType);
         node.Parameters.ForEach(n => n.Visit(this));
         node.Statements.ForEach(n => n.Visit(this));
         p.Vars.DeallocateScope();
@@ -154,14 +167,8 @@ public class SemanticVisitStatement : StatementVisit
         {
             t = node.Expression.Visit(new SemanticVisitExpr(p, function.retType));
         }
-        else
-        {
-            Console.WriteLine("NULL t0T ");
-        }
-        Console.WriteLine(function.retType);
-        Console.WriteLine(t);
         if (!function.retType.CanAccept(t))
-            throw new Exception("type error");
+            throw new Exception("type error, type");
     }
 
     public override void Visit(CastNode node)
@@ -195,7 +202,6 @@ public class SemanticVisitStatement : StatementVisit
 
     private LacusType tokenToLacusType(Tokens type)
     {
-        Console.WriteLine("sa: "+type);
         return type.tokenType switch
         {
             TokenType.INT => new IntegerType(),

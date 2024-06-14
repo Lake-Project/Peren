@@ -49,8 +49,7 @@ namespace Lexxer
         ARRAY,
         IMPORT,
         ELSE,
-        BOOL_AND,
-        BOOL_OR,
+        CONST,
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -127,6 +126,8 @@ namespace Lexxer
                     ["Array"] = new(TokenType.ARRAY),
                     ["import"] = new(TokenType.IMPORT),
                     ["=="] = new(TokenType.BOOL_EQ),
+                    ["const"] = new(TokenType.CONST),
+                    ["unsigned"] = new(TokenType.UNSIGNED),
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
