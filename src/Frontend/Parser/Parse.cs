@@ -3,6 +3,13 @@ using System.Text.RegularExpressions;
 using LacusLLVM.Frontend.Parser.AST;
 using Lexxer;
 
+public struct AttributesTuple
+{
+    public bool isUnsigned;
+    public bool isExtern;
+    public bool isConst;
+}
+
 public class Parse
 {
     public List<Tokens> TokenList;
@@ -215,7 +222,7 @@ public class Parse
         return opNode;
     }
 
-    public List<INode> ParseTuples()
+    public List<INode> ParseTupleAssignment()
     {
         List<INode> expr = new List<INode>();
 
@@ -238,7 +245,7 @@ public class Parse
         Tokens name = Current;
         Tokens? a =
             MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("function is a tuple type");
-        List<INode> expr = ParseTuples();
+        List<INode> expr = ParseTupleAssignment();
         return new FunctionCallNode(name, expr);
     }
 
@@ -365,12 +372,14 @@ public class Parse
     public VaraibleDeclarationNode ParseVar()
     {
         Tokens Type = Current;
-        (bool unsigned, bool isExtern, bool isConst) attributesTuple = (false, false, false);
+
+        AttributesTuple attributesTuple = new();
+        // (bool unsigned, bool isExtern, bool isConst) attributesTuple = (false, false, false);
         while (attributes.ToList().Any())
         {
             Tokens v = attributes.Pop();
             if (v.tokenType == TokenType.UNSIGNED)
-                attributesTuple.unsigned = true;
+                attributesTuple.isUnsigned = true;
             else if (v.tokenType == TokenType.EXTERN)
                 attributesTuple.isExtern = true;
             else if (v.tokenType == TokenType.CONST)
@@ -412,13 +421,10 @@ public class Parse
         return new WhileLoopNode(expr, statementNodes);
     }
 
-    public FunctionNode PaseFunction()
+    public List<VaraibleDeclarationNode> ParseTupleDef()
     {
-        bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
-        Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
-        List<StatementNode> statements = new List<StatementNode>();
-
         MatchAndRemove(TokenType.OP_PAREN);
+
         List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
 
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
@@ -428,6 +434,15 @@ public class Parse
             MatchAndRemove(TokenType.COMMA);
         }
 
+        return param;
+    }
+
+    public FunctionNode PaseFunction()
+    {
+        bool isExtern = MatchAndRemove(TokenType.EXTERN) != null;
+        Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
+        List<StatementNode> statements = new List<StatementNode>();
+        List<VaraibleDeclarationNode> param = ParseTupleDef();
         Tokens type = new Tokens(TokenType.VOID);
         if (MatchAndRemove(TokenType.RETURNS) != null)
         {

@@ -10,13 +10,9 @@ public struct SemanticVar
     public LacusType VarType { get; set; }
     public int ScopeLocation { get; set; }
 
-    public (bool unsigned, bool isExtern, bool isConst) AttributesTupe { get; set; }
+    public AttributesTuple AttributesTupe { get; set; }
 
-    public SemanticVar(
-        LacusType type,
-        int scopeLocation,
-        (bool unsigned, bool isExtern, bool isConst) attributesTuple
-    )
+    public SemanticVar(LacusType type, int scopeLocation, AttributesTuple attributesTuple)
     {
         VarType = type;
         ScopeLocation = scopeLocation;

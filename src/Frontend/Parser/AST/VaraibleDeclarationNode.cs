@@ -8,7 +8,7 @@ public class VaraibleDeclarationNode(
     Tokens type,
     Tokens name,
     INode expressionNode,
-    (bool unsigned, bool isExtern, bool isConst) attributesTuple
+    AttributesTuple attributesTuple
 ) : StatementNode
 {
     public INode ExpressionNode { get; set; } = expressionNode;
@@ -17,8 +17,7 @@ public class VaraibleDeclarationNode(
 
     // public bool IsExtern { get; set; } = isExtern;
 
-    public (bool unsigned, bool isExtern, bool isConst) AttributesTuple { get; set; } =
-        attributesTuple;
+    public AttributesTuple AttributesTuple { get; set; } = attributesTuple;
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }
