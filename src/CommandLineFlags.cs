@@ -45,8 +45,7 @@ public class CompileOptions
         }
     }
 
-    [Option('c', Default = false)]
-    public bool CompileOnly { get; set; }
+    [Option('c', Default = false)] public bool CompileOnly { get; set; }
 
     [Option("emit-ir", Required = false, Default = false, HelpText = "saves ir to file")]
     public bool IrFile { get; set; }
@@ -65,6 +64,13 @@ public class CompileOptions
 
     [Option('S', "compile-off", Default = false, HelpText = "doesnt link or emit an obj ")]
     public bool CompileOff { get; set; }
+
+    [Option(
+        "target",
+        Default = "generic",
+        HelpText = "target cpu (run clang -print-supported-cpus to see list"
+    )]
+    public string targetArchitechure { get; set; }
 }
 
 public class CommandLineFlags
