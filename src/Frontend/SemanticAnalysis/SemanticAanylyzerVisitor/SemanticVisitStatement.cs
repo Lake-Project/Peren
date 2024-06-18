@@ -201,6 +201,9 @@ public class SemanticVisitStatement : StatementVisit
         return type.tokenType switch
         {
             TokenType.INT => new IntegerType(),
+            TokenType.INT16 => new IntegerType(),
+            TokenType.INT64 => new IntegerType(),
+
             TokenType.BOOL => new BoolType(),
             TokenType.FLOAT => new FloatType(),
             TokenType.CHAR => new CharType(),

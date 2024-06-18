@@ -230,9 +230,9 @@ public class Parse
         {
             expr.Add(
                 Expression()
-                    ?? throw new Exception( //e
-                        $"need all types tuple on line {Current.GetLine()}"
-                    )
+                ?? throw new Exception( //e
+                    $"need all types tuple on line {Current.GetLine()}"
+                )
             );
             MatchAndRemove(TokenType.COMMA);
         }
@@ -322,40 +322,15 @@ public class Parse
                     ? Current
                     : (MatchAndRemove(TokenType.CHAR) != null)
                         ? Current
-                        : (MatchAndRemove(TokenType.WORD) != null)
+                        : (MatchAndRemove(TokenType.INT16) != null)
                             ? Current
-                            : null;
+                            : (MatchAndRemove(TokenType.INT64) != null)
+                                ? Current
+                                : (MatchAndRemove(TokenType.WORD) != null)
+                                    ? Current
+                                    : null;
     }
 
-    public StatementNode Statements()
-    {
-        if (MatchAndRemove(TokenType.WORD) != null)
-        {
-            return ParseWordType();
-        }
-        else if (
-            MatchAndRemove(new[] { TokenType.INT, TokenType.FLOAT, TokenType.BOOL, TokenType.CHAR })
-            != null
-        )
-        {
-            return ParseVar();
-        }
-        else if (MatchAndRemove(TokenType.IF) != null)
-            return ParseIf();
-        else if (MatchAndRemove(TokenType.WHILE) != null)
-            return ParseWhile();
-        else if (
-            MatchAndRemove(TokenType.EXTERN) != null
-            || MatchAndRemove(TokenType.UNSIGNED) != null
-            || MatchAndRemove(TokenType.CONST) != null
-        )
-        {
-            attributes.Push(Current);
-            return Statements();
-        }
-        else
-            throw new Exception("Statement invalid " + Current.ToString());
-    }
 
     public VaraibleReferenceStatementNode ParseVarRef()
     {
@@ -405,6 +380,36 @@ public class Parse
             return ParseVar();
         else
             throw new Exception("Statement invalid");
+    }
+
+    public StatementNode Statements()
+    {
+        if (MatchAndRemove(TokenType.WORD) != null)
+        {
+            return ParseWordType();
+        }
+        else if (
+            MatchAndRemove(new[] { TokenType.INT, TokenType.FLOAT, TokenType.BOOL, TokenType.CHAR })
+            != null
+        )
+        {
+            return ParseVar();
+        }
+        else if (MatchAndRemove(TokenType.IF) != null)
+            return ParseIf();
+        else if (MatchAndRemove(TokenType.WHILE) != null)
+            return ParseWhile();
+        else if (
+            MatchAndRemove(TokenType.EXTERN) != null
+            || MatchAndRemove(TokenType.UNSIGNED) != null
+            || MatchAndRemove(TokenType.CONST) != null
+        )
+        {
+            attributes.Push(Current);
+            return Statements();
+        }
+        else
+            throw new Exception("Statement invalid " + Current.ToString());
     }
 
     public StatementNode ParseStructs()

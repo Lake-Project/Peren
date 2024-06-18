@@ -50,6 +50,8 @@ namespace Lexxer
         IMPORT,
         ELSE,
         CONST,
+        INT16,
+        INT64
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -119,6 +121,10 @@ namespace Lexxer
                     ["<<"] = new(TokenType.L_SHIFT),
                     [">="] = new(TokenType.GTE),
                     ["if"] = new(TokenType.IF),
+                    ["else"] = new(TokenType.ELSE),
+                    ["int16"] = new(TokenType.INT16),
+                    ["int64"] = new(TokenType.INT64),
+
                     ["else"] = new(TokenType.ELSE),
 
                     ["while"] = new(TokenType.WHILE),

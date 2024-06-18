@@ -78,7 +78,7 @@ public class CommandLineFlags
         Parser
             .Default.ParseArguments<CompileOptions>(args)
             .WithParsed<CompileOptions>(options => RunCompiler(options))
-            .WithNotParsed(errors => Console.WriteLine("Error"));
+            .WithNotParsed(errors => Console.WriteLine($"error running lakec"));
     }
 
     public void RunCompiler(CompileOptions compileOptions)
