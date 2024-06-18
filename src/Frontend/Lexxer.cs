@@ -278,19 +278,19 @@ namespace Lexxer
             int state = 1;
             StringBuilder Buffer = new();
             bool isSTring = false;
-            bool comment = false;
+            bool multiLineComments = false;
+
             for (int i = 0; i < Lines.Length; i++)
             {
                 for (int nextToken = 0; nextToken < Lines[i].Length; nextToken++)
                 {
                     string CurrentToken = Lines[i][nextToken].ToString();
-
-                    if (comment)
+                    if (multiLineComments)
                     {
                         if (nextToken >= 1)
                         {
                             if (Lines[i][nextToken - 1] == '*' && Lines[i][nextToken] == ')')
-                                comment = false;
+                                multiLineComments = false;
                         }
 
                         continue;
@@ -303,7 +303,7 @@ namespace Lexxer
                             groupings(Tokens, Buffer, i);
                         }
 
-                        comment = true;
+                        multiLineComments = true;
                         continue;
                     }
 

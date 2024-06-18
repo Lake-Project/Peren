@@ -15,6 +15,9 @@
         <PackageReference Include="LLVMSharp" Version="16.0.0" />
 
   </ItemGroup>
+    <PropertyGroup>
+        <AssemblyName>lakec</AssemblyName>
+    </PropertyGroup>
  <ItemGroup>
    <ClCompile Include="lacus-IR\Test.c" />
  </ItemGroup>
