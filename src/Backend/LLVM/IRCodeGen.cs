@@ -7,6 +7,12 @@ public class IRCodeGen
 {
     public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
+        LLVM.InitializeAllTargetInfos();
+        LLVM.InitializeAllTargets();
+        LLVM.InitializeAllTargetMCs();
+        LLVM.InitializeAllAsmPrinters();
+        LLVM.InitializeAllAsmParsers();
+
         var module = LLVMModuleRef.CreateWithName("main");
         LLVMBuilderRef builder = module.Context.CreateBuilder();
         LLVMStatementVisitor visit = new LLVMStatementVisitor(builder, module);

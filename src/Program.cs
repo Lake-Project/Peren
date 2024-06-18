@@ -1,5 +1,4 @@
 ﻿using LacusLLVM.Frontend.Parser.AST;
-using LacusLLVM.SemanticAanylyzerVisitor.Backend.Interpter;
 using Lexxer;
 // using Lexxer.Parser;
 using LLVMSharp.Interop;
@@ -8,11 +7,6 @@ class Program
 {
     public static void Main(string[] args)
     {
-        LLVM.InitializeAllTargetInfos();
-        LLVM.InitializeAllTargets();
-        LLVM.InitializeAllTargetMCs();
-        LLVM.InitializeAllAsmPrinters();
-        LLVM.InitializeAllAsmParsers();
         // Console.WriteLine(args[0]);
 
         new CommandLineFlags(args);
