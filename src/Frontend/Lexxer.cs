@@ -291,6 +291,14 @@ namespace Lexxer
                 for (int nextToken = 0; nextToken < Lines[i].Length; nextToken++)
                 {
                     string CurrentToken = Lines[i][nextToken].ToString();
+                    if (CurrentToken == "#")
+                    {
+                        if (Buffer.Length != 0)
+                        {
+                            groupings(Tokens, Buffer, i);
+                        }
+                        break;
+                    }
                     if (multiLineComments)
                     {
                         if (nextToken >= 1)
