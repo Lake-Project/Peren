@@ -278,6 +278,7 @@ public class Parse
                 MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
             )
             {
+                
                 statements.Add(Statements());
                 MatchAndRemove(TokenType.EOL);
             }
@@ -291,6 +292,8 @@ public class Parse
         }
         else
         {
+            if (MatchAndRemove(TokenType.EOL) != null)
+                return statements;
             if (MatchAndRemove(TokenType.RETURN) == null)
                 statements.Add(Statements());
             else
@@ -422,6 +425,7 @@ public class Parse
         MatchAndRemove(TokenType.OP_PAREN);
         INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
+        
         List<StatementNode> statementNodes = ParseBlock();
         return new WhileLoopNode(expr, statementNodes);
     }

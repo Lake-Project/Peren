@@ -8,6 +8,6 @@ long add(int a, int b)
 
 int main()
 {
-    int a = factorial(13);
+    int a = factorial(0);
     printf("out: %d \n", a);
 }
