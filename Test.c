@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 extern int factorial(int n);
 
 long add(int a, int b)
@@ -8,6 +9,7 @@ long add(int a, int b)
 
 int main()
 {
-    int a = factorial(0);
-    printf("out: %d \n", a);
+    char *a = "a";
+     char *b = "a";
+    printf(struct test{32, "hello world" });
 }

@@ -58,7 +58,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
             }
 
             throw new TypeMisMatchException(
-                $"type aa  {assignedType} cant fit "
+                $"type  {assignedType} cant fit "
                 + $"{(assignedType.CanAccept(LType)
                     ? RType : LType)}"
             );
@@ -110,6 +110,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     {
         LacusType LType = node.Left.Visit(this);
         LacusType RType = node.Right.Visit(this);
+        Console.WriteLine(node.ToString());
         if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
         {
             if (LType is FloatType)
@@ -117,8 +118,10 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
             return new BoolType();
         }
 
-        throw new Exception("error");
-    }
+        throw new TypeMisMatchException(
+            $"type {RType} cant be cmp to "
+            + $"{LType}"
+        );    }
 
     public override LacusType Visit(CharNode node)
     {

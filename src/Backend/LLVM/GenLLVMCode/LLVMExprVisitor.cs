@@ -63,7 +63,9 @@ public class LLVMExprVisitor(
             TokenType.MULTIPLICATION => builderRef.BuildMul(L, R, "multmp"),
             TokenType.DIVISION => builderRef.BuildSDiv(L, R, "divtmp"),
             TokenType.OR => builderRef.BuildOr(L, R, "modtmp"),
+            TokenType.XOR => builderRef.BuildXor(L, R, "modtmp"),
             TokenType.AND => builderRef.BuildAnd(L, R, "modtmp"),
+            TokenType.NOT => builderRef.BuildNot(L, "not"),
             TokenType.R_SHIFT => builderRef.BuildLShr(L, R, "bitshift"),
             TokenType.L_SHIFT => builderRef.BuildShl(L, R, "bitshift"),
             _ => throw new Exception("unsupported int op")

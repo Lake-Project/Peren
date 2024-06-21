@@ -13,4 +13,9 @@ public class BooleanExprNode(INode left, INode right, Tokens op) : INode
     public bool IsFloat;
 
     public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
+
+    public override string ToString()
+    {
+        return $"{Left.ToString()}  {Op.ToString()}  {Right.ToString()}";
+    }
 }

@@ -187,6 +187,7 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(IfNode node)
     {
+        Console.WriteLine(node.ToString());
         node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
         p.Vars.AllocateScope();
         node.StatementNodes.ForEach(n => n.Visit(this));
@@ -203,7 +204,6 @@ public class SemanticVisitStatement : StatementVisit
             TokenType.INT => new IntegerType(),
             TokenType.INT16 => new IntegerType(),
             TokenType.INT64 => new IntegerType(),
-
             TokenType.BOOL => new BoolType(),
             TokenType.FLOAT => new FloatType(),
             TokenType.CHAR => new CharType(),

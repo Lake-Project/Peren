@@ -112,7 +112,7 @@ public class Parse
                 return new CastNode(b, type.Value);
             }
 
-            INode? a = Expression();
+            INode? a = ParseSingleExpr();
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
         }
@@ -139,16 +139,33 @@ public class Parse
         {
             INode? right = Factor();
             opNode = new BooleanExprNode(opNode, right, op.Value);
+            op =
+                (MatchAndRemove(TokenType.GT) != null)
+                    ? Current
+                    : (MatchAndRemove(TokenType.LT) != null)
+                        ? Current
+                        : (MatchAndRemove(TokenType.BOOL_EQ) != null)
+                            ? Current
+                            : (MatchAndRemove(TokenType.LTE) != null)
+                                ? Current
+                                : (MatchAndRemove(TokenType.GTE) != null)
+                                    ? Current
+                                    : null;
         }
 
         return opNode;
     }
 
+    public INode? ParseNot()
+    {
+        return BoolExpr();
+    }
+
     private INode? Term()
     {
-        INode? opNode = BoolExpr(); //returns a mathOPNode.
-
-        Tokens? op =
+        Tokens? op;
+        INode? opNode = ParseNot(); //returns a mathOPNode.
+        op =
             (MatchAndRemove(TokenType.MULTIPLICATION) != null)
                 ? Current
                 : (MatchAndRemove(TokenType.DIVISION) != null)
@@ -163,15 +180,19 @@ public class Parse
                                     ? Current
                                     : MatchAndRemove(TokenType.R_SHIFT) != null
                                         ? Current
-                                        : null;
-        if (opNode == null && op != null)
+                                        : MatchAndRemove(TokenType.XOR) != null
+                                            ? Current
+                                            : null;
+        if (opNode == null && op != null && op.Value.tokenType != TokenType.NOT)
             throw new Exception("unauthorized statement");
         while (op != null)
         {
-            INode? right = BoolExpr();
+            INode? right = ParseNot();
+
             if (right == null && op != null)
                 throw new Exception("unauthorized statement");
             opNode = new OpNode(opNode, right, op.Value);
+
             op =
                 (MatchAndRemove(TokenType.MULTIPLICATION) != null)
                     ? Current
@@ -187,7 +208,9 @@ public class Parse
                                         ? Current
                                         : MatchAndRemove(TokenType.R_SHIFT) != null
                                             ? Current
-                                            : null;
+                                            : MatchAndRemove(TokenType.XOR) != null
+                                                ? Current
+                                                : null;
         }
 
         return opNode;
@@ -195,7 +218,8 @@ public class Parse
 
     private INode? Expression()
     {
-        INode? opNode = Term();
+        INode? opNode;
+        opNode = Term();
 
         Tokens? op =
             (MatchAndRemove(TokenType.ADDITION) != null)
@@ -219,7 +243,13 @@ public class Parse
                         : null;
         }
 
+        TokenList.ForEach(n => Console.WriteLine(n));
         return opNode;
+    }
+
+    private INode? ParseSingleExpr()
+    {
+        return Expression();
     }
 
     public List<INode> ParseTupleAssignment()
@@ -229,7 +259,7 @@ public class Parse
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
             expr.Add(
-                Expression()
+                ParseSingleExpr()
                 ?? throw new Exception( //e
                     $"need all types tuple on line {Current.GetLine()}"
                 )
@@ -263,7 +293,7 @@ public class Parse
     public IfNode ParseIf()
     {
         MatchAndRemove(TokenType.OP_PAREN);
-        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        INode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
         List<StatementNode> statementNodes = ParseBlock();
         return new IfNode(expr, ParseElse(), statementNodes);
@@ -278,7 +308,6 @@ public class Parse
                 MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
             )
             {
-                
                 statements.Add(Statements());
                 MatchAndRemove(TokenType.EOL);
             }
@@ -343,9 +372,10 @@ public class Parse
             ?? throw new Exception($"invalid equals on Line {name.Value.GetLine()}");
         return new VaraibleReferenceStatementNode(
             name.Value,
-            Expression() ?? throw new Exception($"poor refrence on line {name.Value.GetLine()}")
+            ParseSingleExpr() ?? throw new Exception($"poor refrence on line {name.Value.GetLine()}")
         );
     }
+
 
     public VaraibleDeclarationNode ParseVar()
     {
@@ -368,7 +398,7 @@ public class Parse
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
 
         if (e != null)
-            return new VaraibleDeclarationNode(Type, name.Value, Expression(), attributesTuple);
+            return new VaraibleDeclarationNode(Type, name.Value, ParseSingleExpr(), attributesTuple);
         else
             return new VaraibleDeclarationNode(Type, name.Value, null, attributesTuple);
     }
@@ -423,9 +453,9 @@ public class Parse
     public StatementNode ParseWhile()
     {
         MatchAndRemove(TokenType.OP_PAREN);
-        INode expr = Expression() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        INode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
-        
+
         List<StatementNode> statementNodes = ParseBlock();
         return new WhileLoopNode(expr, statementNodes);
     }

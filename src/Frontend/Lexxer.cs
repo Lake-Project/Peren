@@ -134,6 +134,8 @@ namespace Lexxer
                     ["=="] = new(TokenType.BOOL_EQ),
                     ["const"] = new(TokenType.CONST),
                     ["unsigned"] = new(TokenType.UNSIGNED),
+                    ["~"] = new(TokenType.NOT),
+
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {

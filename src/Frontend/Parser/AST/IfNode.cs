@@ -11,4 +11,8 @@ public class IfNode(INode expression, ElseNode elseNode, List<StatementNode> sta
     public List<StatementNode> StatementNodes { get; set; } = statementNodes;
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
+    public override string ToString()
+    {
+        return Expression.ToString();
+    }
 }
