@@ -153,7 +153,24 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(ForLoopNode node)
     {
-        throw new NotImplementedException();
+        var loopCond = _currentFunction.FunctionValue.AppendBasicBlock("loopCOnd");
+
+        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("loopBody");
+        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("Loopend");
+        
+        Context.vars.AllocateScope();
+        node.Iterator.Visit(this);
+        builderRef.BuildBr(loopCond);
+        builderRef.PositionAtEnd(loopCond);
+        var v = node.Expr.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
+        builderRef.BuildCondBr(v, loopBody, loopEnd);
+        builderRef.PositionAtEnd(loopBody);
+        node.Statements.ForEach(n => n.Visit(this));
+        node.Inc.Visit(this);
+        builderRef.BuildBr(loopCond);
+        Context.vars.DeallocateScope();
+        builderRef.PositionAtEnd(loopEnd);
+
     }
 
     public override void Visit(WhileLoopNode node)

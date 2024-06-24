@@ -104,11 +104,9 @@ public class Parse
                                 : null;
             if (type != null)
             {
-                Console.WriteLine("type != null");
                 MatchAndRemove(TokenType.CL_PAREN);
 
                 INode? b = Factor();
-                Console.WriteLine(type);
                 return new CastNode(b, type.Value);
             }
 
@@ -243,7 +241,6 @@ public class Parse
                         : null;
         }
 
-        TokenList.ForEach(n => Console.WriteLine(n));
         return opNode;
     }
 
@@ -403,17 +400,21 @@ public class Parse
             return new VaraibleDeclarationNode(Type, name.Value, null, attributesTuple);
     }
 
-    public StatementNode GlobalStatements()
+    public ForLoopNode? ParseFor()
     {
-        if (MatchAndRemove(TokenType.FUNCTION) != null)
-            return PaseFunction();
-        else if (MatchAndRemove(TokenType.STRUCT) != null)
-            return ParseStructs();
-        else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
-            return ParseVar();
-        else
-            throw new Exception("Statement invalid");
+        MatchAndRemove(TokenType.OP_PAREN);
+        GetTokenType();
+        var iterator = ParseVar();
+        MatchAndRemove(TokenType.EOL);
+        var cond = ParseSingleExpr();
+        MatchAndRemove(TokenType.EOL);
+        MatchAndRemove(TokenType.WORD);
+        var Inc = ParseVarRef();
+        MatchAndRemove(TokenType.CL_PAREN);
+        var statements = ParseBlock();
+        return new ForLoopNode(iterator, cond, Inc, statements); //c is good for a reason
     }
+
 
     public StatementNode Statements()
     {
@@ -432,6 +433,10 @@ public class Parse
             return ParseIf();
         else if (MatchAndRemove(TokenType.WHILE) != null)
             return ParseWhile();
+        else if (MatchAndRemove(TokenType.FOR) != null)
+        {
+            return ParseFor();
+        }
         else if (
             MatchAndRemove(TokenType.EXTERN) != null
             || MatchAndRemove(TokenType.UNSIGNED) != null
@@ -491,6 +496,18 @@ public class Parse
         if (!isExtern)
             statements = ParseBlock();
         return new FunctionNode(name, param, type, statements, isExtern);
+    }
+
+    public StatementNode GlobalStatements()
+    {
+        if (MatchAndRemove(TokenType.FUNCTION) != null)
+            return PaseFunction();
+        else if (MatchAndRemove(TokenType.STRUCT) != null)
+            return ParseStructs();
+        else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
+            return ParseVar();
+        else
+            throw new Exception("Statement invalid");
     }
 
     public List<StatementNode> ParseFile()

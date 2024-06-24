@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text.RegularExpressions;
 using CommandLine;
 using LacusLLVM.Frontend.Parser.AST;
@@ -15,16 +16,7 @@ public class CompileOptions
         HelpText = "The Lacus source file to compile",
         Required = true
     )]
-    public string InputFiles
-    {
-        get { return _input; }
-        set
-        {
-            if (!Regex.IsMatch(value, @"/*.lk$"))
-                throw new Exception("unsupported file type");
-            _input = value;
-        }
-    }
+    public IEnumerable<string> InputFiles { get; set; }
 
     public LLVMCodeGenOptLevel OptLevel;
 
@@ -90,8 +82,15 @@ public class CommandLineFlags
     public void RunCompiler(CompileOptions compileOptions)
     {
         // Console.WriteLine($"-c: {compileOptions.ObjFile}");
-        List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
-
+        // List<string> files = compileOptions.InputFiles.
+        // List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
+        // [..compileOptions.InputFiles.ToList().Map
+        List<Tokens> tokens = new();
+        LexTokens t = new();
+        compileOptions.InputFiles.ToList().ForEach( n =>
+        {
+            t.Lex(File.ReadAllLines(n), tokens);
+        });
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 

@@ -51,7 +51,10 @@ namespace Lexxer
         ELSE,
         CONST,
         INT16,
-        INT64
+        INT64,
+        FOR,
+        DEPENDS,
+        PUB
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -125,7 +128,9 @@ namespace Lexxer
                     ["int16"] = new(TokenType.INT16),
                     ["int64"] = new(TokenType.INT64),
 
-                    ["else"] = new(TokenType.ELSE),
+                    ["for"] = new(TokenType.FOR),
+                    ["depends"] = new(TokenType.DEPENDS),
+                    ["pub"] = new(TokenType.PUB),
 
                     ["while"] = new(TokenType.WHILE),
                     ["mod"] = new(TokenType.MOD),
@@ -280,9 +285,9 @@ namespace Lexxer
             state = 1;
         }
 
-        public List<Tokens> Lex(string[] Lines)
+        public List<Tokens> Lex(string[] Lines, List<Tokens> Tokens)
         {
-            List<Tokens> Tokens = new();
+            // List<Tokens> Tokens = list;
             int state = 1;
             StringBuilder Buffer = new();
             bool isSTring = false;

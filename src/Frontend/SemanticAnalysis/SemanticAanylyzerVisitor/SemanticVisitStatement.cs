@@ -174,7 +174,14 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(ForLoopNode node)
     {
-        throw new NotImplementedException();
+        p.Vars.AllocateScope();
+        node.Iterator.Visit(this);
+        node.Expr.Visit(new SemanticVisitExpr(p, new BoolType()));
+        node.Statements.ForEach(n => n.Visit(this));
+        node.Inc.Visit(this);
+        p.Vars.DeallocateScope();
+
+
     }
 
     public override void Visit(WhileLoopNode node)
