@@ -110,7 +110,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     {
         LacusType LType = node.Left.Visit(this);
         LacusType RType = node.Right.Visit(this);
-        Console.WriteLine(node.ToString());
+        // Console.WriteLine(node.ToString());
         if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
         {
             if (LType is FloatType)

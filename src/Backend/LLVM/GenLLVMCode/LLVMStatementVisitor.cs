@@ -175,10 +175,10 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(WhileLoopNode node)
     {
-        var loopCond = _currentFunction.FunctionValue.AppendBasicBlock("loopCOnd");
+        var loopCond = _currentFunction.FunctionValue.AppendBasicBlock("while.cond");
 
-        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("loopBody");
-        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("Loopend");
+        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("while.body");
+        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("while.end");
         builderRef.BuildBr(loopCond);
         builderRef.PositionAtEnd(loopCond);
         LLVMValueRef v = node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));

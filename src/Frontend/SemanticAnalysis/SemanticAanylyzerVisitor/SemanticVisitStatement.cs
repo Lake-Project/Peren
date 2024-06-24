@@ -194,7 +194,7 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(IfNode node)
     {
-        Console.WriteLine(node.ToString());
+        // Console.WriteLine(node.ToString());
         node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
         p.Vars.AllocateScope();
         node.StatementNodes.ForEach(n => n.Visit(this));
