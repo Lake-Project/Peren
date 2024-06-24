@@ -9,3 +9,5 @@ test.lk
 .fake
 *.vs
 /unused/*
+*.lk
+*.s
