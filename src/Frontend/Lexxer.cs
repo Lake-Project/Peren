@@ -144,6 +144,7 @@ namespace Lexxer
                     ["unsigned"] = new(TokenType.UNSIGNED),
                     ["~"] = new(TokenType.NOT),
                     ["."] = new(TokenType.DOT),
+                    ["struct"] = new(TokenType.STRUCT),
                     ["string"] = new(TokenType.STRING),
 
                 };

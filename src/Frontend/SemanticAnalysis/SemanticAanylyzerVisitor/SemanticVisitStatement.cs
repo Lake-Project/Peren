@@ -204,6 +204,11 @@ public class SemanticVisitStatement : StatementVisit
         p.Vars.DeallocateScope();
     }
 
+    public override void Visit(StructNode node)
+    {
+        throw new NotImplementedException();
+    }
+
     private LacusType tokenToLacusType(Tokens type)
     {
         return type.tokenType switch

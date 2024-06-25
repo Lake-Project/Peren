@@ -1,7 +1,5 @@
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
-using LLVMSharp.Interop;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 

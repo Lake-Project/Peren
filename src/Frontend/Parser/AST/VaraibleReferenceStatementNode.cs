@@ -1,8 +1,6 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
-using LLVMSharp.Interop;
 
 public class VaraibleReferenceStatementNode(Tokens name, INode expresion) : StatementNode
 {

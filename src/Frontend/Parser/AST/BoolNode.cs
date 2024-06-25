@@ -1,7 +1,5 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor;
-using LLVMSharp.Interop;
 
 public class BoolNode(bool value) : INode
 {

@@ -231,6 +231,11 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         }
     }
 
+    public override void Visit(StructNode node)
+    {
+        throw new NotImplementedException();
+    }
+
     public LLVMTypeRef ToLLVMType(Tokens type)
     {
         if (type.tokenType == TokenType.WORD)

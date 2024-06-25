@@ -1,8 +1,5 @@
-using System.Diagnostics;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor;
-using LLVMSharp.Interop;
 
 public class ForLoopNode(VaraibleDeclarationNode iterator,
 INode expr, StatementNode inc, List<StatementNode> statementNodes) : StatementNode

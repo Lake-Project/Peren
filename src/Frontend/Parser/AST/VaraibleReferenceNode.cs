@@ -1,8 +1,6 @@
-using System.Linq.Expressions;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
-using LLVMSharp.Interop;
 
 public class VaraibleReferenceNode(Tokens varName) : INode
 {

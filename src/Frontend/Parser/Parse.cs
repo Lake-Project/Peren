@@ -433,10 +433,10 @@ public class Parse
             {
                 TokenType.INT,
                 TokenType.STRING,
-                TokenType.INT16, 
-                TokenType.INT64, 
-                TokenType.FLOAT, 
-                TokenType.BOOL, 
+                TokenType.INT16,
+                TokenType.INT64,
+                TokenType.FLOAT,
+                TokenType.BOOL,
                 TokenType.CHAR
             })
             != null
@@ -467,7 +467,20 @@ public class Parse
 
     public StatementNode ParseStructs()
     {
-        return null;
+        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("name is nul");
+        var vars = new Dictionary<string, (VaraibleDeclarationNode, int)>();
+        MatchAndRemove(TokenType.BEGIN);
+        int idx = 0;
+        while (MatchAndRemove(TokenType.END) != null)
+        {
+            GetTokenType();
+            var p = ParseVar();
+            vars.Add(p.Name.buffer,
+                (p, idx));
+            idx++;
+        }
+
+        return new StructNode(vars, name.Value);
     }
 
     public StatementNode ParseWhile()

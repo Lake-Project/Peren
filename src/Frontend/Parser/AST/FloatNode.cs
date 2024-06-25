@@ -1,7 +1,6 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
-using LLVMSharp.Interop;
 
 public class FloatNode(float n) : INode
 {
