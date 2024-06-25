@@ -6,4 +6,9 @@ public class CharType : LacusType
     {
         return type is CharType;
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

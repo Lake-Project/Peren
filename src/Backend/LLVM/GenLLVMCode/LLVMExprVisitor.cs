@@ -160,6 +160,5 @@ public class LLVMExprVisitor(
     {
         var c = builderRef.BuildGlobalString(node.Value);
         return c;
-        // return LLVMValueRef.CreateConstArray()
     }
 }

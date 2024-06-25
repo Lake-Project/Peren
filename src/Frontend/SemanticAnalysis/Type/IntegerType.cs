@@ -6,4 +6,9 @@ public class IntegerType : LacusType
     {
         return (type is IntegerType) || (type is CharType);
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

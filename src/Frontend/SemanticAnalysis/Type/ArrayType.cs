@@ -8,4 +8,9 @@ public class ArrayType(LacusType type) : LacusType(type)
             return simplerType.CanAccept(type.simplerType);
         return false;
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -118,6 +118,21 @@ public class Parse
             MatchAndRemove(TokenType.CL_PAREN);
             return a;
         }
+        else if (MatchAndRemove(TokenType.NOT) != null)
+        {
+            INode? v = Factor();
+            return
+                new
+                    OpNode(v, new IntegerNode(0), new Tokens(TokenType.NOT));
+        }
+        else if (MatchAndRemove(TokenType.SIZE) != null)
+        {
+            MatchAndRemove(TokenType.OP_PAREN);
+            INode? v = Expression();
+            MatchAndRemove(TokenType.CL_PAREN);
+            return new OpNode(v, new
+                IntegerNode(new Tokens(TokenType.NUMBER, "0", 0)), new Tokens(TokenType.SIZE));
+        }
 
         return null;
     }
@@ -468,19 +483,7 @@ public class Parse
     public StatementNode ParseStructs()
     {
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("name is nul");
-        var vars = new Dictionary<string, (VaraibleDeclarationNode, int)>();
-        MatchAndRemove(TokenType.BEGIN);
-        int idx = 0;
-        while (MatchAndRemove(TokenType.END) != null)
-        {
-            GetTokenType();
-            var p = ParseVar();
-            vars.Add(p.Name.buffer,
-                (p, idx));
-            idx++;
-        }
-
-        return new StructNode(vars, name.Value);
+        return new StructNode(ParseTupleDef(), name.Value);
     }
 
     public StatementNode ParseWhile()

@@ -57,7 +57,8 @@ namespace Lexxer
         PUB,
         DOT,
         STRING_LITERAL,
-        STRING
+        STRING,
+        SIZE
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -146,6 +147,7 @@ namespace Lexxer
                     ["."] = new(TokenType.DOT),
                     ["struct"] = new(TokenType.STRUCT),
                     ["string"] = new(TokenType.STRING),
+                    ["sizeof"] = new(TokenType.SIZE),
 
                 };
             if (double.TryParse(buffer.ToString(), out _))

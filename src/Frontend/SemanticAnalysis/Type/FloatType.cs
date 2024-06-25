@@ -6,4 +6,9 @@ public class FloatType : LacusType
     {
         return type is IntegerType || type is FloatType;
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -6,4 +6,9 @@ public class StringType : LacusType
     {
         throw new NotImplementedException();
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

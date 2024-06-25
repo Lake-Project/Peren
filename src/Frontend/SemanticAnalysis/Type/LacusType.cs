@@ -29,4 +29,6 @@ public abstract class LacusType
     }
 
     public abstract bool CanAccept(LacusType type);
+
+    public abstract int size();
 }

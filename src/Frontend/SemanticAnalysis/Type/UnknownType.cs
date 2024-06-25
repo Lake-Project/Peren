@@ -6,4 +6,9 @@ public class UnknownType : LacusType
     {
         return true;
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

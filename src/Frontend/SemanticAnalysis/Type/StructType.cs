@@ -7,4 +7,9 @@ public class StructType(string typeName, List<LacusType> v) : LacusType(typeName
         if (type.name == this.name) { }
         throw new NotImplementedException();
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }

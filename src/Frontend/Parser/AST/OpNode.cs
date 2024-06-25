@@ -23,7 +23,7 @@ public class OpNode(INode left, INode right, Tokens tokens) : INode
         }
         else if (Right != null && Left != null)
         {
-            return Right.ToString() + " " + Left.ToString() + " " + Token.ToString();
+            return Left.ToString() + " " + Token.ToString() + " " + Right.ToString();
         }
         else
         {

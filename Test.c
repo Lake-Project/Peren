@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-extern char* helloWorld();
+extern int helloWorld();
 
 
 int main()
 {
-    char* f = helloWorld();
-    printf("%s \n", f);
+   int f = helloWorld();
+    printf("%d \n", f);
 }

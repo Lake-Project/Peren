@@ -6,4 +6,9 @@ public class BoolType : LacusType
     {
         return type is BoolType;
     }
+
+    public override int size()
+    {
+        throw new NotImplementedException();
+    }
 }
