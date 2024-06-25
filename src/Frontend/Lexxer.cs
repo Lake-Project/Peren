@@ -54,7 +54,10 @@ namespace Lexxer
         INT64,
         FOR,
         DEPENDS,
-        PUB
+        PUB,
+        DOT,
+        STRING_LITERAL,
+        STRING
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -140,6 +143,8 @@ namespace Lexxer
                     ["const"] = new(TokenType.CONST),
                     ["unsigned"] = new(TokenType.UNSIGNED),
                     ["~"] = new(TokenType.NOT),
+                    ["."] = new(TokenType.DOT),
+                    ["string"] = new(TokenType.STRING),
 
                 };
             if (double.TryParse(buffer.ToString(), out _))
@@ -328,20 +333,27 @@ namespace Lexxer
                         continue;
                     }
 
-                    if (CurrentToken == "\'")
+                    if (CurrentToken is "\'" or "\"")
                     {
                         if (Buffer.Length != 0)
                         {
-                            if (isSTring)
+                            switch (isSTring)
                             {
-                                Tokens.Add(
-                                    new Tokens(TokenType.CHAR_LITERAL, Buffer.ToString(), i)
-                                );
-                                Buffer.Clear();
-                            }
-                            else
-                            {
-                                groupings(Tokens, Buffer, i);
+                                case true when CurrentToken == "\'":
+                                    Tokens.Add(
+                                        new Tokens(TokenType.CHAR_LITERAL, Buffer.ToString(), i)
+                                    );
+                                    Buffer.Clear();
+                                    break;
+                                case true when CurrentToken == "\"":
+                                    Tokens.Add(
+                                        new Tokens(TokenType.STRING_LITERAL, Buffer.ToString(), i)
+                                    );
+                                    Buffer.Clear();
+                                    break;
+                                default:
+                                    groupings(Tokens, Buffer, i);
+                                    break;
                             }
                         }
 

@@ -90,6 +90,10 @@ public class Parse
                 return ParseFunctionCalls();
             return new VaraibleReferenceNode(Current);
         }
+        else if (MatchAndRemove(TokenType.STRING_LITERAL) != null)
+        {
+            return new StringNode(Current);
+        }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
         {
             Tokens? type =
@@ -353,11 +357,13 @@ public class Parse
                         ? Current
                         : (MatchAndRemove(TokenType.INT16) != null)
                             ? Current
-                            : (MatchAndRemove(TokenType.INT64) != null)
+                            : (MatchAndRemove(TokenType.STRING) != null)
                                 ? Current
-                                : (MatchAndRemove(TokenType.WORD) != null)
+                                : (MatchAndRemove(TokenType.INT64) != null)
                                     ? Current
-                                    : null;
+                                    : (MatchAndRemove(TokenType.WORD) != null)
+                                        ? Current
+                                        : null;
     }
 
 
@@ -400,7 +406,7 @@ public class Parse
             return new VaraibleDeclarationNode(Type, name.Value, null, attributesTuple);
     }
 
-    public ForLoopNode? ParseFor()
+    public StatementNode ParseFor()
     {
         MatchAndRemove(TokenType.OP_PAREN);
         GetTokenType();
@@ -423,7 +429,16 @@ public class Parse
             return ParseWordType();
         }
         else if (
-            MatchAndRemove(new[] { TokenType.INT, TokenType.FLOAT, TokenType.BOOL, TokenType.CHAR })
+            MatchAndRemove(new[]
+            {
+                TokenType.INT,
+                TokenType.STRING,
+                TokenType.INT16, 
+                TokenType.INT64, 
+                TokenType.FLOAT, 
+                TokenType.BOOL, 
+                TokenType.CHAR
+            })
             != null
         )
         {
@@ -447,7 +462,7 @@ public class Parse
             return Statements();
         }
         else
-            throw new Exception("Statement invalid " + Current.ToString());
+            throw new Exception("Statement invalid " + TokenList[0].ToString());
     }
 
     public StatementNode ParseStructs()

@@ -215,6 +215,7 @@ public class SemanticVisitStatement : StatementVisit
             TokenType.FLOAT => new FloatType(),
             TokenType.CHAR => new CharType(),
             TokenType.VOID => new VoidType(),
+            TokenType.STRING => new ArrayType(new CharType()),
             _ => throw new Exception("error")
         };
     }

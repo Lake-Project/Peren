@@ -156,4 +156,9 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
             _ => throw new Exception($"type {node.type} is unknown ")
         };
     }
+
+    public override LacusType Visit(StringNode node)
+    {
+        return new ArrayType(new CharType());
+    }
 }

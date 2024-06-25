@@ -248,6 +248,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
             TokenType.BOOL => LLVMTypeRef.Int1,
             TokenType.CHAR => LLVMTypeRef.Int8,
             TokenType.VOID => LLVMTypeRef.Void,
+            TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8,0),
             _ => throw new Exception($"undefined {type.ToString()} type")
         };
     }

@@ -1,9 +1,10 @@
 #include <stdio.h>
 
-extern int factorial(int n);
+extern char* helloWorld();
 
 
 int main()
 {
-    printf("fact: %d \n",factorial(10));
+    char* f = helloWorld();
+    printf("%s \n", f);
 }

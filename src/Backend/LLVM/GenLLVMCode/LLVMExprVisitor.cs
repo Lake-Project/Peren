@@ -155,4 +155,11 @@ public class LLVMExprVisitor(
         else
             return builderRef.BuildTrunc(v, Target);
     }
+
+    public override LLVMValueRef Visit(StringNode node)
+    {
+        var c = builderRef.BuildGlobalString(node.Value);
+        return c;
+        // return LLVMValueRef.CreateConstArray()
+    }
 }
