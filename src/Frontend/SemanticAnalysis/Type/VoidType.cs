@@ -9,6 +9,7 @@ public class VoidType : LacusType
 
     public override int size()
     {
+        
         throw new NotImplementedException();
     }
 }

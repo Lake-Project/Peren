@@ -52,7 +52,7 @@ public class LLVMExprVisitor(
                 TokenType.SUBTRACTION => builderRef.BuildFSub(L, R, "subtmp"),
                 TokenType.MULTIPLICATION => builderRef.BuildFMul(L, R, "multmp"),
                 TokenType.DIVISION => builderRef.BuildFDiv(L, R, "divtmp"),
-                _ => throw new Exception("unsupported float op")
+                _ => throw new Exception($"not accepted float math op {node.Token}")
             };
         }
 
@@ -62,13 +62,13 @@ public class LLVMExprVisitor(
             TokenType.SUBTRACTION => builderRef.BuildSub(L, R, "subtmp"),
             TokenType.MULTIPLICATION => builderRef.BuildMul(L, R, "multmp"),
             TokenType.DIVISION => builderRef.BuildSDiv(L, R, "divtmp"),
-            TokenType.OR => builderRef.BuildOr(L, R, "modtmp"),
-            TokenType.XOR => builderRef.BuildXor(L, R, "modtmp"),
-            TokenType.AND => builderRef.BuildAnd(L, R, "modtmp"),
+            TokenType.OR => builderRef.BuildOr(L, R, "or"),
+            TokenType.XOR => builderRef.BuildXor(L, R, "xor"),
+            TokenType.AND => builderRef.BuildAnd(L, R, "and"),
             TokenType.NOT => builderRef.BuildNot(L, "not"),
             TokenType.R_SHIFT => builderRef.BuildLShr(L, R, "bitshift"),
             TokenType.L_SHIFT => builderRef.BuildShl(L, R, "bitshift"),
-            _ => throw new Exception("unsupported int op")
+            _ => throw new Exception($"not accepted int math op {node.Token}")
         };
     }
 
@@ -90,8 +90,8 @@ public class LLVMExprVisitor(
                 TokenType.LTE => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLE, L, R, "cmp"),
                 TokenType.GT => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGT, L, R, "cmp"),
                 TokenType.GTE => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGE, L, R, "cmp"),
-
-                _ => throw new Exception("not accepted op")
+                TokenType.NOT_EQUALS => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntNE, L, R, "cmp"),
+                _ => throw new Exception($"not accepted float bool op {node.Op}")
             };
         return node.Op.tokenType switch
         {
@@ -100,7 +100,8 @@ public class LLVMExprVisitor(
             TokenType.LTE => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOLE, L, R, "cmp"),
             TokenType.GT => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGT, L, R, "cmp"),
             TokenType.GTE => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGE, L, R, "cmp"),
-            _ => throw new Exception("not accepted op")
+            TokenType.NOT_EQUALS => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealONE, L, R, "cmp"),
+            _ => throw new Exception($"not accepted float bool op {node.Op}")
         };
     }
 

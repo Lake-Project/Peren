@@ -106,7 +106,7 @@ public class SemanticVisitStatement : StatementVisit
             if (!tokenToLacusType(node.Type).CanAccept(t))
                 throw new TypeMisMatchException(
                     $"type {t} cant fit "
-                        + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
+                    + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
                 );
         }
     }
@@ -163,8 +163,9 @@ public class SemanticVisitStatement : StatementVisit
         {
             t = node.Expression.Visit(new SemanticVisitExpr(p, function.retType));
         }
+
         if (!function.retType.CanAccept(t))
-            throw new Exception("type error, type");
+            throw new Exception($"type error, type {t} cant accept {function.retType}");
     }
 
     public override void Visit(CastNode node)
@@ -180,8 +181,6 @@ public class SemanticVisitStatement : StatementVisit
         node.Statements.ForEach(n => n.Visit(this));
         node.Inc.Visit(this);
         p.Vars.DeallocateScope();
-
-
     }
 
     public override void Visit(WhileLoopNode node)
@@ -207,7 +206,7 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(StructNode node)
     {
         // int n = 1;
-        
+
         throw new NotImplementedException();
     }
 

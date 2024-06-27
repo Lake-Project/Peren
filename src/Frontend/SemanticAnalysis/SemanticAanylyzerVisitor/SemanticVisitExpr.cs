@@ -53,7 +53,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         }
         if (assignedType is BoolType)
         {
-            if (LType.CanAccept(RType))
+            if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
             {
                 if (LType is not FloatType)
                     node.FloatExpr = false;

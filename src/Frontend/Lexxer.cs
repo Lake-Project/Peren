@@ -58,7 +58,8 @@ namespace Lexxer
         DOT,
         STRING_LITERAL,
         STRING,
-        SIZE
+        SIZE,
+        NOT_EQUALS
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -67,7 +68,9 @@ namespace Lexxer
         public string buffer = buffer;
 
         public Tokens(TokenType tokenType)
-            : this(tokenType, "", 0) { }
+            : this(tokenType, "", 0)
+        {
+        }
 
         public void SetLine(int lineNumber)
         {
@@ -114,7 +117,6 @@ namespace Lexxer
                     ["return"] = new(TokenType.RETURN),
                     ["returns"] = new(TokenType.RETURNS),
                     [","] = new(TokenType.COMMA),
-                    ["~"] = new(TokenType.NOT),
                     ["extern"] = new(TokenType.EXTERN),
                     ["^"] = new(TokenType.XOR),
                     ["and"] = new(TokenType.AND),
@@ -131,7 +133,7 @@ namespace Lexxer
                     ["else"] = new(TokenType.ELSE),
                     ["int16"] = new(TokenType.INT16),
                     ["int64"] = new(TokenType.INT64),
-
+                    ["=/"] = new(TokenType.NOT_EQUALS),
                     ["for"] = new(TokenType.FOR),
                     ["depends"] = new(TokenType.DEPENDS),
                     ["pub"] = new(TokenType.PUB),
@@ -148,7 +150,6 @@ namespace Lexxer
                     ["struct"] = new(TokenType.STRUCT),
                     ["string"] = new(TokenType.STRING),
                     ["sizeof"] = new(TokenType.SIZE),
-
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
@@ -275,7 +276,7 @@ namespace Lexxer
             {
                 buffer.Append(currentChar);
             }
-            else if (currentChar == ">" || currentChar == "<")
+            else if (currentChar == ">" || currentChar == "<" || currentChar == "/")
             {
                 buffer.Append(currentChar);
             }
@@ -312,8 +313,10 @@ namespace Lexxer
                         {
                             groupings(Tokens, Buffer, i);
                         }
+
                         break;
                     }
+
                     if (multiLineComments)
                     {
                         if (nextToken >= 1)

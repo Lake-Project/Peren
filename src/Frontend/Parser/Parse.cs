@@ -139,7 +139,7 @@ public class Parse
 
     private INode? BoolExpr()
     {
-        INode? opNode = Factor(); //returns a mathOPNode.
+        INode? opNode = Factor(); 
         Tokens? op =
             (MatchAndRemove(TokenType.GT) != null)
                 ? Current
@@ -151,23 +151,13 @@ public class Parse
                             ? Current
                             : (MatchAndRemove(TokenType.GTE) != null)
                                 ? Current
-                                : null;
+                                : (MatchAndRemove(TokenType.NOT_EQUALS) != null)
+                                    ? Current
+                                    : null;
         if (op != null)
         {
             INode? right = Factor();
             opNode = new BooleanExprNode(opNode, right, op.Value);
-            op =
-                (MatchAndRemove(TokenType.GT) != null)
-                    ? Current
-                    : (MatchAndRemove(TokenType.LT) != null)
-                        ? Current
-                        : (MatchAndRemove(TokenType.BOOL_EQ) != null)
-                            ? Current
-                            : (MatchAndRemove(TokenType.LTE) != null)
-                                ? Current
-                                : (MatchAndRemove(TokenType.GTE) != null)
-                                    ? Current
-                                    : null;
         }
 
         return opNode;
