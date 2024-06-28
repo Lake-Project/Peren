@@ -32,29 +32,26 @@ public struct SemanticFunction
     }
 }
 
+public struct SemanticTypes(LacusType structType)
+{
+    public LacusType StructType { get; set; } = structType;
+}
+
 public struct SemanticProgram
 {
     public SemanticContext<SemanticVar> Vars { get; set; }
     public SemanticContext<SemanticFunction> Functions { get; set; }
+    public SemanticContext<SemanticTypes> Types { get; set; }
 
     public SemanticProgram(
         SemanticContext<SemanticVar> _Vars,
-        SemanticContext<SemanticFunction> _functions
-    )
+        SemanticContext<SemanticFunction> _functions,
+        SemanticContext<SemanticTypes> _types)
     {
         Vars = _Vars;
         Functions = _functions;
+        Types = _types;
         Vars.AllocateScope();
-    }
-
-    public void Deallocate()
-    {
-        Vars.DeallocateScope();
-    }
-
-    public void AddFunction(Tokens name, SemanticFunction value)
-    {
-        Functions.AddValue(name, value);
     }
 
     public SemanticFunction GetFunction(Tokens name)
@@ -75,7 +72,8 @@ public struct SemanticProgram
 
 public class SemanticVisitStatement : StatementVisit
 {
-    public SemanticContext<SemanticVar> _Context { get; set; }
+    public SemanticContext<SemanticVar> Vars { get; set; }
+    public SemanticContext<SemanticTypes> Types { get; set; }
 
     public SemanticContext<SemanticFunction> Function { get; init; }
 
@@ -84,10 +82,11 @@ public class SemanticVisitStatement : StatementVisit
     public SemanticVisitStatement()
     {
         Function = new();
-        _Context = new();
+        Types = new();
+        Vars = new();
         Function.AllocateScope();
 
-        p = new(_Context, Function);
+        p = new(Vars, Function, Types);
     }
 
     private SemanticFunction function;
@@ -168,11 +167,7 @@ public class SemanticVisitStatement : StatementVisit
             throw new Exception($"type error, type {t} cant accept {function.retType}");
     }
 
-    public override void Visit(CastNode node)
-    {
-        throw new NotImplementedException();
-    }
-
+ 
     public override void Visit(ForLoopNode node)
     {
         p.Vars.AllocateScope();
@@ -205,9 +200,14 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(StructNode node)
     {
+        p.Types.AddValue(node.Name, new SemanticTypes(
+            new StructType(node
+                    .Name
+                    .buffer,
+                node.Vars
+                    .Select(n => tokenToLacusType(n.Type)) //grbas types
+                    .ToList())));
         // int n = 1;
-
-        throw new NotImplementedException();
     }
 
     private LacusType tokenToLacusType(Tokens type)

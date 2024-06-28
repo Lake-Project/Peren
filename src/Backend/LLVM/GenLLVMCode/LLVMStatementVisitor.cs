@@ -146,10 +146,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         }
     }
 
-    public override void Visit(CastNode node)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public override void Visit(ForLoopNode node)
     {
@@ -200,9 +197,9 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         Context.vars.AllocateScope();
         if (node.ElseNode.StatementNodes.Count != 0)
         {
-            LLVMBasicBlockRef If = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
-            LLVMBasicBlockRef Else = _currentFunction.FunctionValue.AppendBasicBlock("else");
-            LLVMBasicBlockRef after = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
+            var If = _currentFunction.FunctionValue.AppendBasicBlock("if.then");
+            var Else = _currentFunction.FunctionValue.AppendBasicBlock("else");
+            var after = _currentFunction.FunctionValue.AppendBasicBlock("if.after");
             Context.vars.AllocateScope();
             builderRef.BuildCondBr(v, If, Else);
             builderRef.PositionAtEnd(If);

@@ -92,7 +92,7 @@ namespace Lexxer
     {
         private void groupings(List<Tokens> tokens, StringBuilder buffer, int lineNumber)
         {
-            Dictionary<string, Tokens> Type =
+            Dictionary<string, Tokens> keyWords =
                 new()
                 {
                     ["+"] = new(TokenType.ADDITION),
@@ -155,9 +155,9 @@ namespace Lexxer
             {
                 tokens.Add(new(TokenType.NUMBER, buffer.ToString(), lineNumber));
             }
-            else if (Type.ContainsKey(buffer.ToString()))
+            else if (keyWords.ContainsKey(buffer.ToString()))
             {
-                Tokens a = Type[buffer.ToString()];
+                Tokens a = keyWords[buffer.ToString()];
                 a.SetLine(lineNumber);
                 tokens.Add(a);
             }
@@ -168,6 +168,8 @@ namespace Lexxer
 
             buffer.Clear();
         }
+
+        
 
         private void Operand(
             string currentChar,

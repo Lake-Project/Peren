@@ -101,7 +101,7 @@ public class LLVMExprVisitor(
             TokenType.GT => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGT, L, R, "cmp"),
             TokenType.GTE => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealOGE, L, R, "cmp"),
             TokenType.NOT_EQUALS => builderRef.BuildFCmp(LLVMRealPredicate.LLVMRealONE, L, R, "cmp"),
-            _ => throw new Exception($"not accepted float bool op {node.Op}")
+            _ => throw new Exception($"not accepted Int bool op {node.Op}")
         };
     }
 
