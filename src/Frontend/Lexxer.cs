@@ -2,6 +2,14 @@ using System.Text;
 
 namespace Lexxer
 {
+    public enum State
+    {
+        NumberState,
+        OperationState,
+        EqualsState,
+        DotState
+    }
+
     public enum TokenType
     {
         ADDITION,
@@ -90,11 +98,14 @@ namespace Lexxer
 
     public class LexTokens
     {
+        private State CurrentState = State.NumberState;
+
         private void groupings(List<Tokens> tokens, StringBuilder buffer, int lineNumber)
         {
             Dictionary<string, Tokens> keyWords =
                 new()
                 {
+                    //operators/numbers
                     ["+"] = new(TokenType.ADDITION),
                     ["-"] = new(TokenType.SUBTRACTION),
                     ["*"] = new(TokenType.MULTIPLICATION),
@@ -102,25 +113,8 @@ namespace Lexxer
                     ["%"] = new(TokenType.MODULAS),
                     [")"] = new(TokenType.CL_PAREN),
                     ["("] = new(TokenType.OP_PAREN),
-                    ["fn"] = new(TokenType.FUNCTION),
-                    ["int"] = new(TokenType.INT),
-                    ["float"] = new(TokenType.FLOAT),
-                    ["char"] = new(TokenType.CHAR),
-                    ["bool"] = new(TokenType.BOOL),
-                    ["unsigned"] = new(TokenType.UNSIGNED),
-                    ["true"] = new(TokenType.TRUE),
-                    ["false"] = new(TokenType.FALSE),
-                    ["{"] = new(TokenType.BEGIN),
-                    ["}"] = new(TokenType.END),
-                    [";"] = new(TokenType.EOL),
-                    ["="] = new(TokenType.EQUALS),
-                    ["return"] = new(TokenType.RETURN),
-                    ["returns"] = new(TokenType.RETURNS),
-                    [","] = new(TokenType.COMMA),
-                    ["extern"] = new(TokenType.EXTERN),
                     ["^"] = new(TokenType.XOR),
-                    ["and"] = new(TokenType.AND),
-                    ["or"] = new(TokenType.OR),
+                    ["."] = new(TokenType.DOT),
                     ["|"] = new(TokenType.OR),
                     ["&"] = new(TokenType.AND),
                     [">"] = new(TokenType.GT),
@@ -129,27 +123,54 @@ namespace Lexxer
                     [">>"] = new(TokenType.R_SHIFT),
                     ["<<"] = new(TokenType.L_SHIFT),
                     [">="] = new(TokenType.GTE),
-                    ["if"] = new(TokenType.IF),
-                    ["else"] = new(TokenType.ELSE),
+                    ["="] = new(TokenType.EQUALS),
+                    ["=/"] = new(TokenType.NOT_EQUALS),
+                    ["=="] = new(TokenType.BOOL_EQ),
+                    ["~"] = new(TokenType.NOT),
+                    ["and"] = new(TokenType.AND),
+                    ["or"] = new(TokenType.OR),
+                    ["true"] = new(TokenType.TRUE),
+                    ["false"] = new(TokenType.FALSE),
+                    ["sizeof"] = new(TokenType.SIZE),
+
+                    //types
+                    ["int"] = new(TokenType.INT),
+                    ["float"] = new(TokenType.FLOAT),
+                    ["char"] = new(TokenType.CHAR),
+                    ["bool"] = new(TokenType.BOOL),
                     ["int16"] = new(TokenType.INT16),
                     ["int64"] = new(TokenType.INT64),
-                    ["=/"] = new(TokenType.NOT_EQUALS),
+                    ["string"] = new(TokenType.STRING),
+                    ["struct"] = new(TokenType.STRUCT),
+
+                    //attributes
+                    ["unsigned"] = new(TokenType.UNSIGNED),
+                    ["extern"] = new(TokenType.EXTERN),
+                    ["pub"] = new(TokenType.PUB),
+                    ["const"] = new(TokenType.CONST),
+
+                    //delims 
+                    ["{"] = new(TokenType.BEGIN),
+                    ["}"] = new(TokenType.END),
+                    [";"] = new(TokenType.EOL),
+                    [","] = new(TokenType.COMMA),
+
+
+                    //keywords
+                    ["return"] = new(TokenType.RETURN),
+                    ["returns"] = new(TokenType.RETURNS),
+                    ["fn"] = new(TokenType.FUNCTION),
+
+                    ["if"] = new(TokenType.IF),
+                    ["else"] = new(TokenType.ELSE),
+
                     ["for"] = new(TokenType.FOR),
                     ["depends"] = new(TokenType.DEPENDS),
-                    ["pub"] = new(TokenType.PUB),
 
                     ["while"] = new(TokenType.WHILE),
                     ["mod"] = new(TokenType.MOD),
                     ["Array"] = new(TokenType.ARRAY),
                     ["import"] = new(TokenType.IMPORT),
-                    ["=="] = new(TokenType.BOOL_EQ),
-                    ["const"] = new(TokenType.CONST),
-                    ["unsigned"] = new(TokenType.UNSIGNED),
-                    ["~"] = new(TokenType.NOT),
-                    ["."] = new(TokenType.DOT),
-                    ["struct"] = new(TokenType.STRUCT),
-                    ["string"] = new(TokenType.STRING),
-                    ["sizeof"] = new(TokenType.SIZE),
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
@@ -169,13 +190,12 @@ namespace Lexxer
             buffer.Clear();
         }
 
-        
 
         private void Operand(
             string currentChar,
             List<Tokens> tokens,
             StringBuilder buffer,
-            ref int state,
+            // ref int state,
             int lineNumber
         )
         {
@@ -190,14 +210,16 @@ namespace Lexxer
                 groupings(tokens, buffer, lineNumber);
             }
 
-            state = 1;
+            CurrentState = State.NumberState;
+
+            // state = 1;
         }
 
         private void Number(
             string currentChar,
             List<Tokens> tokens,
             StringBuilder buffer,
-            ref int state,
+            // ref int state,
             int lineNumber
         )
         {
@@ -213,7 +235,8 @@ namespace Lexxer
                     groupings(tokens, buffer, lineNumber);
                 }
 
-                state = 3;
+                CurrentState = State.EqualsState;
+                // state = 3;
                 buffer.Append(currentChar);
             }
             else if (
@@ -242,7 +265,8 @@ namespace Lexxer
                 || currentChar == "~"
             )
             {
-                state = 2;
+                CurrentState = State.OperationState;
+                // state = 2;
                 if (buffer.Length != 0)
                 {
                     groupings(tokens, buffer, lineNumber);
@@ -270,7 +294,7 @@ namespace Lexxer
             string currentChar,
             List<Tokens> tokens,
             StringBuilder buffer,
-            ref int state,
+            // ref int state,
             int lineNumber
         )
         {
@@ -287,19 +311,20 @@ namespace Lexxer
                 if (buffer.Length != 0)
                     groupings(tokens, buffer, lineNumber);
                 buffer.Append(currentChar);
-                state = 1;
+                CurrentState = State.NumberState;
+                // state = 1;
                 return;
             }
 
             if (buffer.Length != 0)
                 groupings(tokens, buffer, lineNumber);
-            state = 1;
+            // state = 1;
         }
 
-        public List<Tokens> Lex(string[] Lines, List<Tokens> Tokens)
+        public void Lex(string[] Lines, List<Tokens> Tokens)
         {
-            // List<Tokens> Tokens = list;
-            int state = 1;
+            
+
             StringBuilder Buffer = new();
             bool isSTring = false;
             bool multiLineComments = false;
@@ -385,16 +410,16 @@ namespace Lexxer
                         continue;
                     }
 
-                    switch (state)
+                    switch (CurrentState)
                     {
-                        case 1:
-                            Number(CurrentToken, Tokens, Buffer, ref state, i);
+                        case State.NumberState:
+                            Number(CurrentToken, Tokens, Buffer, i);
                             break;
-                        case 2:
-                            Operand(CurrentToken, Tokens, Buffer, ref state, i);
+                        case State.OperationState:
+                            Operand(CurrentToken, Tokens, Buffer, i);
                             break;
-                        case 3:
-                            Equals(CurrentToken, Tokens, Buffer, ref state, i);
+                        case State.EqualsState:
+                            Equals(CurrentToken, Tokens, Buffer, i);
                             break;
                     }
                 }
@@ -405,7 +430,6 @@ namespace Lexxer
                 groupings(Tokens, Buffer, Lines.Length);
             }
 
-            return Tokens;
         }
     }
 }
