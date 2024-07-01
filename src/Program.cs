@@ -10,6 +10,15 @@ class Program
         // Console.WriteLine(args[0]);
 
         new CommandLineFlags(args);
+
+        // new LexTokens();
+        // List<Tokens> tokens = new();
+        // LexTokens t = new();
+        // t.Lex(new string[]
+        // {
+        //     "1",
+        //     "a.b"
+        // }, tokens);
         // new CommandLineFlags(new string[] { "test.lk", "--print-ir", "-o", "Test.exe" });
         // List<Tokens> tokens = new LexTokens().Lex(
         //

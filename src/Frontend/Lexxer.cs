@@ -284,6 +284,10 @@ namespace Lexxer
                 buffer.Append(currentChar);
                 groupings(tokens, buffer, lineNumber);
             }
+            else if (currentChar == ".")
+            {
+                CurrentState = State.DotState;
+            }
             else
             {
                 buffer.Append(currentChar);
@@ -321,10 +325,33 @@ namespace Lexxer
             // state = 1;
         }
 
+        public void DotState(string currentChar,
+            List<Tokens> tokens,
+            StringBuilder buffer,
+            // ref int state,
+            int lineNumber)
+        {
+            if (char.IsNumber(currentChar, 0))
+            {
+                buffer.Append(".");
+                buffer.Append(currentChar);
+            }
+            else
+            {
+                if (buffer.Length != 0)
+                {
+                    groupings(tokens, buffer, lineNumber);
+                }
+
+                tokens.Add(new Tokens(TokenType.DOT, ".", lineNumber));
+                buffer.Append(currentChar);
+            }
+
+            CurrentState = State.NumberState;
+        }
+
         public void Lex(string[] Lines, List<Tokens> Tokens)
         {
-            
-
             StringBuilder Buffer = new();
             bool isSTring = false;
             bool multiLineComments = false;
@@ -421,6 +448,9 @@ namespace Lexxer
                         case State.EqualsState:
                             Equals(CurrentToken, Tokens, Buffer, i);
                             break;
+                        case State.DotState:
+                            DotState(CurrentToken, Tokens, Buffer, i);
+                            break;
                     }
                 }
             }
@@ -429,7 +459,6 @@ namespace Lexxer
             {
                 groupings(Tokens, Buffer, Lines.Length);
             }
-
         }
     }
 }
