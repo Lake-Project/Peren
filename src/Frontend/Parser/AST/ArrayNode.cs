@@ -3,14 +3,17 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class ArrayNode : StatementNode
+public class ArrayNode(
+    Tokens type,
+    Tokens name,
+    INode size,
+    AttributesTuple attributesTuple)
+    : VaraibleDeclarationNode(type, name, attributesTuple)
 {
-    public INode size;
-    public Tokens type;
-    public ArrayNode NextDimension;
+    public INode Size { get; set; } = size;
 
     public override void Visit(StatementVisit visitor)
     {
-        throw new NotImplementedException();
+        visitor.Visit(this);
     }
 }

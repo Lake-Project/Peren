@@ -139,7 +139,7 @@ public class Parse
 
     private INode? BoolExpr()
     {
-        INode? opNode = Factor(); 
+        INode? opNode = Factor();
         Tokens? op =
             (MatchAndRemove(TokenType.GT) != null)
                 ? Current
@@ -311,28 +311,26 @@ public class Parse
         if (MatchAndRemove(TokenType.BEGIN) != null)
         {
             while (
-                MatchAndRemove(TokenType.END) == null && MatchAndRemove(TokenType.RETURN) == null
+                MatchAndRemove(TokenType.END) == null
             )
             {
                 statements.Add(Statements());
                 MatchAndRemove(TokenType.EOL);
             }
 
-            if (Current.tokenType == TokenType.RETURN)
-            {
-                statements.Add(new ReturnNode(Expression()));
-                while (MatchAndRemove(TokenType.END) == null)
-                    TokenList.RemoveAt(0);
-            }
+            // if (Current.tokenType == TokenType.RETURN)
+            // {
+            //     statements.Add(new ReturnNode(Expression()));
+            //     while (MatchAndRemove(TokenType.END) == null)
+            //         TokenList.RemoveAt(0);
+            // }
         }
         else
         {
             if (MatchAndRemove(TokenType.EOL) != null)
                 return statements;
-            if (MatchAndRemove(TokenType.RETURN) == null)
-                statements.Add(Statements());
-            else
-                statements.Add(new ReturnNode(Expression()));
+            statements.Add(Statements());
+            return statements;
         }
 
         return statements;
@@ -340,7 +338,8 @@ public class Parse
 
     public StatementNode ParseWordType()
     {
-        if (LookAhead(TokenType.EQUALS))
+        if (LookAhead(TokenType.EQUALS)
+            || LookAhead(TokenType.DOT))
             return ParseVarRef();
         else if (LookAhead(TokenType.OP_PAREN))
             return ParseFunctionCalls();
@@ -406,9 +405,9 @@ public class Parse
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
 
         if (e != null)
-            return new VaraibleDeclarationNode(Type, name.Value, ParseSingleExpr(), attributesTuple);
+            return new VaraibleDeclarationNode(Type, name.Value, attributesTuple, ParseSingleExpr());
         else
-            return new VaraibleDeclarationNode(Type, name.Value, null, attributesTuple);
+            return new VaraibleDeclarationNode(Type, name.Value, attributesTuple);
     }
 
     public StatementNode ParseFor()
@@ -420,12 +419,27 @@ public class Parse
         var cond = ParseSingleExpr();
         MatchAndRemove(TokenType.EOL);
         MatchAndRemove(TokenType.WORD);
-        var Inc = ParseVarRef();
+        var inc = ParseVarRef();
         MatchAndRemove(TokenType.CL_PAREN);
         var statements = ParseBlock();
-        return new ForLoopNode(iterator, cond, Inc, statements); //c is good for a reason
+        return new ForLoopNode(iterator, cond, inc, statements); //c is good for a reason
     }
 
+    public ArrayNode ParseArray()
+    {
+        MatchAndRemove(TokenType.OP_BRACKET);
+        var Type = GetTokenType() ?? throw new Exception("type is null");
+        MatchAndRemove(TokenType.COLON);
+        var size = ParseSingleExpr();
+        MatchAndRemove(TokenType.CL_BRACKET);
+        var name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("type is null");
+        return new ArrayNode(Type, name, size, new AttributesTuple());
+    }
+
+    public ReturnNode ParseReturn()
+    {
+        return new ReturnNode(Expression());
+    }
 
     public StatementNode Statements()
     {
@@ -449,6 +463,8 @@ public class Parse
         {
             return ParseVar();
         }
+        else if (MatchAndRemove(TokenType.ARRAY) != null)
+            return ParseArray();
         else if (MatchAndRemove(TokenType.IF) != null)
             return ParseIf();
         else if (MatchAndRemove(TokenType.WHILE) != null)
@@ -466,11 +482,13 @@ public class Parse
             attributes.Push(Current);
             return Statements();
         }
+        else if (MatchAndRemove(TokenType.RETURN) != null)
+            return ParseReturn();
         else
             throw new Exception("Statement invalid " + TokenList[0].ToString());
     }
 
-    public StatementNode ParseStructs()
+    public StructNode ParseStructs()
     {
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("name is nul");
         return new StructNode(ParseTupleDef(), name.Value);

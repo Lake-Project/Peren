@@ -32,9 +32,9 @@ public struct SemanticFunction
     }
 }
 
-public struct SemanticTypes(LacusType structType)
+public struct SemanticTypes(LacusType type)
 {
-    public LacusType StructType { get; set; } = structType;
+    public LacusType Type { get; set; } = type;
 }
 
 public struct SemanticProgram
@@ -85,6 +85,7 @@ public class SemanticVisitStatement : StatementVisit
         Types = new();
         Vars = new();
         Function.AllocateScope();
+        Types.AllocateScope();
 
         p = new(Vars, Function, Types);
     }
@@ -167,7 +168,7 @@ public class SemanticVisitStatement : StatementVisit
             throw new Exception($"type error, type {t} cant accept {function.retType}");
     }
 
- 
+
     public override void Visit(ForLoopNode node)
     {
         p.Vars.AllocateScope();
@@ -188,7 +189,6 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(IfNode node)
     {
-        Console.WriteLine(node.ToString());
         node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
         p.Vars.AllocateScope();
         node.StatementNodes.ForEach(n => n.Visit(this));
@@ -200,18 +200,24 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(StructNode node)
     {
+        Console.WriteLine(node.Name);
         p.Types.AddValue(node.Name, new SemanticTypes(
             new StructType(node
                     .Name
                     .buffer,
-                node.Vars
-                    .Select(n => tokenToLacusType(n.Type)) //grbas types
-                    .ToList())));
-        // int n = 1;
+                node.Vars.ToDictionary(
+                    n => n.Name.buffer, //name
+                    n => tokenToLacusType(n.Type) //type
+                ))));
     }
 
     private LacusType tokenToLacusType(Tokens type)
     {
+        if (type.tokenType == TokenType.WORD)
+        {
+            return p.Types.GetValue(type).Type;
+        }
+
         return type.tokenType switch
         {
             TokenType.INT => new IntegerType(),
@@ -222,7 +228,7 @@ public class SemanticVisitStatement : StatementVisit
             TokenType.CHAR => new CharType(),
             TokenType.VOID => new VoidType(),
             TokenType.STRING => new ArrayType(new CharType()),
-            _ => throw new Exception("error")
+            _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
     }
 }

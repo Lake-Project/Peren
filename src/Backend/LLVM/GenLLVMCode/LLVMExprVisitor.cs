@@ -144,7 +144,7 @@ public class LLVMExprVisitor(
                 v,
                 node.type.tokenType switch
                 {
-                    TokenType.INT => (LLVMTypeRef.Int32),
+                    TokenType.INT => LLVMTypeRef.Int32,
                     TokenType.FLOAT => LLVMTypeRef.Float,
                     TokenType.BOOL => LLVMTypeRef.Int1,
                     TokenType.CHAR => LLVMTypeRef.Int8,

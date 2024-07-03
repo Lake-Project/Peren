@@ -1,11 +1,10 @@
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class StructType(string typeName, List<LacusType> v) : LacusType(typeName, v)
+public class StructType(string typeName, Dictionary<string, LacusType> v) : LacusType(typeName, v)
 {
     public override bool CanAccept(LacusType type)
     {
-        if (type.name == this.name) { }
-        throw new NotImplementedException();
+        return name == type.name;
     }
 
     public override int size()

@@ -5,11 +5,17 @@ using Lexxer;
 public class VaraibleDeclarationNode(
     Tokens type,
     Tokens name,
-    INode expressionNode,
+    // INode? expressionNode,
     AttributesTuple attributesTuple
 ) : StatementNode
 {
-    public INode ExpressionNode { get; set; } = expressionNode;
+    public VaraibleDeclarationNode(Tokens type, Tokens name, AttributesTuple attributesTuple
+        , INode expressionNode) : this(type, name, attributesTuple)
+    {
+        ExpressionNode = expressionNode;
+    }
+
+    public INode? ExpressionNode { get; set; }
     public Tokens Name { get; set; } = name;
     public Tokens Type { get; set; } = type;
 
