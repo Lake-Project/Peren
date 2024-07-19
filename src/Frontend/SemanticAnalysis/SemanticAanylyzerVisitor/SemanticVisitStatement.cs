@@ -114,7 +114,8 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = p.GetVar(node.Name);
-
+        if (node is ArrayRefStatementNode arr)
+            arr.Element.Visit(new SemanticVisitExpr(p, new IntegerType()));
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(p, v.VarType));
         if (v.AttributesTupe.isConst)
             throw new Exception(

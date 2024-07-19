@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using LacusLLVM.Frontend.Parser.AST;
 using Lexxer;
@@ -88,6 +89,8 @@ public class Parse
         {
             if (LookAhead(TokenType.OP_PAREN))
                 return ParseFunctionCalls();
+            else if (LookAhead(TokenType.OP_BRACKET))
+                return ParseArrayRef();
             return new VaraibleReferenceNode(Current);
         }
         else if (MatchAndRemove(TokenType.STRING_LITERAL) != null)
@@ -336,6 +339,30 @@ public class Parse
         return statements;
     }
 
+    public ArrayRefNode ParseArrayRef()
+    {
+        Tokens name = Current;
+        MatchAndRemove(TokenType.OP_BRACKET);
+        INode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.GetLine()}");
+        MatchAndRemove(TokenType.CL_BRACKET);
+
+        return new ArrayRefNode(name, elem);
+    }
+
+    public ArrayRefStatementNode ParseArrRefStatement()
+    {
+        Tokens? name = Current;
+        MatchAndRemove(TokenType.OP_BRACKET);
+        INode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
+        MatchAndRemove(TokenType.CL_BRACKET);
+
+        Tokens? e =
+            MatchAndRemove(TokenType.EQUALS)
+            ?? throw new Exception($"invalid equals on Line {name.Value.GetLine()}");
+        var expr = ParseSingleExpr() ?? throw new Exception($"invalid Expr");
+        return new ArrayRefStatementNode(name.Value, expr, elem);
+    }
+
     public StatementNode ParseWordType()
     {
         if (LookAhead(TokenType.EQUALS)
@@ -345,6 +372,8 @@ public class Parse
             return ParseFunctionCalls();
         else if (LookAhead(TokenType.WORD))
             return ParseVar();
+        else if (LookAhead(TokenType.OP_BRACKET))
+            return ParseArrRefStatement();
         else
             throw new Exception($"invalid identifier statement {Current.ToString()}");
     }

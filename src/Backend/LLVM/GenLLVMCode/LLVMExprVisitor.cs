@@ -75,6 +75,16 @@ public class LLVMExprVisitor(
     public override LLVMValueRef Visit(VaraibleReferenceNode node)
     {
         LLVMVar a = context.vars.GetValue(node.Name, node.ScopeLocation);
+        if (node is ArrayRefNode arr)
+        {
+            var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,
+                new LLVMValueRef[]
+                {
+                    arr.Elem.Visit(new LLVMExprVisitor(context, builderRef, moduleRef))
+                });
+            return builderRef.BuildLoad2(a.Type, loc, node.Name.buffer);
+        }
+
         return builderRef.BuildLoad2(a.Type, a.Value, node.Name.buffer);
     }
 

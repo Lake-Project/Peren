@@ -51,6 +51,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         {
             return LType;
         }
+
         if (assignedType is BoolType)
         {
             if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
@@ -105,6 +106,9 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     public override LacusType Visit(VaraibleReferenceNode node)
     {
         SemanticVar v = Context.GetVar(node.Name);
+
+        if (node is ArrayRefNode arr)
+            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType()));
         node.ScopeLocation = v.ScopeLocation;
         return v.VarType;
     }

@@ -52,17 +52,27 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(VaraibleDeclarationNode node)
     {
+        var type = ToLLVMType(node.Type);
         if (Context.vars.GetSize() == 0)
             return;
-        var value = builderRef.BuildAlloca(ToLLVMType(node.Type), node.Name.buffer);
-        Context.vars.AddValue(node.Name, new LLVMVar(value, ToLLVMType(node.Type)));
+        if (node is ArrayNode n)
         {
-            if (node.ExpressionNode != null)
+            var size = n.Size.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
+            var value = builderRef.BuildArrayAlloca(type, size);
+            Context.vars.AddValue(node.Name, new LLVMVar(value, type));
+        }
+        else
+        {
+            var value = builderRef.BuildAlloca(type, node.Name.buffer);
+            Context.vars.AddValue(node.Name, new LLVMVar(value, type));
             {
-                LLVMValueRef eq = node.ExpressionNode.Visit(
-                    new LLVMExprVisitor(Context, builderRef, moduleRef)
-                );
-                builderRef.BuildStore(eq, value);
+                if (node.ExpressionNode != null)
+                {
+                    LLVMValueRef eq = node.ExpressionNode.Visit(
+                        new LLVMExprVisitor(Context, builderRef, moduleRef)
+                    );
+                    builderRef.BuildStore(eq, value);
+                }
             }
         }
     }
@@ -70,10 +80,29 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         LLVMVar a = Context.vars.GetValue(node.Name, node.ScopeLocation);
-        builderRef.BuildStore(
-            node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
-            a.Value
-        );
+
+        if (node is ArrayRefStatementNode arr)
+        {
+            var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,
+                new LLVMValueRef[]
+                {
+                    arr.Element.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)) 
+                    
+                });
+            builderRef.BuildStore(
+                node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
+                loc
+            );
+        }
+        else
+        {
+            builderRef.BuildStore(
+                node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
+                a.Value
+            );
+        }
+
+        
     }
 
     public override void Visit(FunctionCallNode node)
