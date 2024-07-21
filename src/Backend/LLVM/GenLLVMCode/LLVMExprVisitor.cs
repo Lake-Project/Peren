@@ -62,6 +62,7 @@ public class LLVMExprVisitor(
             TokenType.SUBTRACTION => builderRef.BuildSub(L, R, "subtmp"),
             TokenType.MULTIPLICATION => builderRef.BuildMul(L, R, "multmp"),
             TokenType.DIVISION => builderRef.BuildSDiv(L, R, "divtmp"),
+            TokenType.MODULAS => builderRef.BuildSRem(L, R, "modtmp"),
             TokenType.OR => builderRef.BuildOr(L, R, "or"),
             TokenType.XOR => builderRef.BuildXor(L, R, "xor"),
             TokenType.AND => builderRef.BuildAnd(L, R, "and"),
