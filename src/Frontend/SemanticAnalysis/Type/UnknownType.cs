@@ -1,6 +1,8 @@
+using Lexxer;
+
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class UnknownType : LacusType
+public class UnknownType(bool isConst) : LacusType(isConst)
 {
     public override bool CanAccept(LacusType type)
     {
@@ -10,5 +12,11 @@ public class UnknownType : LacusType
     public override int size()
     {
         throw new NotImplementedException();
+    }
+
+    public override bool OpAccept(Tokens op)
+    {
+        return false;
+
     }
 }

@@ -94,28 +94,40 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(VaraibleDeclarationNode node)
     {
-        p.AddVar(
-            node.Name,
-            new SemanticVar(tokenToLacusType(node.Type), p.Vars.GetSize(), node.AttributesTuple)
-        );
-        if (node.ExpressionNode != null)
-        {
-            LacusType t = node.ExpressionNode.Visit(
-                new SemanticVisitExpr(p, tokenToLacusType(node.Type))
+        // if (node is ArrayNode)
+        // {
+        //     p.AddVar(node.Name,
+        //         new SemanticVar(new ArrayType(tokenToLacusType(node.Type, false), node.AttributesTuple.isConst),
+        //             p.Vars.GetSize(),
+        //             node.AttributesTuple));
+        // }
+        // else
+        // {
+            var type = tokenToLacusType(node.Type, node.AttributesTuple.isConst);
+            p.AddVar(
+                node.Name,
+                new SemanticVar(type, p.Vars.GetSize(),
+                    node.AttributesTuple)
             );
-            if (!tokenToLacusType(node.Type).CanAccept(t))
-                throw new TypeMisMatchException(
-                    $"type {t} cant fit "
-                    + $"{tokenToLacusType(node.Type)} on line {node.Type.GetLine()}"
+            if (node.ExpressionNode != null)
+            {
+                LacusType t = node.ExpressionNode.Visit(
+                    new SemanticVisitExpr(p, type)
                 );
-        }
+                if (!type.CanAccept(t))
+                    throw new TypeMisMatchException(
+                        $"type {t} cant fit "
+                        + $"{type} on line {node.Type.GetLine()}"
+                    );
+            }
+        // }
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = p.GetVar(node.Name);
         if (node is ArrayRefStatementNode arr)
-            arr.Element.Visit(new SemanticVisitExpr(p, new IntegerType()));
+            arr.Element.Visit(new SemanticVisitExpr(p, new IntegerType(false)));
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(p, v.VarType));
         if (v.AttributesTupe.isConst)
             throw new Exception(
@@ -146,8 +158,8 @@ public class SemanticVisitStatement : StatementVisit
     {
         p.Vars.AllocateScope();
         var f = new SemanticFunction(
-            tokenToLacusType(node.RetType),
-            node.Parameters.Select(n => tokenToLacusType(n.Type)) //grab all params
+            tokenToLacusType(node.RetType, false),
+            node.Parameters.Select(n => tokenToLacusType(n.Type, false)) //grab all params
                 .ToList() // to list of lacus type
         );
         p.Functions.AddValue(node.Name, f);
@@ -174,7 +186,7 @@ public class SemanticVisitStatement : StatementVisit
     {
         p.Vars.AllocateScope();
         node.Iterator.Visit(this);
-        node.Expr.Visit(new SemanticVisitExpr(p, new BoolType()));
+        node.Expr.Visit(new SemanticVisitExpr(p, new BoolType(false)));
         node.Statements.ForEach(n => n.Visit(this));
         node.Inc.Visit(this);
         p.Vars.DeallocateScope();
@@ -182,7 +194,7 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(WhileLoopNode node)
     {
-        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
+        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType(false)));
         p.Vars.AllocateScope();
         node.StatementNodes.ForEach(n => n.Visit(this));
         p.Vars.DeallocateScope();
@@ -190,7 +202,7 @@ public class SemanticVisitStatement : StatementVisit
 
     public override void Visit(IfNode node)
     {
-        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType()));
+        node.Expression.Visit(new SemanticVisitExpr(p, new BoolType(false)));
         p.Vars.AllocateScope();
         node.StatementNodes.ForEach(n => n.Visit(this));
         p.Vars.DeallocateScope();
@@ -208,11 +220,12 @@ public class SemanticVisitStatement : StatementVisit
                     .buffer,
                 node.Vars.ToDictionary(
                     n => n.Name.buffer, //name
-                    n => tokenToLacusType(n.Type) //type
-                ))));
+                    n
+                        => tokenToLacusType(n.Type, false) //type
+                ), false)));
     }
 
-    private LacusType tokenToLacusType(Tokens type)
+    private LacusType tokenToLacusType(Tokens type, bool isConst)
     {
         if (type.tokenType == TokenType.WORD)
         {
@@ -221,14 +234,14 @@ public class SemanticVisitStatement : StatementVisit
 
         return type.tokenType switch
         {
-            TokenType.INT => new IntegerType(),
-            TokenType.INT16 => new IntegerType(),
-            TokenType.INT64 => new IntegerType(),
-            TokenType.BOOL => new BoolType(),
-            TokenType.FLOAT => new FloatType(),
-            TokenType.CHAR => new CharType(),
-            TokenType.VOID => new VoidType(),
-            TokenType.STRING => new ArrayType(new CharType()),
+            TokenType.INT => new IntegerType(isConst),
+            TokenType.INT16 => new IntegerType(isConst),
+            TokenType.INT64 => new IntegerType(isConst),
+            TokenType.BOOL => new BoolType(isConst),
+            TokenType.FLOAT => new FloatType(isConst),
+            TokenType.CHAR => new CharType(isConst),
+            TokenType.VOID => new VoidType(isConst),
+            TokenType.STRING => new ArrayType(new CharType(false), isConst),
             _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
     }

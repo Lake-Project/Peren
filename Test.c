@@ -1,10 +1,11 @@
 #include <stdio.h>
 
-extern int add();
-
-
+struct A
+{
+  int a;
+};
 int main()
 {
-   int f = add();
-    printf("%d \n", f);
+  
 }
+

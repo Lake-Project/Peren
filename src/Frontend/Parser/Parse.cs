@@ -123,18 +123,19 @@ public class Parse
         }
         else if (MatchAndRemove(TokenType.NOT) != null)
         {
+            Tokens a = Current;
             INode? v = Factor();
             return
                 new
-                    OpNode(v, new IntegerNode(0), new Tokens(TokenType.NOT));
+                    OpNode(v, v, a);
         }
         else if (MatchAndRemove(TokenType.SIZE) != null)
         {
             MatchAndRemove(TokenType.OP_PAREN);
             INode? v = Expression();
             MatchAndRemove(TokenType.CL_PAREN);
-            return new OpNode(v, new
-                IntegerNode(new Tokens(TokenType.NUMBER, "0", 0)), new Tokens(TokenType.SIZE));
+            return new OpNode(v,
+                v, new Tokens(TokenType.SIZE));
         }
 
         return null;
