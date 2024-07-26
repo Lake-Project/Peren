@@ -33,7 +33,7 @@ public class CompileOptions
             else if (value.Equals("3"))
                 OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive;
             else if (value.Equals("0"))
-                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelDefault;
+                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelLess;
         }
     }
 

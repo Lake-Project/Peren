@@ -29,6 +29,7 @@ public class IntegerType(bool isConst) : LacusType(isConst)
                 or TokenType.R_SHIFT
                 or TokenType.AND
                 or TokenType.OR
+                or TokenType.XOR
                 or TokenType.NOT => true,
             _ => false
         };

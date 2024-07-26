@@ -28,7 +28,7 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(FunctionCallNode node)
     {
-        LLVMFunction a = context.functions.GetValue(node.Name);
+        LLVMFunction a = context.functions.Get(node.Name.buffer);
         return builderRef.BuildCall2(
             a.FunctionType,
             a.FunctionValue,
@@ -75,7 +75,7 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(VaraibleReferenceNode node)
     {
-        LLVMVar a = context.vars.GetValue(node.Name, node.ScopeLocation);
+        LLVMVar a = context.vars.Get(node.Name.buffer);
         if (node is ArrayRefNode arr)
         {
             var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,

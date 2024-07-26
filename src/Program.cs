@@ -11,6 +11,8 @@ class Program
         // int c = 10;
         // const int d = c;
         new CommandLineFlags(args);
+        
+        
 
         // new LexTokens();
         // List<Tokens> tokens = new();

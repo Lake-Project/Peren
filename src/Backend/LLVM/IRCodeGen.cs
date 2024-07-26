@@ -7,7 +7,6 @@ public class IRCodeGen
 {
     public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
-
         var lakeAsmDir = "lake-asm";
         var lakeBinDir = "lake-bin";
         var lakeIrDir = "lake-ir";
@@ -18,7 +17,7 @@ public class IRCodeGen
         LLVM.InitializeAllAsmPrinters();
         LLVM.InitializeAllAsmParsers();
 
-        var module = LLVMModuleRef.CreateWithName("main");
+        var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(compileOptions.OutputFile, ".ll"));
         LLVMBuilderRef builder = module.Context.CreateBuilder();
         LLVMStatementVisitor visit = new LLVMStatementVisitor(builder, module);
         statements.ForEach(n => n.Visit(visit));
@@ -111,7 +110,7 @@ public class IRCodeGen
                 $"Assembly file file path: {lakeAsmDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}"
             );
 
-        Console.WriteLine("Compiled sucessfully");
+        Console.WriteLine("Compiled successfully");
         // builder.BuildFPToSI
         // builder.BuildTrunc()
 
