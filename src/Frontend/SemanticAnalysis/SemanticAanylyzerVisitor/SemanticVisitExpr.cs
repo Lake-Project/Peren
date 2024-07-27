@@ -54,7 +54,12 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         {
             if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
             {
-                return LType;
+                if (RType.OpAccept(node.Token))
+                    return LType;
+                throw new TypeMisMatchException(
+                    $"type  {LType} cant fit "
+                    + $"{node.Token}"
+                );
             }
 
             throw new TypeMisMatchException(
