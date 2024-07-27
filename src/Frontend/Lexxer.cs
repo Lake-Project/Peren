@@ -126,9 +126,9 @@ namespace Lexxer
                     [">>"] = new(TokenType.R_SHIFT),
                     ["<<"] = new(TokenType.L_SHIFT),
                     [">="] = new(TokenType.GTE),
-                    ["="] = new(TokenType.EQUALS),
+                    [":="] = new(TokenType.EQUALS),
                     ["=/"] = new(TokenType.NOT_EQUALS),
-                    ["=="] = new(TokenType.BOOL_EQ),
+                    ["="] = new(TokenType.BOOL_EQ),
                     ["~"] = new(TokenType.NOT),
                     ["and"] = new(TokenType.AND),
                     ["or"] = new(TokenType.OR),
@@ -243,9 +243,19 @@ namespace Lexxer
                 // state = 3;
                 buffer.Append(currentChar);
             }
+            else if (currentChar == ":")
+            {
+                if (buffer.Length != 0)
+                {
+                    groupings(tokens, buffer, lineNumber);
+                }
+
+                CurrentState = State.EqualsState;
+                buffer.Append(currentChar);
+            }
             else if (
-                currentChar == ":"
-                || currentChar == ";"
+                // currentChar == ":"
+                currentChar == ";"
                 || currentChar == "{"
                 || currentChar == "}"
                 || currentChar == ","
@@ -303,6 +313,8 @@ namespace Lexxer
             if (currentChar == "=")
             {
                 buffer.Append(currentChar);
+                if (buffer.Length != 0)
+                    groupings(tokens, buffer, lineNumber);
             }
             else if (currentChar is ">" or "<" or "/")
             {
@@ -354,17 +366,18 @@ namespace Lexxer
             StringBuilder buffer = new();
             bool isString = false;
             bool multiLineComments = false;
+            int lineNumber = 0;
 
-            for (var i = 0; i < Lines.Length; i++)
+            foreach (var line in Lines)
             {
-                for (var nextToken = 0; nextToken < Lines[i].Length; nextToken++)
+                for (var nextToken = 0; nextToken < line.Length; nextToken++)
                 {
-                    string currentToken = Lines[i][nextToken].ToString();
+                    string currentToken = line[nextToken].ToString();
                     if (currentToken == "#")
                     {
                         if (buffer.Length != 0)
                         {
-                            groupings(Tokens, buffer, i);
+                            groupings(Tokens, buffer, lineNumber);
                         }
 
                         break;
@@ -374,18 +387,18 @@ namespace Lexxer
                     {
                         if (nextToken >= 1)
                         {
-                            if (Lines[i][nextToken - 1] == '*' && Lines[i][nextToken] == ')')
+                            if (line[nextToken - 1] == '*' && line[nextToken] == ')')
                                 multiLineComments = false;
                         }
 
                         continue;
                     }
 
-                    if (Lines[i][nextToken] == '(' && Lines[i][nextToken + 1] == '*')
+                    if (line[nextToken] == '(' && line[nextToken + 1] == '*')
                     {
                         if (buffer.Length != 0)
                         {
-                            groupings(Tokens, buffer, i);
+                            groupings(Tokens, buffer, lineNumber);
                         }
 
                         multiLineComments = true;
@@ -400,18 +413,18 @@ namespace Lexxer
                             {
                                 case true when currentToken == "\'":
                                     Tokens.Add(
-                                        new Tokens(TokenType.CHAR_LITERAL, buffer.ToString(), i)
+                                        new Tokens(TokenType.CHAR_LITERAL, buffer.ToString(), lineNumber)
                                     );
                                     buffer.Clear();
                                     break;
                                 case true when currentToken == "\"":
                                     Tokens.Add(
-                                        new Tokens(TokenType.STRING_LITERAL, buffer.ToString(), i)
+                                        new Tokens(TokenType.STRING_LITERAL, buffer.ToString(), lineNumber)
                                     );
                                     buffer.Clear();
                                     break;
                                 default:
-                                    groupings(Tokens, buffer, i);
+                                    groupings(Tokens, buffer, lineNumber);
                                     break;
                             }
                         }
@@ -430,7 +443,7 @@ namespace Lexxer
                     {
                         if (buffer.Length != 0)
                         {
-                            groupings(Tokens, buffer, i);
+                            groupings(Tokens, buffer, lineNumber);
                         }
 
                         continue;
@@ -439,19 +452,21 @@ namespace Lexxer
                     switch (CurrentState)
                     {
                         case State.NumberState:
-                            Number(currentToken, Tokens, buffer, i);
+                            Number(currentToken, Tokens, buffer, lineNumber);
                             break;
                         case State.OperationState:
-                            Operand(currentToken, Tokens, buffer, i);
+                            Operand(currentToken, Tokens, buffer, lineNumber);
                             break;
                         case State.EqualsState:
-                            Equals(currentToken, Tokens, buffer, i);
+                            Equals(currentToken, Tokens, buffer, lineNumber);
                             break;
                         case State.DotState:
-                            DotState(currentToken, Tokens, buffer, i);
+                            DotState(currentToken, Tokens, buffer, lineNumber);
                             break;
                     }
                 }
+
+                lineNumber++;
             }
 
             if (buffer.Length != 0)
