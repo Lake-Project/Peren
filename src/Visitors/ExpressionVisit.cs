@@ -3,7 +3,7 @@ using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit; //.ss
 //push :3
-public abstract class ExpressionVisit<T>
+public abstract class ExpressionVisit<T> //a
 {
     public abstract T Visit(IntegerNode node);
     public abstract T Visit(FloatNode node);
