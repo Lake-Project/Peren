@@ -1,7 +1,7 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LLVMSharp.Interop;
 
-namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit; //.
 //push :3
 public abstract class ExpressionVisit<T>
 {
