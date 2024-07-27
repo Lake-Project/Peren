@@ -128,7 +128,7 @@ namespace Lexxer
                     [">="] = new(TokenType.GTE),
                     [":="] = new(TokenType.EQUALS),
                     ["=/"] = new(TokenType.NOT_EQUALS),
-                    ["="] = new(TokenType.BOOL_EQ),
+                    ["=="] = new(TokenType.BOOL_EQ),
                     ["~"] = new(TokenType.NOT),
                     ["and"] = new(TokenType.AND),
                     ["or"] = new(TokenType.OR),

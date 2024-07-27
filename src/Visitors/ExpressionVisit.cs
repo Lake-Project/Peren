@@ -6,7 +6,7 @@ namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit; //.ssa
 public abstract class ExpressionVisit<T> //aaaa
 {
     public abstract T Visit(IntegerNode node);
-    public abstract T Visit(FloatNode node);
+    public abstract T Visit(FloatNode node); //.
     public abstract T Visit(BoolNode node);
     public abstract T Visit(FunctionCallNode node);
     public abstract T Visit(OpNode node);
