@@ -28,10 +28,10 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(FunctionCallNode node)
     {
-        LLVMFunction a = context.functions.Get(node.Name.buffer);
+        LLVMFunction function = context.functions.Get(node.Name.buffer);
         return builderRef.BuildCall2(
-            a.FunctionType,
-            a.FunctionValue,
+            function.FunctionType,
+            function.FunctionValue,
             node.ParamValues.Select(n =>
                     n.Visit(new LLVMExprVisitor(context, builderRef, moduleRef))
                 ) //oprams
