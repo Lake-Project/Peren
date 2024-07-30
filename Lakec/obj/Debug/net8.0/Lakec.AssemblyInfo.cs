@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lakec")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4f0eff53584d089150af0ba5de9082a4e00aeab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5251a57724046e0c5b63307ebf83beb6d6df030")]
 [assembly: System.Reflection.AssemblyProductAttribute("lakec")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lakec")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
