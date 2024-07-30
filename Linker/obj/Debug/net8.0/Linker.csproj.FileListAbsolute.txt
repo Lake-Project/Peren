@@ -1,0 +1,15 @@
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\bin\Debug\net8.0\Linker.exe
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\bin\Debug\net8.0\Linker.deps.json
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\bin\Debug\net8.0\Linker.runtimeconfig.json
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\bin\Debug\net8.0\Linker.dll
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\bin\Debug\net8.0\Linker.pdb
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.AssemblyInfoInputs.cache
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.AssemblyInfo.cs
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.csproj.CoreCompileInputs.cache
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.sourcelink.json
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.dll
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\refint\Linker.dll
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.pdb
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\Linker.genruntimeconfig.cache
+C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Linker\obj\Debug\net8.0\ref\Linker.dll

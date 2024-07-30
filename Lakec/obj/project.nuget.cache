@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "zKlzADKqtPzPtqF2UXLC0idxzUfceWBsszAZJxESjvPUaaoPloMXemaTccbQPCOnwon+QmGmm35tk+n6k3HfCw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jduda\\OneDrive\\Documents\\~VScodeFiles\\CSharp\\LacusLLVM\\Lakec\\Lakec.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jduda\\.nuget\\packages\\commandlineparser\\2.9.1\\commandlineparser.2.9.1.nupkg.sha512",
+    "C:\\Users\\jduda\\.nuget\\packages\\libllvm\\16.0.6\\libllvm.16.0.6.nupkg.sha512",
+    "C:\\Users\\jduda\\.nuget\\packages\\llvmsharp\\16.0.0\\llvmsharp.16.0.0.nupkg.sha512",
+    "C:\\Users\\jduda\\.nuget\\packages\\llvmsharp.interop\\16.0.0\\llvmsharp.interop.16.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
