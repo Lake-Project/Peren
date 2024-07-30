@@ -4,7 +4,15 @@ using CommandLine;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
-using LLVMSharp.Interop;
+
+
+public enum OptLevel
+{
+    Level0,
+    Level1,
+    Level2,
+    Level3
+}
 
 public class CompileOptions
 {
@@ -18,22 +26,21 @@ public class CompileOptions
     )]
     public IEnumerable<string> InputFiles { get; set; }
 
-    public LLVMCodeGenOptLevel OptLevel;
+    public OptLevel OptLevel { get; set; }
 
     [Option('O', "optimize", Required = false, HelpText = "Set optimization level.")]
     public string? OptimizationLevels
     {
-        get { return null; }
         set
         {
-            if (value.Equals("1"))
-                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelLess;
-            else if (value.Equals("2"))
-                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelDefault;
-            else if (value.Equals("3"))
-                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive;
-            else if (value.Equals("0"))
-                OptLevel = LLVMCodeGenOptLevel.LLVMCodeGenLevelLess;
+            OptLevel = value switch
+            {
+                "0" => OptLevel.Level0,
+                "1" => OptLevel.Level1,
+                "2" => OptLevel.Level2,
+                "3" => OptLevel.Level3,
+                _ => OptLevel.Level3
+            };
         }
     }
 
@@ -87,10 +94,7 @@ public class CommandLineFlags
         // [..compileOptions.InputFiles.ToList().Map
         List<Tokens> tokens = new();
         LexTokens t = new();
-        compileOptions.InputFiles.ToList().ForEach( n =>
-        {
-            t.Lex(File.ReadAllLines(n), tokens);
-        });
+        compileOptions.InputFiles.ToList().ForEach(n => { t.Lex(File.ReadAllLines(n), tokens); });
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 

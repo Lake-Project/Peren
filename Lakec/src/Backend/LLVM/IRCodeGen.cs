@@ -29,7 +29,13 @@ public class IRCodeGen
         var target = LLVMTargetRef.GetTargetFromTriple(targetTriple);
         var cpu = compileOptions.targetArchitechure;
         var features = "";
-        var opt = compileOptions.OptLevel;
+        var opt = compileOptions.OptLevel switch
+        {
+            OptLevel.Level0 => LLVMCodeGenOptLevel.LLVMCodeGenLevelNone,
+            OptLevel.Level1 => LLVMCodeGenOptLevel.LLVMCodeGenLevelLess,
+            OptLevel.Level2 => LLVMCodeGenOptLevel.LLVMCodeGenLevelDefault,
+            OptLevel.Level3 => LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive
+        };
         var targetMachine = target.CreateTargetMachine(
             targetTriple,
             cpu,

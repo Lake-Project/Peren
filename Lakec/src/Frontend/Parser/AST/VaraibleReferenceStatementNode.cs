@@ -6,7 +6,7 @@ public class VaraibleReferenceStatementNode(Tokens name, INode expresion) : Stat
 {
     public INode Expression { get; set; } = expresion;
     public Tokens Name { get; set; } = name;
-    public int ScopeLocation { get; set; }
+    // public int ScopeLocation { get; set; }
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
 }

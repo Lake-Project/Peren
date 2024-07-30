@@ -1,5 +1,4 @@
 using LacusLLVM.Frontend.Parser.AST;
-using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit; //.ssa
 //push :3

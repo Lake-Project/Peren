@@ -38,7 +38,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
                 throw new Exception("error");
         }
 
-        return f.retType;
+        return f.RetType;
     }
 
     public override LacusType Visit(OpNode node)
@@ -92,13 +92,12 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     {
         SemanticVar v = Context.GetVar(node.Name);
         // if(v.VarType.IsConst 
-        // if (node is ArrayRefNode arr)
-        // {
-        //     arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
-        //     return v.VarType.simplerType;
-        // }
-
-        node.ScopeLocation = v.ScopeLocation;
+        if (node is ArrayRefNode arr)
+        {
+            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
+            //     return v.VarType.simplerType;
+        }
+        // node.ScopeLocation = v.ScopeLocation;
         return v.VarType;
     }
 
