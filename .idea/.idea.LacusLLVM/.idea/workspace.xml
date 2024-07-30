@@ -14,10 +14,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lakec/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lakec/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/CommandLineFlags.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Visitors/ExpressionVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Visitors/ExpressionVisit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lakec/src/Linker/Link.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lakec/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lakec/src/SemanticContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +68,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc1f61ecd89b811d9ba88f38ff729c92c74fbc61757bde2295c46ec7910f0a4/LLVMTargetMachineRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffdb8de92e73e2839bb719d8e42d4ffaa94e3d4e1f9dde9d18fdb4fa44693a1/LLVMTargetDataRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Lakec/Test.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Backend/LLVM/IRCodeGen.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/CommandLineFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Visitors/ExpressionVisit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Visitors/ExpressionVisit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Linker/Link.cs" root0="FORCE_HIGHLIGHTING" />
@@ -279,7 +280,7 @@
       <workItem from="1722264763869" duration="3861000" />
       <workItem from="1722274961239" duration="13927000" />
       <workItem from="1722302707197" duration="6981000" />
-      <workItem from="1722355011369" duration="6362000" />
+      <workItem from="1722355011369" duration="9674000" />
     </task>
     <task id="LOCAL-00021" summary="added booleans :3">
       <option name="closed" value="true" />

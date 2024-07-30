@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
-using LacusLLVM.SemanticAanylyzerVisitor.Linker;
 using LLVMSharp.Interop;
 
 public class IRCodeGen
@@ -27,7 +26,7 @@ public class IRCodeGen
         //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html
         var targetTriple = LLVMTargetRef.DefaultTriple;
         var target = LLVMTargetRef.GetTargetFromTriple(targetTriple);
-        var cpu = compileOptions.targetArchitechure;
+        var cpu = compileOptions.TargetArchitechure;
         var features = "";
         var opt = compileOptions.OptLevel switch
         {
@@ -64,11 +63,11 @@ public class IRCodeGen
                 link.WaitForExit();
                 Console.WriteLine("a.o");
                 Console.WriteLine("");
-                LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode($"{lakeBinDir}/a.o");
+                // LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode($"{lakeBinDir}/a.o");
                 File.Delete($"{lakeBinDir}/a.o");
                 Console.WriteLine("a.exe");
                 Console.WriteLine("");
-                LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode(compileOptions.OutputFile);
+                // LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode(compileOptions.OutputFile);
 
                 Directory.Delete(lakeBinDir);
             }
@@ -125,15 +124,5 @@ public class IRCodeGen
             );
 
         Console.WriteLine("Compiled successfully");
-        // builder.BuildFPToSI
-        // builder.BuildTrunc()
-
-        // new FloatNode().Accept<FloatNode>(new FloatExprVis(), builder, module);
-        // LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(LLVMTypeRef.Int32, new LLVMTypeRef[0] { }, false);
-        // LLVMValueRef function = module.AddFunction("main", funcType);
-        // LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
-        // builder.PositionAtEnd(entry);
-        // builder.BuildRet(expr.Accept(builder, module));
-        // Console.WriteLine(module.ToString());
     }
 }

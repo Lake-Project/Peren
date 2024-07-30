@@ -69,29 +69,24 @@ public class CompileOptions
         Default = "generic",
         HelpText = "target cpu (run clang -print-supported-cpus to see list"
     )]
-    public string targetArchitechure { get; set; }
+    public string TargetArchitechure { get; set; }
 }
 
 public class CommandLineFlags
 {
-    private string[] _args { get; }
 
-    public CommandLineFlags(string[] args)
+    public static void Init(string[] args)
     {
-        _args = args;
+        // _args = args;
         // new Options().InputFiles = "a";
         Parser
             .Default.ParseArguments<CompileOptions>(args)
             .WithParsed<CompileOptions>(options => RunCompiler(options))
-            .WithNotParsed(errors => Console.WriteLine($"error running lakec"));
+            .WithNotParsed(errors => Console.WriteLine($"error invoking lakec"));
     }
 
-    public void RunCompiler(CompileOptions compileOptions)
+    private static void RunCompiler(CompileOptions compileOptions)
     {
-        // Console.WriteLine($"-c: {compileOptions.ObjFile}");
-        // List<string> files = compileOptions.InputFiles.
-        // List<Tokens> tokens = new LexTokens().Lex(File.ReadAllLines(compileOptions.InputFiles));
-        // [..compileOptions.InputFiles.ToList().Map
         List<Tokens> tokens = new();
         LexTokens t = new();
         compileOptions.InputFiles.ToList().ForEach(n => { t.Lex(File.ReadAllLines(n), tokens); });
@@ -103,4 +98,6 @@ public class CommandLineFlags
         new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }
+
+    
 }
