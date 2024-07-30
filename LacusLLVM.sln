@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LacusLLVM", "LacusLLVM.csproj", "{207295B0-819C-4267-87C7-7D575D913FC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linker", "Linker\Linker.csproj", "{13F161E1-CEDA-426B-8A2F-0F06FF652B3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLVMLake", "LLVMLake\LLVMLake.csproj", "{22ED844F-932D-477C-B86F-D5766C788D6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{207295B0-819C-4267-87C7-7D575D913FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{207295B0-819C-4267-87C7-7D575D913FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{207295B0-819C-4267-87C7-7D575D913FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{207295B0-819C-4267-87C7-7D575D913FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13F161E1-CEDA-426B-8A2F-0F06FF652B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F161E1-CEDA-426B-8A2F-0F06FF652B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F161E1-CEDA-426B-8A2F-0F06FF652B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F161E1-CEDA-426B-8A2F-0F06FF652B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22ED844F-932D-477C-B86F-D5766C788D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22ED844F-932D-477C-B86F-D5766C788D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22ED844F-932D-477C-B86F-D5766C788D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22ED844F-932D-477C-B86F-D5766C788D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

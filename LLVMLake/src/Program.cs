@@ -3,7 +3,7 @@ using Lexxer;
 // using Lexxer.Parser;
 using LLVMSharp.Interop;
 
-class Program
+partial class Program
 {
     public static void Main(string[] args)
     {

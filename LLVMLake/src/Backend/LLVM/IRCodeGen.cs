@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using LacusLLVM.SemanticAanylyzerVisitor.Linker;
 using LLVMSharp.Interop;
 
 public class IRCodeGen
@@ -55,7 +56,14 @@ public class IRCodeGen
                 link.StartInfo.Arguments = $"{lakeBinDir}/a.o -o {compileOptions.OutputFile}";
                 link.Start();
                 link.WaitForExit();
+                Console.WriteLine("a.o");
+                Console.WriteLine("");
+                LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode($"{lakeBinDir}/a.o");
                 File.Delete($"{lakeBinDir}/a.o");
+                Console.WriteLine("a.exe");
+                Console.WriteLine("");
+                LacusLLVM.SemanticAanylyzerVisitor.Linker.Link.LinkCode(compileOptions.OutputFile);
+
                 Directory.Delete(lakeBinDir);
             }
             else
