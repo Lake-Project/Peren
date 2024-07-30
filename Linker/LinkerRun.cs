@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Linker;
 
 public class LinkerRun
@@ -34,43 +36,50 @@ public class LinkerRun
         };
         return DosMode;
     }
-     public static void LinkCode(string path)
+
+    /// <summary>
+    ///
+    /// Addresses
+    /// Object file tells you how far the sections are
+    /// .text: start: 0x29 emd: 0x2c
+    /// 
+    /// </summary>
+    /// <param name="path"></param>
+    public static void LinkCode(string path)
     {
-        File.ReadAllLines(path);
-        try
-        {
-            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                using (BinaryReader br = new BinaryReader(fs))
-                {
-                    // Read the data from the file
-                    while (fs.Position < fs.Length)
-                    {
-                        // Example of reading different types of data
-                        int intData = br.ReadInt32();
-                        double doubleData = br.ReadDouble();
-                        byte byteData = br.ReadByte();
+        List<byte> p = File.ReadAllLines(path)
+            .ToList()
+            .SelectMany(n => Encoding.ASCII.GetBytes(n))
+            .ToList();
+        // p.ForEach(n => { Console.WriteLine("byte: {0:X} ", n); });
+        // Console.WriteLine("{0:x}", p[0x2c]);
+        // p[0x2a] = 0xa;
 
-                        // Process the data
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        {
-        }
+        uint TextSectionEnd = (uint)(p[0x2d] << 24 | p[0x2c] << 16 | p[0x2b] << 8 | p[0x2a] & 255);
 
-        BinSegment header = new BinSegment(AddHeader(), 0x3f, 0x00);
+        // uint TextSectionBegin = (ushort)(p[0x28] << 8 | p[0x2] & 0xff);
+
+        // ulong TextSectionBegin = (ulong)(p[0x29] << 8 | p[0x28] << 8 |  );
+        uint TextSectionBegin = (uint)(p[0x29] << 24 | p[0x28] << 16 | p[0x27] << 8 | p[0x26] & 255);
+        TextSectionBegin = (TextSectionBegin >> 16) | (TextSectionBegin << 16);
+        TextSectionEnd = (TextSectionEnd >> 16) | (TextSectionEnd << 16);
+        // p[0x27] << 8 | p[0x26] << 255 
+        // p[0x29] << 8 | p[0x28] << 8
+        // Console.WriteLine("Text uint end {0} Text section begin {1}", TextSectionEnd, TextSectionBegin);
+        // Console.WriteLine(TextSectionBegin = (ushort)(0x01 << 8 | 0x00));
+        Console.WriteLine("{0:x}", TextSectionBegin);
+        // Console.WriteLine("{0:x}",p[0x29] << 8 | p[0x28] & 255);
+        Console.WriteLine("{0:x}", TextSectionEnd);
+
+        var header = new BinSegment(AddHeader(), 0x3f, 0x00);
         header.SetByte(0x3c, 0x80);
-        BinSegment dosStub = new BinSegment(DosStub(), 0x7f, 0x40);
-        dosStub.PrintBytes();
+        var dosStub = new BinSegment(DosStub(), 0x7f, 0x40);
+        // dosStub.PrintBytes();
         // DateTime timestamp = DateTime.UnixEpoch.AddSeconds(seconds);
-        BinSegment Header = new BinSegment(AddHeader(), 0x3f, 0x00);
-        BinSegment PEHeader = new(new List<byte>()
+        var Header = new BinSegment(AddHeader(), 0x3f, 0x00);
+        var PEHeader = new BinSegment(new List<byte>()
         {
             0x50, 0x45, 0x00, 0x00, 0x64, 0x86
         }, 0, header.GetByte(0x3c));
     }
-     
-     
 }
