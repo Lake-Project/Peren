@@ -11,27 +11,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Luminac/src/TestFiles/Arrays.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/src/TestFiles/Constants.lm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Link.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/LinkerRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/LinkerRun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/CommandLine.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/CommandLine.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/LLVMSharp.Interop.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/LLVMSharp.Interop.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/LLVMSharp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/LLVMSharp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/lakec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/lakec.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/lakec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/lakec.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Lakec.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/lakec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/lakec.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/lakec.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/lakec.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/lakec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/lakec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/luminac.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/lakec.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/lakec.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/luminac.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Lexxer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TypeNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TypeNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Lakec.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Lakec.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Lakec.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Lakec.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Luminac.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Luminac.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Luminac.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Luminac.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,7 +313,7 @@
       <workItem from="1722302707197" duration="6981000" />
       <workItem from="1722355011369" duration="21204000" />
       <workItem from="1722385262225" duration="4787000" />
-      <workItem from="1722394700441" duration="13870000" />
+      <workItem from="1722394700441" duration="14100000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

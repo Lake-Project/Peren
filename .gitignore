@@ -12,9 +12,8 @@ test.lm
 *.lk
 *.s
 test2.lk    
-/Lakec/bin
+/Luminac/bin
 /Linker/bin
 /Linker/obj
-/Lakec/obj
-/LakeUnitTests/obj/
-/LakeUnitTests/bin/
+/Luminac/obj
+/Luminac/obj/
