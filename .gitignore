@@ -16,3 +16,5 @@ test2.lk
 /Linker/bin
 /Linker/obj
 /Lakec/obj
+/LakeUnitTests/obj/
+/LakeUnitTests/bin/

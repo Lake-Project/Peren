@@ -364,6 +364,12 @@ public class Parse
         return new ArrayRefStatementNode(name.Value, expr, elem);
     }
 
+    public TypeNode ParseTypes()
+    {
+        Tokens? name = GetTokenType();
+        return new TypeNode(name.Value, false, false, false);
+    }
+
     public StatementNode ParseWordType()
     {
         if (LookAhead(TokenType.EQUALS)

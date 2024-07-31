@@ -11,12 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Lakec/src/Frontend/Parser/AST/TypeNode.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Linker/Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/CommandLineFlags.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Linker/Link.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lakec/src/SemanticContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/SemanticContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lakec/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Lakec/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/LinkerRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/LinkerRun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +45,9 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2d7eea252964e69be94cb9c847b371b23e4dd470/src/libraries/System.Linq/src/System/Linq/Contains.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2d7eea252964e69be94cb9c847b371b23e4dd470/src/libraries/System.Private.CoreLib/src/Microsoft/Win32/SafeHandles/SafeFileHandle.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2d7eea252964e69be94cb9c847b371b23e4dd470/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/List.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/2d7eea252964e69be94cb9c847b371b23e4dd470/src/libraries/System.Private.CoreLib/src/System/Text/Encoding.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/d099f075e45d2aa6007a22b71b45a08758559f80/src/libraries/System.Console/src/System/Console.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/d099f075e45d2aa6007a22b71b45a08758559f80/src/libraries/System.Private.CoreLib/src/Microsoft/Win32/SafeHandles/SafeFileHandle.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/d099f075e45d2aa6007a22b71b45a08758559f80/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/List.cs" root0="SKIP_HIGHLIGHTING" />
@@ -68,11 +73,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc1f61ecd89b811d9ba88f38ff729c92c74fbc61757bde2295c46ec7910f0a4/LLVMTargetMachineRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffdb8de92e73e2839bb719d8e42d4ffaa94e3d4e1f9dde9d18fdb4fa44693a1/LLVMTargetDataRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Lakec/Test.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Backend/LLVM/IRCodeGen.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/CommandLineFlags.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Visitors/ExpressionVisit.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Lakec/src/Visitors/ExpressionVisit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Linker/Link.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Linker/LinkerRun.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Linker/LinkerRun.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -86,46 +89,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.LLVMLake.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.LacusLLVM.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Lakec.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.LLVMLake.executor": "Run",
+    ".NET Project.LacusLLVM.executor": "Debug",
+    ".NET Project.Lakec.executor": "Run",
+    ".NET Project.Linker.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "XThreadsFramesViewSplitterKey": "0.4965035",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\jduda\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\jduda\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.LacusLLVM">
     <configuration name="LacusLLVM" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/net7.0/lakec.exe" />
-      <option name="PROGRAM_PARAMETERS" value="Test.lk" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin/Debug/net7.0" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Linker/bin/Debug/net8.0/Linker.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Linker/bin/Debug/net8.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/LacusLLVM.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Linker/Linker.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="net7.0" />
+      <option name="PROJECT_TFM" value="net8.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -280,7 +283,8 @@
       <workItem from="1722264763869" duration="3861000" />
       <workItem from="1722274961239" duration="13927000" />
       <workItem from="1722302707197" duration="6981000" />
-      <workItem from="1722355011369" duration="9674000" />
+      <workItem from="1722355011369" duration="21204000" />
+      <workItem from="1722385262225" duration="4380000" />
     </task>
     <task id="LOCAL-00021" summary="added booleans :3">
       <option name="closed" value="true" />
@@ -730,7 +734,9 @@
         <PinnedItemInfo parentTag="Frame#CompileOptions.set_InputFiles" memberName="this" />
         <PinnedItemInfo parentTag="Type#Lexxer.Parser.MonadicParser`1" memberName="tokensList" />
         <PinnedItemInfo parentTag="Frame#Lexxer.Parser.MonadicParser`1.&lt;ParseIf&gt;b__37_0" memberName="this" />
+        <PinnedItemInfo parentTag="Frame#Linker.LinkerRun.LinkCode" memberName="header" />
         <PinnedItemInfo parentTag="Type#Lexxer.Parser.MonadicParser`1" memberName="type" />
+        <PinnedItemInfo parentTag="Frame#Linker.LinkerRun.LinkCode" memberName="p" />
       </pinned-members>
     </pin-to-top-manager>
     <watches-manager>
