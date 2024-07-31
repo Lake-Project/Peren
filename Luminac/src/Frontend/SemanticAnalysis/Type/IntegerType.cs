@@ -7,7 +7,11 @@ public class IntegerType(bool isConst) : LacusType(isConst)
     public override bool CanAccept(LacusType type)
     {
         if (this.IsConst && !type.IsConst)
+        {
+            Console.WriteLine("Types not const");
             return false;
+
+        }
         return (type is IntegerType) || (type is CharType);
     }
 

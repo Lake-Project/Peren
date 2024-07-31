@@ -3,17 +3,18 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
 
 public class FunctionNode(
+    AttributesTuple attributesTuple,
     Tokens name,
     List<VaraibleDeclarationNode> parameters,
-    Tokens retType,
-    List<StatementNode> statements,
-    bool isExtern
+    TypeNode retType,
+    List<StatementNode> statements
 ) : StatementNode
 {
     public List<StatementNode> Statements { get; set; } = statements;
-    public bool IsExtern { get; set; } = isExtern;
+    // public bool IsExtern { get; set; } = isExtern;
+    public AttributesTuple AttributesTuple { get; set; }= attributesTuple;
     public List<VaraibleDeclarationNode> Parameters { get; set; } = parameters;
-    public Tokens RetType { get; set; } = retType;
+    public TypeNode RetType { get; set; } = retType;
 
     public Tokens Name { get; set; } = name;
 

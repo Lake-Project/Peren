@@ -322,7 +322,6 @@ namespace Lexxer
             }
             else
             {
-                Console.WriteLine(buffer);
                 if (buffer.Length != 0)
                     groupings(tokens, buffer, lineNumber);
                 buffer.Append(currentChar);

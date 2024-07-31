@@ -10,7 +10,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="lumina" />
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Luminac/src/TestFiles/Arrays.lm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Luminac/src/TestFiles/Constants.lm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/Link.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/LinkerRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/LinkerRun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/bin/Debug/net8.0/luminac.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/Luminac.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/luminac.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/ref/luminac.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/luminac.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/obj/Debug/net8.0/refint/luminac.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Lexxer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TypeNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TypeNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -276,7 +298,7 @@
       <workItem from="1722302707197" duration="6981000" />
       <workItem from="1722355011369" duration="21204000" />
       <workItem from="1722385262225" duration="4787000" />
-      <workItem from="1722394700441" duration="351000" />
+      <workItem from="1722394700441" duration="13870000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

@@ -18,6 +18,7 @@ public struct SemanticVar
         ScopeLocation = scopeLocation;
         AttributesTupe = attributesTuple;
     }
+    
 }
 
 public struct SemanticFunction
@@ -126,6 +127,7 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = Program.GetVar(node.Name);
+        Console.WriteLine(v.VarType);
         if (node is ArrayRefStatementNode arr)
             arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
@@ -157,8 +159,8 @@ public class SemanticVisitStatement : StatementVisit
     {
         Program.Vars.AllocateScope();
         var f = new SemanticFunction(
-            tokenToLacusType(node.RetType, false),
-            node.Parameters.Select(n => tokenToLacusType(n.Type, false)) //grab all params
+            tokenToLacusType(node.RetType.Name, node.RetType.tuple.isConst),
+            node.Parameters.Select(n => tokenToLacusType(n.Type, n.AttributesTuple.isConst)) //grab all params
                 .ToList() // to list of lacus type
         );
         Program.Functions.AddValue(node.Name, f);

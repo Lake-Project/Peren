@@ -120,7 +120,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
     public override void Visit(FunctionNode node)
     {
         LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(
-            ToLLVMType(node.RetType),
+            ToLLVMType(node.RetType.Name),
             node.Parameters //params
                 .Select(n => ToLLVMType(n.Type)) //converts param types
                 .ToArray(), //to an array
@@ -128,9 +128,9 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
         );
         // node.Parameters.ForEach(n => n.Visit(this));
         LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
-        _currentFunction = new LLVMFunction(funcType, ToLLVMType(node.RetType), function);
+        _currentFunction = new LLVMFunction(funcType, ToLLVMType(node.RetType.Name), function);
         Context.functions.Add(node.Name.buffer, _currentFunction);
-        if (node.IsExtern)
+        if (node.AttributesTuple.isExtern)
         {
             function.Linkage = LLVMLinkage.LLVMExternalLinkage;
             return;

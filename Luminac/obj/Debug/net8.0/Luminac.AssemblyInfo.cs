@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("luminac")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+515f3dc6c1f0b0f15451ebc71c514f38d9dabea5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+055be0784e203a70721e4c6e21310a2594fbcfad")]
 [assembly: System.Reflection.AssemblyProductAttribute("luminac")]
 [assembly: System.Reflection.AssemblyTitleAttribute("luminac")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

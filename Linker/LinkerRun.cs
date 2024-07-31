@@ -38,13 +38,19 @@ public class LinkerRun
     }
     // public static byte GetBegin()
 
-    public List<byte> TextSection(List<byte> p)
+    public static List<byte> TextSection(List<byte> p)
     {
         List<byte> TextSection = new();
         uint TextSectionEnd = (uint)(p[0x2d] << 24 | p[0x2c] << 16 | p[0x2b] << 8 | p[0x2a] & 255);
         uint TextSectionBegin = (uint)(p[0x29] << 24 | p[0x28] << 16 | p[0x27] << 8 | p[0x26] & 255);
         TextSectionBegin = (TextSectionBegin >> 16) | (TextSectionBegin << 16);
         TextSectionEnd = (TextSectionEnd >> 16) | (TextSectionEnd << 16);
+
+        for (uint i = TextSectionBegin; i < TextSectionEnd; i++)
+        {
+            TextSection.Add(p[(int)i]);
+        }
+
 
         Console.WriteLine("text begin: {0:x}", TextSectionBegin);
         Console.WriteLine("text end: {0:x}", TextSectionEnd);
@@ -62,26 +68,15 @@ public class LinkerRun
     public static void LinkCode(string path)
     {
         // int p1 = File.ReadAllLines(path);
-        List<byte> p = File.ReadAllBytes(path).ToList();
+        List<byte> file = File.ReadAllBytes(path).ToList();
+        List<byte> textSection = TextSection(file);
+        
+        // List<byte> Get
+        
+        // textSection.ForEach(n => Console.WriteLine("{0:x}",n));
         // p.ForEach(n => { Console.WriteLine("byte: {0:X} ", n); });
         // Console.WriteLine("{0:x}", p[0x2c]);
         // p[0x2a] = 0xa;
-
-        uint TextSectionEnd = (uint)(p[0x2d] << 24 | p[0x2c] << 16 | p[0x2b] << 8 | p[0x2a] & 255);
-        Console.WriteLine("{0:x}", p[0x2d]);
-        // uint TextSectionBegin = (ushort)(p[0x28] << 8 | p[0x2] & 0xff);
-
-        // ulong TextSectionBegin = (ulong)(p[0x29] << 8 | p[0x28] << 8 |  );
-        uint TextSectionBegin = (uint)(p[0x29] << 24 | p[0x28] << 16 | p[0x27] << 8 | p[0x26] & 255);
-        TextSectionBegin = (TextSectionBegin >> 16) | (TextSectionBegin << 16);
-        TextSectionEnd = (TextSectionEnd >> 16) | (TextSectionEnd << 16);
-        Console.WriteLine("text begin: {0:x}", TextSectionBegin);
-        Console.WriteLine("text end: {0:x}", TextSectionEnd);
-        // p[0x27] << 8 | p[0x26] << 255 
-        // p[0x29] << 8 | p[0x28] << 8
-        // Console.WriteLine("Text uint end {0:x } Text section begin {1:x}", TextSectionEnd, TextSectionBegin);
-        // Console.WriteLine(TextSectionBegin = (ushort)(0x01 << 8 | 0x00));
-
 
         var header = new BinSegment(AddHeader(), 0x3f, 0x00);
         header.SetByte(0x3c, 0x80);
