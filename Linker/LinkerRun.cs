@@ -36,6 +36,7 @@ public class LinkerRun
         };
         return DosMode;
     }
+    // public static byte GetBegin()
 
     public List<byte> TextSection(List<byte> p)
     {
@@ -74,9 +75,11 @@ public class LinkerRun
         uint TextSectionBegin = (uint)(p[0x29] << 24 | p[0x28] << 16 | p[0x27] << 8 | p[0x26] & 255);
         TextSectionBegin = (TextSectionBegin >> 16) | (TextSectionBegin << 16);
         TextSectionEnd = (TextSectionEnd >> 16) | (TextSectionEnd << 16);
+        Console.WriteLine("text begin: {0:x}", TextSectionBegin);
+        Console.WriteLine("text end: {0:x}", TextSectionEnd);
         // p[0x27] << 8 | p[0x26] << 255 
         // p[0x29] << 8 | p[0x28] << 8
-        // Console.WriteLine("Text uint end {0} Text section begin {1}", TextSectionEnd, TextSectionBegin);
+        // Console.WriteLine("Text uint end {0:x } Text section begin {1:x}", TextSectionEnd, TextSectionBegin);
         // Console.WriteLine(TextSectionBegin = (ushort)(0x01 << 8 | 0x00));
 
 
