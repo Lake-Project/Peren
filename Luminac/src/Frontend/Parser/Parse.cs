@@ -569,8 +569,7 @@ public class Parse
 
     public StatementNode Statements()
     {
-        Console.WriteLine("");
-        TokenList.ForEach(n => Console.WriteLine(n));
+       
 
 
         if (MatchAndRemove(TokenType.WORD) != null)
