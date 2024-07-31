@@ -7,9 +7,9 @@ public class IRCodeGen
 {
     public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
-        var lakeAsmDir = "lake-asm";
-        var lakeBinDir = "lake-bin";
-        var lakeIrDir = "lake-ir";
+        var lakeAsmDir = "lumina-asm";
+        var lakeBinDir = "lumina-bin";
+        var lakeIrDir = "lumina-ir";
 
         LLVM.InitializeAllTargetInfos();
         LLVM.InitializeAllTargets();

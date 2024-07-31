@@ -2,7 +2,7 @@
 /bin/
 /obj/
 /.vscode/
-test.lk
+test.lm
 *.o
 *.ll
 *.exe

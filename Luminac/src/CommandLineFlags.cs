@@ -21,7 +21,7 @@ public class CompileOptions
     [Value(
         index: 0,
         MetaName = "inputFile",
-        HelpText = "The Lacus source file to compile",
+        HelpText = "The Lumina source file to compile",
         Required = true
     )]
     public IEnumerable<string> InputFiles { get; set; }
