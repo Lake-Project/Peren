@@ -10,7 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="" />
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="lumina" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -276,14 +276,7 @@
       <workItem from="1722302707197" duration="6981000" />
       <workItem from="1722355011369" duration="21204000" />
       <workItem from="1722385262225" duration="4787000" />
-    </task>
-    <task id="LOCAL-00021" summary="added booleans :3">
-      <option name="closed" value="true" />
-      <created>1717700120101</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1717700120101</updated>
+      <workItem from="1722394700441" duration="351000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
@@ -669,7 +662,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722305174741</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="lumina">
+      <option name="closed" value="true" />
+      <created>1722394997726</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1722394997726</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +691,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="added loops" />
     <MESSAGE value="adding for loops next" />
     <MESSAGE value="wierd bug but have loops now :D" />
     <MESSAGE value="clean up" />
@@ -715,7 +715,8 @@
     <MESSAGE value="== is better" />
     <MESSAGE value="fixed up a few things :3" />
     <MESSAGE value="I divorced linker and Compiler :3" />
-    <option name="LAST_COMMIT_MESSAGE" value="I divorced linker and Compiler :3" />
+    <MESSAGE value="lumina" />
+    <option name="LAST_COMMIT_MESSAGE" value="lumina" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
