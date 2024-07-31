@@ -7,4 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net8.0\HelloWorld.o" />
+      <None Include="bin\Debug\net8.0\Test.o" />
+    </ItemGroup>
+
 </Project>

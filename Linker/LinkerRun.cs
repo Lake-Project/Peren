@@ -37,6 +37,19 @@ public class LinkerRun
         return DosMode;
     }
 
+    public List<byte> TextSection(List<byte> p)
+    {
+        List<byte> TextSection = new();
+        uint TextSectionEnd = (uint)(p[0x2d] << 24 | p[0x2c] << 16 | p[0x2b] << 8 | p[0x2a] & 255);
+        uint TextSectionBegin = (uint)(p[0x29] << 24 | p[0x28] << 16 | p[0x27] << 8 | p[0x26] & 255);
+        TextSectionBegin = (TextSectionBegin >> 16) | (TextSectionBegin << 16);
+        TextSectionEnd = (TextSectionEnd >> 16) | (TextSectionEnd << 16);
+
+        Console.WriteLine("text begin: {0:x}", TextSectionBegin);
+        Console.WriteLine("text end: {0:x}", TextSectionEnd);
+        return TextSection;
+    }
+
     /// <summary>
     ///
     /// Addresses
@@ -47,16 +60,14 @@ public class LinkerRun
     /// <param name="path"></param>
     public static void LinkCode(string path)
     {
-        List<byte> p = File.ReadAllLines(path)
-            .ToList()
-            .SelectMany(n => Encoding.ASCII.GetBytes(n))
-            .ToList();
+        // int p1 = File.ReadAllLines(path);
+        List<byte> p = File.ReadAllBytes(path).ToList();
         // p.ForEach(n => { Console.WriteLine("byte: {0:X} ", n); });
         // Console.WriteLine("{0:x}", p[0x2c]);
         // p[0x2a] = 0xa;
 
         uint TextSectionEnd = (uint)(p[0x2d] << 24 | p[0x2c] << 16 | p[0x2b] << 8 | p[0x2a] & 255);
-
+        Console.WriteLine("{0:x}", p[0x2d]);
         // uint TextSectionBegin = (ushort)(p[0x28] << 8 | p[0x2] & 0xff);
 
         // ulong TextSectionBegin = (ulong)(p[0x29] << 8 | p[0x28] << 8 |  );
@@ -67,9 +78,7 @@ public class LinkerRun
         // p[0x29] << 8 | p[0x28] << 8
         // Console.WriteLine("Text uint end {0} Text section begin {1}", TextSectionEnd, TextSectionBegin);
         // Console.WriteLine(TextSectionBegin = (ushort)(0x01 << 8 | 0x00));
-        Console.WriteLine("{0:x}", TextSectionBegin);
-        // Console.WriteLine("{0:x}",p[0x29] << 8 | p[0x28] & 255);
-        Console.WriteLine("{0:x}", TextSectionEnd);
+
 
         var header = new BinSegment(AddHeader(), 0x3f, 0x00);
         header.SetByte(0x3c, 0x80);

@@ -29,7 +29,7 @@ public class BinSegment
         Bytes[To - location] = value;
     }
 
-    
+
     public void PrintBytes()
     {
         int i = 0;
