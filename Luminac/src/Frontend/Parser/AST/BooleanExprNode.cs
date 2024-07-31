@@ -8,7 +8,8 @@ public class BooleanExprNode(INode left, INode right, Tokens op) : INode
     public INode Left { get; set; } = left;
     public INode Right { get; set; } = right;
     public Tokens Op { get; set; } = op;
-    public bool IsFloat;
+    public bool IsFloat { get; set; }
+    public bool IsUnsigned { get; set; }
 
     public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 

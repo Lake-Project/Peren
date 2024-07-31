@@ -70,7 +70,12 @@ namespace Lexxer
         NOT_EQUALS,
         OP_BRACKET,
         CL_BRACKET,
-        COLON
+        COLON,
+        UINT_16,
+        UINT,
+        BYTE,
+        SBYTE,
+        ULONG
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -142,12 +147,18 @@ namespace Lexxer
                     ["char"] = new(TokenType.CHAR),
                     ["bool"] = new(TokenType.BOOL),
                     ["int16"] = new(TokenType.INT16),
+                    ["uint16"] = new(TokenType.UINT_16),
+                    ["uint"] = new(TokenType.UINT),
+                    ["uint64"] = new(TokenType.ULONG),
+                    ["byte"] = new(TokenType.BYTE),
+                    ["sbyte"] = new(TokenType.SBYTE),
+
+
                     ["int64"] = new(TokenType.INT64),
                     ["string"] = new(TokenType.STRING),
                     ["struct"] = new(TokenType.STRUCT),
 
                     //attributes
-                    ["unsigned"] = new(TokenType.UNSIGNED),
                     ["extern"] = new(TokenType.EXTERN),
                     ["pub"] = new(TokenType.PUB),
                     ["const"] = new(TokenType.CONST),
@@ -325,7 +336,7 @@ namespace Lexxer
                 if (buffer.Length != 0)
                     groupings(tokens, buffer, lineNumber);
                 buffer.Append(currentChar);
-                if (currentChar == "~")
+                if (currentChar == "~" || currentChar == "(")
                 {
                     groupings(tokens, buffer, lineNumber);
                 }

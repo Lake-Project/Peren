@@ -118,7 +118,9 @@ public class Parse
             }
 
             INode? a = ParseSingleExpr();
+            Console.WriteLine("hai");
             MatchAndRemove(TokenType.CL_PAREN);
+
             return a;
         }
         else if (MatchAndRemove(TokenType.NOT) != null)
@@ -163,6 +165,7 @@ public class Parse
             INode? right = Factor();
             opNode = new BooleanExprNode(opNode, right, op.Value);
         }
+
 
         return opNode;
     }
@@ -414,7 +417,17 @@ public class Parse
                                     ? Current
                                     : (MatchAndRemove(TokenType.WORD) != null)
                                         ? Current
-                                        : null;
+                                        : (MatchAndRemove(TokenType.ULONG) != null)
+                                            ? Current
+                                            : (MatchAndRemove(TokenType.UINT_16) != null)
+                                                ? Current
+                                                : (MatchAndRemove(TokenType.UINT) != null)
+                                                    ? Current
+                                                    : (MatchAndRemove(TokenType.BYTE) != null)
+                                                        ? Current
+                                                        : (MatchAndRemove(TokenType.SBYTE) != null)
+                                                            ? Current
+                                                        : null;
     }
 
 
@@ -511,7 +524,7 @@ public class Parse
         Tokens Type = Current;
 
 
-        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("invalid type");
+        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception($"invalid type {Current.ToString()}");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
             { TokenType.CONST, TokenType.EXTERN, TokenType.UNSIGNED });
@@ -556,6 +569,10 @@ public class Parse
 
     public StatementNode Statements()
     {
+        Console.WriteLine("");
+        TokenList.ForEach(n => Console.WriteLine(n));
+
+
         if (MatchAndRemove(TokenType.WORD) != null)
         {
             return ParseWordType();
@@ -570,6 +587,11 @@ public class Parse
                 TokenType.FLOAT,
                 TokenType.BOOL,
                 TokenType.CHAR,
+                TokenType.UINT_16,
+                TokenType.BYTE,
+                TokenType.SBYTE,
+                TokenType.UINT,
+                TokenType.ULONG
             })
             != null
         )

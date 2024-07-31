@@ -276,13 +276,13 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
         return type.tokenType switch
         {
-            TokenType.INT => LLVMTypeRef.Int32,
-            TokenType.INT16 => LLVMTypeRef.Int16,
-            TokenType.INT64 => LLVMTypeRef.Int64,
+            TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
+            TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
+            TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
 
             TokenType.FLOAT => LLVMTypeRef.Float,
             TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR => LLVMTypeRef.Int8,
+            TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
             TokenType.VOID => LLVMTypeRef.Void,
             TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
             _ => throw new Exception($"undefined {type.ToString()} type")

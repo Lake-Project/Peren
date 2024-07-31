@@ -61,13 +61,17 @@ public class LLVMExprVisitor(
             TokenType.ADDITION => builderRef.BuildAdd(L, R, "addtmp"),
             TokenType.SUBTRACTION => builderRef.BuildSub(L, R, "subtmp"),
             TokenType.MULTIPLICATION => builderRef.BuildMul(L, R, "multmp"),
-            TokenType.DIVISION => builderRef.BuildSDiv(L, R, "divtmp"),
+            TokenType.DIVISION => (node.IsUnsignedExpr)
+                ? builderRef.BuildUDiv(L, R, "divtmp")
+                : builderRef.BuildSDiv(L, R, "divtmp"),
             TokenType.MODULAS => builderRef.BuildSRem(L, R, "modtmp"),
             TokenType.OR => builderRef.BuildOr(L, R, "or"),
             TokenType.XOR => builderRef.BuildXor(L, R, "xor"),
             TokenType.AND => builderRef.BuildAnd(L, R, "and"),
             TokenType.NOT => builderRef.BuildNot(L, "not"),
-            TokenType.R_SHIFT => builderRef.BuildLShr(L, R, "bitshift"),
+            TokenType.R_SHIFT => (node.IsUnsignedExpr)
+                ? builderRef.BuildLShr(L, R, "usigned_bitshift")
+                : builderRef.BuildAShr(L, R, "signed_bitshift"),
             TokenType.L_SHIFT => builderRef.BuildShl(L, R, "bitshift"),
             _ => throw new Exception($"not accepted int math op {node.Token}")
         };
@@ -87,7 +91,7 @@ public class LLVMExprVisitor(
         }
 
         return builderRef.BuildLoad2(a.Type, a.Value, node.Name.buffer);
-    }//:3
+    } //:3
 
     public override LLVMValueRef Visit(BooleanExprNode node)
     {
@@ -97,10 +101,18 @@ public class LLVMExprVisitor(
             return node.Op.tokenType switch
             {
                 TokenType.BOOL_EQ => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntEQ, L, R, "cmp"),
-                TokenType.LT => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLT, L, R, "cmp"),
-                TokenType.LTE => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLE, L, R, "cmp"),
-                TokenType.GT => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGT, L, R, "cmp"),
-                TokenType.GTE => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGE, L, R, "cmp"),
+                TokenType.LT => (node.IsUnsigned)
+                    ? builderRef.BuildICmp(LLVMIntPredicate.LLVMIntULT, L, R, "cmp")
+                    : builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLT, L, R, "cmp"),
+                TokenType.LTE => (node.IsUnsigned)
+                    ? builderRef.BuildICmp(LLVMIntPredicate.LLVMIntULE, L, R, "cmp")
+                    : builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSLE, L, R, "cmp"),
+                TokenType.GT => (node.IsUnsigned)
+                    ? builderRef.BuildICmp(LLVMIntPredicate.LLVMIntUGT, L, R, "cmp")
+                    : builderRef.BuildICmp(LLVMIntPredicate.LLVMIntSGT, L, R, "cmp"),
+                TokenType.GTE => (node.IsUnsigned)
+                    ? builderRef.BuildICmp(LLVMIntPredicate.LLVMIntUGE, L, R, "cmp")
+                    : builderRef.BuildICmp(LLVMIntPredicate.LLVMIntULT, L, R, "cmp"),
                 TokenType.NOT_EQUALS => builderRef.BuildICmp(LLVMIntPredicate.LLVMIntNE, L, R, "cmp"),
                 _ => throw new Exception($"not accepted float bool op {node.Op}")
             };

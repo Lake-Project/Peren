@@ -18,7 +18,6 @@ public struct SemanticVar
         ScopeLocation = scopeLocation;
         AttributesTupe = attributesTuple;
     }
-    
 }
 
 public struct SemanticFunction
@@ -127,9 +126,8 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = Program.GetVar(node.Name);
-        Console.WriteLine(v.VarType);
         if (node is ArrayRefStatementNode arr)
-            arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
+            arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false, false)));
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
         if (v.AttributesTupe.isConst)
             throw new Exception(
@@ -160,7 +158,9 @@ public class SemanticVisitStatement : StatementVisit
         Program.Vars.AllocateScope();
         var f = new SemanticFunction(
             tokenToLacusType(node.RetType.Name, node.RetType.tuple.isConst),
-            node.Parameters.Select(n => tokenToLacusType(n.Type, n.AttributesTuple.isConst)) //grab all params
+            node.Parameters
+                .Select(n =>
+                    tokenToLacusType(n.Type, n.AttributesTuple.isConst)) //grab all params
                 .ToList() // to list of lacus type
         );
         Program.Functions.AddValue(node.Name, f);
@@ -221,7 +221,7 @@ public class SemanticVisitStatement : StatementVisit
                 node.Vars.ToDictionary(
                     n => n.Name.buffer, //name
                     n
-                        => tokenToLacusType(n.Type, false) //type
+                        => tokenToLacusType(n.Type, n.AttributesTuple.isConst) //type
                 ), false)));
     }
 
@@ -232,6 +232,8 @@ public class SemanticVisitStatement : StatementVisit
             return Program.Types.GetValue(type).Type;
         }
 
+        // uchar a = 1;
+        // byte a = 1;
         return type.tokenType switch
         {
             TokenType.INT => new IntegerType(isConst),
@@ -241,7 +243,12 @@ public class SemanticVisitStatement : StatementVisit
             TokenType.FLOAT => new FloatType(isConst),
             TokenType.CHAR => new CharType(isConst),
             TokenType.VOID => new VoidType(isConst),
-            TokenType.STRING => new ArrayType(new CharType(false), isConst),
+            TokenType.ULONG => new IntegerType(isConst, true),
+            TokenType.BYTE => new IntegerType(isConst, true),
+            TokenType.SBYTE => new IntegerType(isConst),
+            TokenType.UINT => new IntegerType(isConst, true),
+            TokenType.UINT_16 => new IntegerType(isConst, true),
+            TokenType.STRING => new ArrayType(new CharType(false, false), isConst),
             _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
     }

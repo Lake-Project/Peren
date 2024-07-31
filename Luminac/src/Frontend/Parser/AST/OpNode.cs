@@ -8,6 +8,7 @@ public class OpNode(INode left, INode right, Tokens tokens) : INode
     public INode Right { get; set; } = right;
     public Tokens Token { get; set; } = tokens;
     public bool FloatExpr { get; set; } = false;
+    public bool IsUnsignedExpr { get; set; } = false;
 
     public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 

@@ -12,7 +12,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(IntegerNode node)
     {
-        return new IntegerType(true);
+        return new IntegerType(true, false);
     }
 
     public override LacusType Visit(FloatNode node)
@@ -49,7 +49,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
             node.FloatExpr = true;
         else
             node.FloatExpr = false;
-
+        node.IsUnsignedExpr = assignedType.IsUnsigned;
         if (assignedType is BoolType)
         {
             if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
@@ -94,9 +94,10 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         // if(v.VarType.IsConst 
         if (node is ArrayRefNode arr)
         {
-            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
+            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false, false)));
             //     return v.VarType.simplerType;
         }
+
         // node.ScopeLocation = v.ScopeLocation;
         return v.VarType;
     }
@@ -105,8 +106,10 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     {
         LacusType LType = node.Left.Visit(this);
         LacusType RType = node.Right.Visit(this);
+        if (LType.IsUnsigned || RType.IsUnsigned)
+            node.IsUnsigned = true;
         // Console.WriteLine(node.ToString());
-        if (RType.CanAccept(LType) && LType.GetType() == RType.GetType() && assignedType.OpAccept(node.Op))
+        if (LType.GetType() == RType.GetType() && assignedType.OpAccept(node.Op))
         {
             if (LType is FloatType)
                 node.IsFloat = true;
@@ -121,7 +124,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(CharNode node)
     {
-        return new CharType(true);
+        return new CharType(true, false);
     }
 
     public override LacusType Visit(CastNode node)
@@ -156,6 +159,6 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(StringNode node)
     {
-        return new ArrayType(new CharType(false), true);
+        return new ArrayType(new CharType(false, false), true);
     }
 }

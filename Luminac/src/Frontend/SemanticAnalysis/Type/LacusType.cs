@@ -18,11 +18,16 @@ public abstract class LacusType
     public Dictionary<string, LacusType> VarainceOfTypes { get; set; }
     public string? name { get; set; }
     public bool IsConst { get; set; } = false;
+
+    public bool IsUnsigned { get; set; } = false;
+
     // public Tokens Op { get; set; } ;
 
-    public LacusType(bool isConst)
+    public LacusType(bool isConst, bool isUnsigned =false)
     {
         IsConst = isConst;
+        IsUnsigned = isUnsigned;
+
     }
 
     public LacusType(string _name, Dictionary<string, LacusType> varainceOfTypes, bool isConst)
@@ -32,10 +37,12 @@ public abstract class LacusType
         IsConst = isConst;
     }
 
-    public LacusType(LacusType simplerType, bool isConst)
+    public LacusType(LacusType simplerType, bool isConst, bool isUnsigned = false)
     {
         this.simplerType = simplerType;
         IsConst = isConst;
+        IsUnsigned = isUnsigned;
+
     }
 
     public abstract bool CanAccept(LacusType type);
