@@ -12,7 +12,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(IntegerNode node)
     {
-        return new IntegerType(true, false);
+        return new IntegerType(true, assignedType.IsUnsigned);
     }
 
     public override LacusType Visit(FloatNode node)

@@ -1,0 +1,13 @@
+fn Factorial(int n) returns int
+{
+    if (n == 1) {
+      return 1;
+    }
+  
+    return n * Factorial(n - 1);
+}
+fn main() returns int{
+    int f := Factorial(10);
+    return 0;
+    
+}

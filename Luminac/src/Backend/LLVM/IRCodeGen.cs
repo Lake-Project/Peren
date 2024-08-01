@@ -33,7 +33,8 @@ public class IRCodeGen
             OptLevel.Level0 => LLVMCodeGenOptLevel.LLVMCodeGenLevelNone,
             OptLevel.Level1 => LLVMCodeGenOptLevel.LLVMCodeGenLevelLess,
             OptLevel.Level2 => LLVMCodeGenOptLevel.LLVMCodeGenLevelDefault,
-            OptLevel.Level3 => LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive
+            OptLevel.Level3 => LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive,
+            _ => throw new Exception("o.O")
         };
         var targetMachine = target.CreateTargetMachine(
             targetTriple,

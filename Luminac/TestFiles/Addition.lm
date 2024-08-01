@@ -1,0 +1,10 @@
+
+    
+fn add(int a, int b) returns  int{
+    return a + b;
+}
+fn main() returns int
+{
+    int sum := add(1,1);
+    return 0;
+} 
