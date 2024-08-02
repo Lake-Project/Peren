@@ -2,7 +2,7 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class BoolType(bool isConst) : LacusType(isConst)
+public class BoolType(bool isConst,Range range = Range.one_bit) : LacusType(isConst, range)
 {
     public override bool CanAccept(LacusType type)
     {

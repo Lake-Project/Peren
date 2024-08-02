@@ -1,15 +1,15 @@
 using System.Runtime.CompilerServices;
 using Lexxer;
 
-public enum TypeEnum
+public enum Range
 {
-    INTEGER,
-    FLOAT,
-    CHAR,
-    STRUCT,
-    POINTER,
-    VOID,
-    BOOL
+    one_bit,
+    eight_bit,
+    sixteen_bit,
+    thirty_two_bit,
+    sixty_four_bit,
+    Float,
+    none
 }
 
 public abstract class LacusType
@@ -20,14 +20,15 @@ public abstract class LacusType
     public bool IsConst { get; set; } = false;
 
     public bool IsUnsigned { get; set; } = false;
+    public Range Range { get; set; } 
 
     // public Tokens Op { get; set; } ;
 
-    public LacusType(bool isConst, bool isUnsigned =false)
+    public LacusType(bool isConst,Range range, bool isUnsigned = false)
     {
         IsConst = isConst;
         IsUnsigned = isUnsigned;
-
+        Range = range;
     }
 
     public LacusType(string _name, Dictionary<string, LacusType> varainceOfTypes, bool isConst)
@@ -42,7 +43,6 @@ public abstract class LacusType
         this.simplerType = simplerType;
         IsConst = isConst;
         IsUnsigned = isUnsigned;
-
     }
 
     public abstract bool CanAccept(LacusType type);

@@ -11,18 +11,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Addition.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Arrays.Im" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/BinaryAddition.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Consts.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Factorial.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Fibonacci.lm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/TestFiles/Strings.lm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/Compile.bat" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/Compile.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/Test.c" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/Test.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/BinaryAddition.lm" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/TestFiles/BinaryAddition.lm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IntegerNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IntegerNode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/FloatType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/FloatType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/LacusType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/LacusType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/StringType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/StringType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/VoidType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/VoidType.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,7 +293,8 @@
       <workItem from="1722355011369" duration="21204000" />
       <workItem from="1722385262225" duration="4787000" />
       <workItem from="1722394700441" duration="22653000" />
-      <workItem from="1722471443562" duration="5031000" />
+      <workItem from="1722471443562" duration="5952000" />
+      <workItem from="1722610906306" duration="3425000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

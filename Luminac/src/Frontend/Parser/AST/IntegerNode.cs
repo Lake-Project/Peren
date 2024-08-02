@@ -2,13 +2,14 @@ using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
 
-public class IntegerNode(int n) : INode
+public class IntegerNode(long n) : INode
 {
-    public IntegerNode(Tokens value) : this(int.Parse(value.buffer))
+    public Range Range { get; set; }
+    public IntegerNode(Tokens value) : this(long.Parse(value.buffer))
     {
     }
 
-    public int Value { get; set; } = n;
+    public long Value { get; set; } = n;
 
     public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 

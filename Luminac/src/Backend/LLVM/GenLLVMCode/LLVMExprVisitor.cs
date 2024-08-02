@@ -13,6 +13,12 @@ public class LLVMExprVisitor(
 {
     public override LLVMValueRef Visit(IntegerNode node)
     {
+        if (node.Range == Range.eight_bit)
+            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)node.Value);
+        else if (node.Range == Range.sixteen_bit)
+            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int16, (ulong)node.Value);
+        else if (node.Range == Range.sixty_four_bit)
+            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int64, (ulong)node.Value);
         return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int32, (ulong)node.Value);
     }
 

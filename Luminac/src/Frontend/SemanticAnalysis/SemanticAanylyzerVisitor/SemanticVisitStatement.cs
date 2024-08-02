@@ -127,7 +127,7 @@ public class SemanticVisitStatement : StatementVisit
     {
         SemanticVar v = Program.GetVar(node.Name);
         if (node is ArrayRefStatementNode arr)
-            arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false, false)));
+            arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false )));
         LacusType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
         if (v.AttributesTupe.isConst)
             throw new Exception(
@@ -236,19 +236,19 @@ public class SemanticVisitStatement : StatementVisit
         // byte a = 1;
         return type.tokenType switch
         {
-            TokenType.INT => new IntegerType(isConst),
-            TokenType.INT16 => new IntegerType(isConst),
-            TokenType.INT64 => new IntegerType(isConst),
-            TokenType.BOOL => new BoolType(isConst),
-            TokenType.FLOAT => new FloatType(isConst),
-            TokenType.CHAR => new CharType(isConst),
-            TokenType.VOID => new VoidType(isConst),
-            TokenType.ULONG => new IntegerType(isConst, true),
-            TokenType.BYTE => new IntegerType(isConst, true),
-            TokenType.SBYTE => new IntegerType(isConst),
-            TokenType.UINT => new IntegerType(isConst, true),
-            TokenType.UINT_16 => new IntegerType(isConst, true),
-            TokenType.STRING => new ArrayType(new CharType(false, false), isConst),
+            TokenType.INT => new IntegerType(isConst, Range.thirty_two_bit),
+            TokenType.INT16 => new IntegerType(isConst, Range.sixteen_bit),
+            TokenType.INT64 => new IntegerType(isConst, Range.sixty_four_bit),
+            TokenType.BOOL => new BoolType(isConst, Range.one_bit),
+            TokenType.FLOAT => new FloatType(isConst, Range.Float),
+            TokenType.CHAR => new CharType(isConst, Range.eight_bit),
+            TokenType.VOID => new VoidType(),
+            TokenType.ULONG => new IntegerType(isConst, Range.sixty_four_bit, true),
+            TokenType.BYTE => new IntegerType(isConst, Range.eight_bit, true),
+            TokenType.SBYTE => new IntegerType(isConst,Range.eight_bit),
+            TokenType.UINT => new IntegerType(isConst,Range.thirty_two_bit, true),
+            TokenType.UINT_16 => new IntegerType(isConst,Range.sixteen_bit, true),
+            TokenType.STRING => new ArrayType(new CharType(false, Range.eight_bit), isConst),
             _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
     }

@@ -2,7 +2,7 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class UnknownType(bool isConst) : LacusType(isConst)
+public class UnknownType(bool isConst, Range range) : LacusType(isConst, range)
 {
     public override bool CanAccept(LacusType type)
     {

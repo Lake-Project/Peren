@@ -12,7 +12,8 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(IntegerNode node)
     {
-        return new IntegerType(true, assignedType.IsUnsigned);
+        node.Range = assignedType is not BoolType ? assignedType.Range : Range.thirty_two_bit;
+        return new IntegerType(true, node.Range, assignedType.IsUnsigned);
     }
 
     public override LacusType Visit(FloatNode node)
@@ -94,7 +95,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         // if(v.VarType.IsConst 
         if (node is ArrayRefNode arr)
         {
-            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false, false)));
+            arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
             //     return v.VarType.simplerType;
         }
 
@@ -124,7 +125,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(CharNode node)
     {
-        return new CharType(true, false);
+        return new CharType(true);
     }
 
     public override LacusType Visit(CastNode node)
@@ -159,6 +160,6 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(StringNode node)
     {
-        return new ArrayType(new CharType(false, false), true);
+        return new ArrayType(new CharType(false), true);
     }
 }
