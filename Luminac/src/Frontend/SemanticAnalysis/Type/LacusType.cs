@@ -3,13 +3,13 @@ using Lexxer;
 
 public enum Range
 {
-    one_bit,
-    eight_bit,
-    sixteen_bit,
-    thirty_two_bit,
-    sixty_four_bit,
-    Float,
-    none
+    one_bit  = 1,
+    eight_bit = 256,
+    sixteen_bit = 65536,
+    thirty_two_bit = 65537, 
+    sixty_four_bit = 65538,
+    Float = 65539,
+    none = 0
 }
 
 public abstract class LacusType

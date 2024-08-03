@@ -51,7 +51,19 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         else
             node.FloatExpr = false;
         node.IsUnsignedExpr = assignedType.IsUnsigned;
-        if (assignedType is BoolType)
+        if (assignedType is UnknownType)
+        {
+            if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
+            {
+                if (RType.OpAccept(node.Token))
+                    return LType;
+                throw new TypeMisMatchException(
+                    $"type  {LType} cant fit "
+                    + $"{node.Token}"
+                );
+            }
+        }
+        else if (assignedType is BoolType)
         {
             if (RType.CanAccept(LType) && LType.GetType() == RType.GetType())
             {
@@ -130,32 +142,44 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(CastNode node)
     {
-        // LacusType t = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType()));
-        // Func<LacusType, Tokens> ToTokens = (t) =>
-        // {
-        //     return t switch
-        //     {
-        //         FloatType => new Tokens(TokenType.FLOAT),
-        //         CharType => new Tokens(TokenType.CHAR),
-        //         BoolType => new Tokens(TokenType.BOOL),
-        //         IntegerType => new Tokens(TokenType.INT),
-        //         _ => throw new Exception("unknown type")
-        //     };
-        // };
-        //
-        // node.inferredtype = ToTokens(t);
-        // return node.type.tokenType switch
-        // {
-        //     TokenType.INT => new IntegerType(),
-        //     TokenType.INT16 => new IntegerType(),
-        //     TokenType.INT64 => new IntegerType(),
-        //     TokenType.BOOL => new BoolType(),
-        //     TokenType.FLOAT => new FloatType(),
-        //     TokenType.CHAR => new CharType(),
-        //     TokenType.VOID => new VoidType(),
-        //     _ => throw new Exception($"type {node.type} is unknown ")
-        // };
-        throw new NotImplementedException();
+        LacusType t = node.type.tokenType switch
+        {
+            TokenType.INT => new IntegerType(false, Range.thirty_two_bit),
+            TokenType.INT16 => new IntegerType(false, Range.sixteen_bit),
+            TokenType.INT64 => new IntegerType(false, Range.sixty_four_bit),
+            TokenType.BOOL => new BoolType(false, Range.one_bit),
+            TokenType.FLOAT => new FloatType(false, Range.Float),
+            TokenType.CHAR => new CharType(false, Range.eight_bit),
+            TokenType.ULONG => new IntegerType(false, Range.sixty_four_bit, true),
+            TokenType.BYTE => new IntegerType(false, Range.eight_bit, true),
+            TokenType.SBYTE => new IntegerType(false, Range.eight_bit),
+            TokenType.UINT => new IntegerType(false, Range.thirty_two_bit, true),
+            TokenType.UINT_16 => new IntegerType(false, Range.sixteen_bit, true),
+            // TokenType.STRING => new ArrayType(new CharType(false, Range.eight_bit), false),
+            _ => throw new Exception($"type{node.type.ToString()} doesnt exist")
+        };
+        var ty = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType(false, Range.none)));
+        Console.WriteLine(ty);
+        Console.WriteLine(t);
+
+        if (t.Range > ty.Range)
+        {
+            node.inferredtype = CastType.TRUNCATE;
+        }
+        else if (t.Range < ty.Range)
+        {
+            node.inferredtype = CastType.SEXT;
+        }
+        else if (t is IntegerType && ty is FloatType)
+        {
+            node.inferredtype = CastType.FLOAT;
+        }
+        else if (t is FloatType && ty is IntegerType)
+        {
+            node.inferredtype = CastType.INT;
+        }
+
+        return t;
     }
 
     public override LacusType Visit(StringNode node)

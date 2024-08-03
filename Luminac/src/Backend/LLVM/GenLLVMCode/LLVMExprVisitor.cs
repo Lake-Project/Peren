@@ -142,48 +142,35 @@ public class LLVMExprVisitor(
     public override LLVMValueRef Visit(CastNode node)
     {
         var v = node.Expr.Visit(this);
-        var Target = node.type.tokenType switch
+        var TargetType = node.type.tokenType switch
         {
-            TokenType.INT => (LLVMTypeRef.Int32),
+            TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
+            TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
+            TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
             TokenType.FLOAT => LLVMTypeRef.Float,
             TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR => LLVMTypeRef.Int8,
+            TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
+            TokenType.VOID => LLVMTypeRef.Void,
             _ => throw new Exception("unaccepted type")
         };
-        var Inffered = node.inferredtype.tokenType switch
+        if (node.inferredtype == CastType.FLOAT)
         {
-            TokenType.INT => (LLVMTypeRef.Int32),
-            TokenType.FLOAT => LLVMTypeRef.Float,
-            TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR => LLVMTypeRef.Int8,
-            _ => throw new Exception("unaccepted type")
-        };
+            return builderRef.BuildFPToSI(v, TargetType);
+        }
+        else if (node.inferredtype == CastType.INT)
+        {
+            return builderRef.BuildSIToFP(v, TargetType);
+        }
+        else if (node.inferredtype == CastType.SEXT)
+        {
+            return builderRef.BuildSExt(v, TargetType);
+        }
+        else if (node.inferredtype == CastType.TRUNCATE)
+        {
+            return builderRef.BuildTrunc(v, TargetType);
+        }
 
-        if (
-            Inffered == LLVMTypeRef.Float
-            && (
-                Target == LLVMTypeRef.Int1
-                || Target == LLVMTypeRef.Int8
-                || Target == LLVMTypeRef.Int16
-                || Target == LLVMTypeRef.Int32
-            )
-        )
-            return builderRef.BuildCast(
-                LLVMOpcode.LLVMFPToSI,
-                v,
-                node.type.tokenType switch
-                {
-                    TokenType.INT => LLVMTypeRef.Int32,
-                    TokenType.FLOAT => LLVMTypeRef.Float,
-                    TokenType.BOOL => LLVMTypeRef.Int1,
-                    TokenType.CHAR => LLVMTypeRef.Int8,
-                    _ => throw new Exception("unaccepted type")
-                }
-            );
-        else if (Target.IntWidth < Inffered.IntWidth)
-            return builderRef.BuildSExt(v, Target);
-        else
-            return builderRef.BuildTrunc(v, Target);
+        return builderRef.BuildTrunc(v, TargetType);
     }
 
     public override LLVMValueRef Visit(StringNode node)

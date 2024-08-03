@@ -99,16 +99,7 @@ public class Parse
         }
         else if (MatchAndRemove(TokenType.OP_PAREN) != null)
         {
-            Tokens? type =
-                MatchAndRemove(TokenType.INT) != null
-                    ? Current
-                    : MatchAndRemove(TokenType.FLOAT) != null
-                        ? Current
-                        : MatchAndRemove(TokenType.BOOL) != null
-                            ? Current
-                            : MatchAndRemove(TokenType.CHAR) != null
-                                ? Current
-                                : null;
+            Tokens? type = GetNativeType();
             if (type != null)
             {
                 MatchAndRemove(TokenType.CL_PAREN);
@@ -399,7 +390,7 @@ public class Parse
             throw new Exception($"invalid identifier statement {Current.ToString()}");
     }
 
-    public Tokens? GetTokenType()
+    public Tokens? GetNativeType()
     {
         return (MatchAndRemove(TokenType.FLOAT) != null)
             ? Current
@@ -415,19 +406,22 @@ public class Parse
                                 ? Current
                                 : (MatchAndRemove(TokenType.INT64) != null)
                                     ? Current
-                                    : (MatchAndRemove(TokenType.WORD) != null)
+                                    : (MatchAndRemove(TokenType.ULONG) != null)
                                         ? Current
-                                        : (MatchAndRemove(TokenType.ULONG) != null)
+                                        : (MatchAndRemove(TokenType.UINT_16) != null)
                                             ? Current
-                                            : (MatchAndRemove(TokenType.UINT_16) != null)
+                                            : (MatchAndRemove(TokenType.UINT) != null)
                                                 ? Current
-                                                : (MatchAndRemove(TokenType.UINT) != null)
+                                                : (MatchAndRemove(TokenType.BYTE) != null)
                                                     ? Current
-                                                    : (MatchAndRemove(TokenType.BYTE) != null)
+                                                    : (MatchAndRemove(TokenType.SBYTE) != null)
                                                         ? Current
-                                                        : (MatchAndRemove(TokenType.SBYTE) != null)
-                                                            ? Current
                                                         : null;
+    }
+
+    public Tokens? GetTokenType()
+    {
+        return GetNativeType() != null ? Current : MatchAndRemove(TokenType.WORD);
     }
 
 
@@ -569,9 +563,6 @@ public class Parse
 
     public StatementNode Statements()
     {
-       
-
-
         if (MatchAndRemove(TokenType.WORD) != null)
         {
             return ParseWordType();
