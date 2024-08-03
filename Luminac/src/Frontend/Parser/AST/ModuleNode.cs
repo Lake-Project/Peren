@@ -3,14 +3,15 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class ModuleNode : StatementNode
+public class ModuleNode : TopLevelStatement
 {
-    public List<StatementNode> StatementNodes = new();
+    // public List<TopLevelStatement> StatementNodes = new();
 
+    public List<FunctionNode> FunctionNodes = new();
+    public List<StructNode> StructNodes = new();
+    public List<VaraibleDeclarationNode> VaraibleDeclarationNodes = new();
     public Tokens name;
 
-    public override void Visit(StatementVisit visitor)
-    {
-        base.Visit(visitor);
-    }
+
+    public override void Visit(TopLevelVisitor v) => v.Visit(this);
 }

@@ -2,8 +2,8 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class ArrayRefStatementNode(Tokens name,INode expr, INode element) : VaraibleReferenceStatementNode(name, expr)
+public class ArrayRefStatementNode(Tokens name,ExpressionNode expr, ExpressionNode element) : VaraibleReferenceStatementNode(name, expr)
 {
-    public INode Element { get; set; } = element;
+    public ExpressionNode Element { get; set; } = element;
 
 }

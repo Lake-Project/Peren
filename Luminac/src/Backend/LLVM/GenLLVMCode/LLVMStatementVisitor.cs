@@ -67,9 +67,9 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
             var value = builderRef.BuildAlloca(type, node.Name.buffer);
             Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
             {
-                if (node.ExpressionNode != null)
+                if (node.Expression != null)
                 {
-                    LLVMValueRef eq = node.ExpressionNode.Visit(
+                    LLVMValueRef eq = node.Expression.Visit(
                         new LLVMExprVisitor(Context, builderRef, moduleRef)
                     );
                     builderRef.BuildStore(eq, value);

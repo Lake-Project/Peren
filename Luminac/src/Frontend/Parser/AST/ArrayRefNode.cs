@@ -2,7 +2,7 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class ArrayRefNode(Tokens Name, INode elem) : VaraibleReferenceNode(Name)
+public class ArrayRefNode(Tokens Name, ExpressionNode elem) : VaraibleReferenceNode(Name)
 {
-    public INode Elem { get; set; } = elem; //l
+    public ExpressionNode Elem { get; set; } = elem; //l
 }

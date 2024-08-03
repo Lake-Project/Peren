@@ -4,5 +4,6 @@ namespace LacusLLVM.Frontend.Parser.AST;
 
 public interface INode
 {
-    public T Visit<T>(ExpressionVisit<T> visit);
+    public void Visit(Visitor v);
+    // public T a<T>(ExpressionVisit<T> visit);
 }

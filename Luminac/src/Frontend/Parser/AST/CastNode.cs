@@ -10,9 +10,9 @@ public enum CastType
     TRUNCATE,
     SEXT
 }
-public class CastNode(INode expr, Tokens type) : INode
+public class CastNode(ExpressionNode expr, Tokens type) : ExpressionNode
 {
-    public INode Expr { get; set; } = expr;
+    public ExpressionNode Expr { get; set; } = expr;
 
     public Tokens type = type;
 
@@ -20,5 +20,5 @@ public class CastNode(INode expr, Tokens type) : INode
 
     public bool Truncate { get; set; }
 
-    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
+    public override T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

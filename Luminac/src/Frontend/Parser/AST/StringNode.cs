@@ -3,9 +3,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class StringNode(Tokens value) : INode
+public class StringNode(Tokens value) : ExpressionNode
 {
     public Tokens Token { get; set; } = value;
     public string Value { get; set; } = value.buffer;
-    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
+    public override T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 }

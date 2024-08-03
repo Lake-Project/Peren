@@ -109,9 +109,9 @@ public class SemanticVisitStatement : StatementVisit
             new SemanticVar(type, Program.Vars.GetSize(),
                 node.AttributesTuple)
         );
-        if (node.ExpressionNode != null)
+        if (node.Expression != null)
         {
-            LacusType t = node.ExpressionNode.Visit(
+            LacusType t = node.Expression.Visit(
                 new SemanticVisitExpr(Program, type)
             );
             if (!type.CanAccept(t))

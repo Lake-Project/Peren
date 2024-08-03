@@ -7,15 +7,15 @@ public class VaraibleDeclarationNode(
     Tokens name,
     // INode? expressionNode,
     AttributesTuple attributesTuple
-) : StatementNode
+) : TopLevelStatement
 {
     public VaraibleDeclarationNode(Tokens type, Tokens name, AttributesTuple attributesTuple
-        , INode expressionNode) : this(type, name, attributesTuple)
+        , ExpressionNode expressionNode) : this(type, name, attributesTuple)
     {
-        ExpressionNode = expressionNode;
+        Expression = expressionNode;
     }
 
-    public INode? ExpressionNode { get; set; }
+    public ExpressionNode? Expression { get; set; }
     public Tokens Name { get; set; } = name;
     public Tokens Type { get; set; } = type;
 
@@ -24,4 +24,5 @@ public class VaraibleDeclarationNode(
     public AttributesTuple AttributesTuple { get; set; } = attributesTuple;
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
+    public override void Visit(TopLevelVisitor v) => v.Visit(this);
 }

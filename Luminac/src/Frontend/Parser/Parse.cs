@@ -65,7 +65,7 @@ public class Parse
         return false;
     }
 
-    private INode? Factor()
+    private ExpressionNode? Factor()
     {
         if (MatchAndRemove(TokenType.NUMBER) != null)
         {
@@ -89,7 +89,8 @@ public class Parse
         {
             if (LookAhead(TokenType.OP_PAREN))
                 return ParseFunctionCalls();
-            else if (LookAhead(TokenType.OP_BRACKET))
+            else
+            if (LookAhead(TokenType.OP_BRACKET))
                 return ParseArrayRef();
             return new VaraibleReferenceNode(Current);
         }
@@ -104,11 +105,11 @@ public class Parse
             {
                 MatchAndRemove(TokenType.CL_PAREN);
 
-                INode? b = Factor();
+                ExpressionNode? b = Factor();
                 return new CastNode(b, type.Value);
             }
 
-            INode? a = ParseSingleExpr();
+            ExpressionNode? a = ParseSingleExpr();
             Console.WriteLine("hai");
             MatchAndRemove(TokenType.CL_PAREN);
 
@@ -117,7 +118,7 @@ public class Parse
         else if (MatchAndRemove(TokenType.NOT) != null)
         {
             Tokens a = Current;
-            INode? v = Factor();
+            ExpressionNode? v = Factor();
             return
                 new
                     OpNode(v, v, a);
@@ -125,7 +126,7 @@ public class Parse
         else if (MatchAndRemove(TokenType.SIZE) != null)
         {
             MatchAndRemove(TokenType.OP_PAREN);
-            INode? v = Expression();
+            ExpressionNode? v = Expression();
             MatchAndRemove(TokenType.CL_PAREN);
             return new OpNode(v,
                 v, new Tokens(TokenType.SIZE));
@@ -134,9 +135,9 @@ public class Parse
         return null;
     }
 
-    private INode? BoolExpr()
+    private ExpressionNode? BoolExpr()
     {
-        INode? opNode = Factor();
+        ExpressionNode? opNode = Factor();
         Tokens? op =
             (MatchAndRemove(TokenType.GT) != null)
                 ? Current
@@ -153,7 +154,7 @@ public class Parse
                                     : null;
         if (op != null)
         {
-            INode? right = Factor();
+            ExpressionNode? right = Factor();
             opNode = new BooleanExprNode(opNode, right, op.Value);
         }
 
@@ -161,15 +162,15 @@ public class Parse
         return opNode;
     }
 
-    public INode? ParseNot()
+    public ExpressionNode? ParseNot()
     {
         return BoolExpr();
     }
 
-    private INode? Term()
+    private ExpressionNode? Term()
     {
         Tokens? op;
-        INode? opNode = ParseNot(); //returns a mathOPNode.
+        ExpressionNode? opNode = ParseNot(); //returns a mathOPNode.
         op =
             (MatchAndRemove(TokenType.MULTIPLICATION) != null)
                 ? Current
@@ -192,7 +193,7 @@ public class Parse
             throw new Exception("unauthorized statement");
         while (op != null)
         {
-            INode? right = ParseNot();
+            ExpressionNode? right = ParseNot();
 
             if (right == null && op != null)
                 throw new Exception("unauthorized statement");
@@ -221,9 +222,9 @@ public class Parse
         return opNode;
     }
 
-    private INode? Expression()
+    private ExpressionNode? Expression()
     {
-        INode? opNode;
+        ExpressionNode? opNode;
         opNode = Term();
 
         Tokens? op =
@@ -236,7 +237,7 @@ public class Parse
             throw new Exception("unauthorized statement");
         while (op != null)
         {
-            INode? right = Term();
+            ExpressionNode? right = Term();
             if (right == null && op != null)
                 throw new Exception("unauthorized statement");
             opNode = new OpNode(opNode, right, op.Value);
@@ -251,14 +252,14 @@ public class Parse
         return opNode;
     }
 
-    private INode? ParseSingleExpr()
+    private ExpressionNode? ParseSingleExpr()
     {
         return Expression();
     }
 
-    public List<INode> ParseTupleAssignment()
+    public List<ExpressionNode> ParseTupleAssignment()
     {
-        List<INode> expr = new List<INode>();
+        List<ExpressionNode> expr = new List<ExpressionNode>();
 
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
@@ -279,7 +280,7 @@ public class Parse
         Tokens name = Current;
         Tokens? a =
             MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("function is a tuple type");
-        List<INode> expr = ParseTupleAssignment();
+        List<ExpressionNode> expr = ParseTupleAssignment();
         return new FunctionCallNode(name, expr);
     }
 
@@ -297,7 +298,7 @@ public class Parse
     public IfNode ParseIf()
     {
         MatchAndRemove(TokenType.OP_PAREN);
-        INode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
         List<StatementNode> statementNodes = ParseBlock();
         return new IfNode(expr, ParseElse(), statementNodes);
@@ -338,7 +339,7 @@ public class Parse
     {
         Tokens name = Current;
         MatchAndRemove(TokenType.OP_BRACKET);
-        INode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.GetLine()}");
+        ExpressionNode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.GetLine()}");
         MatchAndRemove(TokenType.CL_BRACKET);
 
         return new ArrayRefNode(name, elem);
@@ -348,7 +349,7 @@ public class Parse
     {
         Tokens? name = Current;
         MatchAndRemove(TokenType.OP_BRACKET);
-        INode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
+        ExpressionNode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
         MatchAndRemove(TokenType.CL_BRACKET);
 
         Tokens? e =
@@ -625,7 +626,7 @@ public class Parse
     public StatementNode ParseWhile()
     {
         MatchAndRemove(TokenType.OP_PAREN);
-        INode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
 
         List<StatementNode> statementNodes = ParseBlock();

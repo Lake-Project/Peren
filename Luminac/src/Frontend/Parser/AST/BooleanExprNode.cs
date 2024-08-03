@@ -3,15 +3,15 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.Parser.AST;
 
-public class BooleanExprNode(INode left, INode right, Tokens op) : INode
+public class BooleanExprNode(ExpressionNode left, ExpressionNode right, Tokens op) : ExpressionNode
 {
-    public INode Left { get; set; } = left;
-    public INode Right { get; set; } = right;
+    public ExpressionNode Left { get; set; } = left;
+    public ExpressionNode Right { get; set; } = right;
     public Tokens Op { get; set; } = op;
     public bool IsFloat { get; set; }
     public bool IsUnsigned { get; set; }
 
-    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
+    public override T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 
     public override string ToString()
     {

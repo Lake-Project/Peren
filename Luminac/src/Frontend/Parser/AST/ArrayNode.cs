@@ -6,11 +6,11 @@ namespace LacusLLVM.Frontend.Parser.AST;
 public class ArrayNode(
     Tokens type,
     Tokens name,
-    INode size,
+    ExpressionNode size,
     AttributesTuple attributesTuple)
     : VaraibleDeclarationNode(type, name, attributesTuple)
 {
-    public INode Size { get; set; } = size;
+    public ExpressionNode Size { get; set; } = size;
 
     public override void Visit(StatementVisit visitor)
     {

@@ -2,10 +2,10 @@ using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 public class ForLoopNode(VaraibleDeclarationNode iterator,
-INode expr, StatementNode inc, List<StatementNode> statementNodes) : StatementNode
+    ExpressionNode expr, StatementNode inc, List<StatementNode> statementNodes) : StatementNode
 {
     public VaraibleDeclarationNode Iterator { get; set; } = iterator;
-    public INode Expr { get; set; } = expr;
+    public ExpressionNode Expr { get; set; } = expr;
     public StatementNode Inc { get; set; } = inc;
     public List<StatementNode>  Statements { get; set; } = statementNodes;
 

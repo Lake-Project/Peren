@@ -2,15 +2,15 @@ using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using Lexxer;
 
-public class OpNode(INode left, INode right, Tokens tokens) : INode
+public class OpNode(ExpressionNode left, ExpressionNode right, Tokens tokens) : ExpressionNode
 {
-    public INode Left { get; set; } = left;
-    public INode Right { get; set; } = right;
+    public ExpressionNode Left { get; set; } = left;
+    public ExpressionNode Right { get; set; } = right;
     public Tokens Token { get; set; } = tokens;
     public bool FloatExpr { get; set; } = false;
     public bool IsUnsignedExpr { get; set; } = false;
 
-    public T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
+    public override T Visit<T>(ExpressionVisit<T> visit) => visit.Visit(this);
 
     public override string ToString()
     {
