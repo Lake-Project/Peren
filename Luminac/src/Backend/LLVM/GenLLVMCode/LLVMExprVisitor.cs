@@ -13,11 +13,11 @@ public class LLVMExprVisitor(
 {
     public override LLVMValueRef Visit(IntegerNode node)
     {
-        if (node.Range == Range.eight_bit)
+        if (node.Range == Range.EightBit)
             return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)node.Value);
-        else if (node.Range == Range.sixteen_bit)
+        else if (node.Range == Range.SixteenBit)
             return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int16, (ulong)node.Value);
-        else if (node.Range == Range.sixty_four_bit)
+        else if (node.Range == Range.SixtyFourBit)
             return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int64, (ulong)node.Value);
         return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int32, (ulong)node.Value);
     }
@@ -175,7 +175,7 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(StringNode node)
     {
-        var c = builderRef.BuildGlobalString(node.Value);
+        var c = builderRef.BuildGlobalStringPtr(node.Value);
         return c;
     }
 }

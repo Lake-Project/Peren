@@ -2,7 +2,7 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class VoidType(Range range = Range.none,bool isConst = false) : LacusType(isConst, range)
+public class VoidType(Range range = Range.None,bool isConst = false) : LacusType(isConst, range)
 {
     public override bool CanAccept(LacusType type)
     {

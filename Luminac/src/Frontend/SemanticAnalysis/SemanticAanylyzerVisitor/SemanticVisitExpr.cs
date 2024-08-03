@@ -12,7 +12,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(IntegerNode node)
     {
-        node.Range = assignedType is not BoolType ? assignedType.Range : Range.thirty_two_bit;
+        node.Range = assignedType is not BoolType ? assignedType.Range : Range.ThirtyTwoBit;
         return new IntegerType(true, node.Range, assignedType.IsUnsigned);
     }
 
@@ -108,7 +108,8 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         if (node is ArrayRefNode arr)
         {
             arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
-            //     return v.VarType.simplerType;
+
+            // return v.VarType.simplerType;
         }
 
         // node.ScopeLocation = v.ScopeLocation;
@@ -144,21 +145,21 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
     {
         LacusType t = node.type.tokenType switch
         {
-            TokenType.INT => new IntegerType(false, Range.thirty_two_bit),
-            TokenType.INT16 => new IntegerType(false, Range.sixteen_bit),
-            TokenType.INT64 => new IntegerType(false, Range.sixty_four_bit),
-            TokenType.BOOL => new BoolType(false, Range.one_bit),
+            TokenType.INT => new IntegerType(false, Range.ThirtyTwoBit),
+            TokenType.INT16 => new IntegerType(false, Range.SixteenBit),
+            TokenType.INT64 => new IntegerType(false, Range.SixtyFourBit),
+            TokenType.BOOL => new BoolType(false, Range.OneBit),
             TokenType.FLOAT => new FloatType(false, Range.Float),
-            TokenType.CHAR => new CharType(false, Range.eight_bit),
-            TokenType.ULONG => new IntegerType(false, Range.sixty_four_bit, true),
-            TokenType.BYTE => new IntegerType(false, Range.eight_bit, true),
-            TokenType.SBYTE => new IntegerType(false, Range.eight_bit),
-            TokenType.UINT => new IntegerType(false, Range.thirty_two_bit, true),
-            TokenType.UINT_16 => new IntegerType(false, Range.sixteen_bit, true),
-            // TokenType.STRING => new ArrayType(new CharType(false, Range.eight_bit), false),
+            TokenType.CHAR => new CharType(false, Range.EightBit),
+            TokenType.ULONG => new IntegerType(false, Range.SixtyFourBit, true),
+            TokenType.BYTE => new IntegerType(false, Range.EightBit, true),
+            TokenType.SBYTE => new IntegerType(false, Range.EightBit),
+            TokenType.UINT => new IntegerType(false, Range.ThirtyTwoBit, true),
+            TokenType.UINT_16 => new IntegerType(false, Range.SixteenBit, true),
+            TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), false),
             _ => throw new Exception($"type{node.type.ToString()} doesnt exist")
         };
-        var ty = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType(false, Range.none)));
+        var ty = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType(false, Range.None)));
         Console.WriteLine(ty);
         Console.WriteLine(t);
 
