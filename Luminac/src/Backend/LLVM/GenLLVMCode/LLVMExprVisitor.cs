@@ -175,7 +175,9 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(StringNode node)
     {
-        var c = builderRef.BuildGlobalStringPtr(node.Value);
+        var c = builderRef.BuildGlobalString(node.Value);
         return c;
+        // return builderRef.BuildGEP2(LLVMTypeRef.CreateInt(LLVMTypeRef.Int32, (ulong)1) );
+        // return builderRef.Build(LLVMTypeRef.Int8, LLVMVa);
     }
 }

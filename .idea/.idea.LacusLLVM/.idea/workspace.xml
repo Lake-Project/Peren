@@ -12,14 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/Test.c" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/Test.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/LacusType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/LacusType.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +282,8 @@
       <workItem from="1722394700441" duration="22653000" />
       <workItem from="1722471443562" duration="5952000" />
       <workItem from="1722610906306" duration="4077000" />
-      <workItem from="1722711975713" duration="6701000" />
+      <workItem from="1722711975713" duration="6833000" />
+      <workItem from="1722719081200" duration="1906000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
@@ -731,6 +726,23 @@
     <option name="LAST_COMMIT_MESSAGE" value="lumina" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs</url>
+          <line>104</line>
+          <properties documentPath="C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Luminac\src\Frontend\SemanticAnalysis\SemanticAanylyzerVisitor\SemanticVisitExpr.cs" containingFunctionPresentation="Method 'Visit'">
+            <startOffsets>
+              <option value="3471" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3472" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Frame#CompileOptions.set_InputFiles" memberName="value" />

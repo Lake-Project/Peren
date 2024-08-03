@@ -103,16 +103,12 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(VaraibleReferenceNode node)
     {
-        SemanticVar v = Context.GetVar(node.Name);
-        // if(v.VarType.IsConst 
+        var v = Context.GetVar(node.Name);
         if (node is ArrayRefNode arr)
         {
             arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
-
-            // return v.VarType.simplerType;
         }
 
-        // node.ScopeLocation = v.ScopeLocation;
         return v.VarType;
     }
 
