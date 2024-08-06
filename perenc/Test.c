@@ -1,10 +1,11 @@
 #include <stdio.h>
 extern char charat(int i);
+
 int main()
 {
     for(int i = 0; i < 11; i++)
     {
-        printf("%c \n", charat(i));
+        printf("%d \n", charat(1));
 
     }
     // char* test = "a";

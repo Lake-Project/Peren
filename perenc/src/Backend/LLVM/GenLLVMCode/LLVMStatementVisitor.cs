@@ -32,6 +32,7 @@ public struct LLVMType(
 
 public struct LLVMContext
 {
+    public CompileContext<LLVMVar> globalVars = new();
     public CompileContext<LLVMVar> vars = new();
     public CompileContext<LLVMFunction> functions = new();
     public CompileContext<LLVMType> types = new();
@@ -44,16 +45,16 @@ public struct LLVMContext
     }
 }
 
-public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
+public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef, LLVMModuleRef moduleRef)
     : StatementVisit
 {
-    private LLVMContext Context { get; } = new();
+    private LLVMContext Context { get; set; } = context;
     private LLVMFunction _currentFunction;
     private bool _returns;
 
     public override void Visit(VaraibleDeclarationNode node)
     {
-        var type = ToLLVMType(node.Type);
+        var type = Compile.ToLLVMType(node.Type, Context);
         // if (Context.vars.Values == 0)
         // return;
         if (node is ArrayNode n)
@@ -80,7 +81,7 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
-        LLVMVar a = Context.vars.Get(node.Name.buffer);
+        LLVMVar a = Compile.GetVar(Context, node.Name.buffer);
 
         if (node is ArrayRefStatementNode arr)
         {
@@ -119,41 +120,43 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
 
     public override void Visit(FunctionNode node)
     {
-        LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(
-            ToLLVMType(node.RetType.Name),
-            node.Parameters //params
-                .Select(n => ToLLVMType(n.Type)) //converts param types
-                .ToArray(), //to an array
-            false
-        );
-        // node.Parameters.ForEach(n => n.Visit(this));
-        LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
-        _currentFunction = new LLVMFunction(funcType, ToLLVMType(node.RetType.Name), function);
-        Context.functions.Add(node.Name.buffer, _currentFunction);
+        // LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(
+        //     Compile.ToLLVMType(node.RetType.Name, Context),
+        //     node.Parameters //params
+        //         .Select(n => Compile.ToLLVMType(n.Type, Context)) //converts param types
+        //         .ToArray(), //to an array
+        //     false
+        // );
+        // // node.Parameters.ForEach(n => n.Visit(this));
+        // LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
+        // _currentFunction = new LLVMFunction(funcType, Compile.ToLLVMType(node.RetType.Name, Context), function);
+        // Context.functions.Add(node.Name.buffer, _currentFunction);
+        // if (node.AttributesTuple.isExtern)
+        // {
+        //     function.Linkage = LLVMLinkage.LLVMExternalLinkage;
+        //     return;
+        // }
         if (node.AttributesTuple.isExtern)
-        {
-            function.Linkage = LLVMLinkage.LLVMExternalLinkage;
             return;
-        }
-
-        LLVMBasicBlockRef entry = function.AppendBasicBlock("entry");
+        var function = Context.functions.Get(node.Name.buffer);
+        _currentFunction = function;
+        LLVMBasicBlockRef entry = function.FunctionValue.AppendBasicBlock("entry");
         builderRef.PositionAtEnd(entry);
-        // Context.vars.AllocateScope();
         foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
         {
-            var llvmParam = function.GetParam((uint)index);
+            var llvmParam = function.FunctionValue.GetParam((uint)index);
             var name = param.Name.buffer;
             llvmParam.Name = name;
             Context.vars.Add(
                 param.Name.buffer,
                 new LLVMVar(
-                    builderRef.BuildAlloca(ToLLVMType(param.Type), name),
-                    ToLLVMType(param.Type)
+                    builderRef.BuildAlloca(Compile.ToLLVMType(param.Type, Context), name),
+                    Compile.ToLLVMType(param.Type, Context)
                 )
             );
             builderRef.BuildStore(
-                function.GetParam((uint)index),
-                Context.vars.Get(param.Name.buffer).Value
+                function.FunctionValue.GetParam((uint)index),
+                Compile.GetVar(Context, name).Value
             );
         }
 
@@ -267,25 +270,25 @@ public class LLVMStatementVisitor(LLVMBuilderRef builderRef, LLVMModuleRef modul
             llvmstruct, node.Vars));
     }
 
-    public LLVMTypeRef ToLLVMType(Tokens type)
-    {
-        if (type.tokenType == TokenType.WORD)
-        {
-            return Context.types.Get(type.buffer).Type;
-        }
-
-        return type.tokenType switch
-        {
-            TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
-            TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
-            TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
-
-            TokenType.FLOAT => LLVMTypeRef.Float,
-            TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
-            TokenType.VOID => LLVMTypeRef.Void,
-            TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
-            _ => throw new Exception($"undefined {type.ToString()} type")
-        };
-    }
+    // public LLVMTypeRef ToLLVMType(Tokens type)
+    // {
+    //     if (type.tokenType == TokenType.WORD)
+    //     {
+    //         return Context.types.Get(type.buffer).Type;
+    //     }
+    //
+    //     return type.tokenType switch
+    //     {
+    //         TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
+    //         TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
+    //         TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
+    //
+    //         TokenType.FLOAT => LLVMTypeRef.Float,
+    //         TokenType.BOOL => LLVMTypeRef.Int1,
+    //         TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
+    //         TokenType.VOID => LLVMTypeRef.Void,
+    //         TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
+    //         _ => throw new Exception($"undefined {type.ToString()} type")
+    //     };
+    // }
 }

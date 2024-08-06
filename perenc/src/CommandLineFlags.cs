@@ -94,7 +94,8 @@ public class CommandLineFlags
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 
         // Parse p = new MonadicParser<INode>(tokens);
-        List<StatementNode> s = new Parse(tokens).ParseFile();
+        var s = new Parse(tokens).ParseFile();
+        
         new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }

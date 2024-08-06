@@ -5,7 +5,7 @@ using LLVMSharp.Interop;
 
 public class IRCodeGen
 {
-    public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
+    public static void LLVM_Gen(ModuleNode statements, CompileOptions compileOptions)
     {
         var asmOutDir = "peren-asm";
         var binOutDir = "peren-bin";
@@ -19,8 +19,8 @@ public class IRCodeGen
 
         var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(compileOptions.OutputFile, ".ll"));
         LLVMBuilderRef builder = module.Context.CreateBuilder();
-        LLVMStatementVisitor visit = new LLVMStatementVisitor(builder, module);
-        statements.ForEach(n => n.Visit(visit));
+        var visit = new LLVMTopLevelVisitor(builder, module);
+        statements.Visit(visit);
 
         //outputting directly to an object file
         //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html
@@ -119,7 +119,7 @@ public class IRCodeGen
                 $"Assembly file file path: {asmOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}"
             );
 
-        
+
         Console.WriteLine("Compiled successfully");
     }
 }

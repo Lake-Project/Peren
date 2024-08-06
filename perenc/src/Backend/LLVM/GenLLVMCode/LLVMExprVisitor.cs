@@ -11,7 +11,8 @@ public class LLVMExprVisitor(
     LLVMModuleRef moduleRef
 ) : ExpressionVisit<LLVMValueRef>
 {
-    
+    // private LLVMContext Context { get; } = context;
+
     public override LLVMValueRef Visit(IntegerNode node)
     {
         if (node.Range == Range.EightBit)
@@ -86,7 +87,7 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(VaraibleReferenceNode node)
     {
-        LLVMVar a = context.vars.Get(node.Name.buffer);
+        LLVMVar a = Compile.GetVar(context, node.Name.buffer);
         if (node is ArrayRefNode arr)
         {
             var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,

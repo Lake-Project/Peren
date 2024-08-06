@@ -70,25 +70,25 @@ public struct SemanticProgram
     }
 }
 
-public class SemanticVisitStatement : StatementVisit
+public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
 {
     public SemanticContext<SemanticVar> Vars { get; set; }
     public SemanticContext<SemanticTypes> Types { get; set; }
 
     public SemanticContext<SemanticFunction> Function { get; init; }
 
-    public SemanticProgram Program { get; set; }
+    public SemanticProgram Program { get; set; } = program;
 
-    public SemanticVisitStatement()
-    {
-        Function = new();
-        Types = new();
-        Vars = new();
-        Function.AllocateScope();
-        Types.AllocateScope();
-
-        Program = new(Vars, Function, Types);
-    }
+    // public SemanticVisitStatement()
+    // {
+    //     Function = new();
+    //     Types = new();
+    //     Vars = new();
+    //     Function.AllocateScope();
+    //     Types.AllocateScope();
+    //
+    //     // Program = new(Vars, Function, Types);
+    // }
 
     private SemanticFunction function;
 
@@ -103,7 +103,7 @@ public class SemanticVisitStatement : StatementVisit
         // }
         // else
         // {
-        var type = tokenToLacusType(node.Type, node.AttributesTuple.isConst);
+        var type = SemanticAnaylsis.tokenToLacusType(node.Type, node.AttributesTuple.isConst, Program);
         Program.AddVar(
             node.Name,
             new SemanticVar(type, Program.Vars.GetSize(),
@@ -156,15 +156,15 @@ public class SemanticVisitStatement : StatementVisit
     public override void Visit(FunctionNode node)
     {
         Program.Vars.AllocateScope();
-        var f = new SemanticFunction(
-            tokenToLacusType(node.RetType.Name, node.RetType.tuple.isConst),
-            node.Parameters
-                .Select(n =>
-                    tokenToLacusType(n.Type, n.AttributesTuple.isConst)) //grab all params
-                .ToList() // to list of lacus type
-        );
-        Program.Functions.AddValue(node.Name, f);
-        this.function = f;
+        // var f = new SemanticFunction(
+        //     tokenToLacusType(node.RetType.Name, node.RetType.tuple.isConst),
+        //     node.Parameters
+        //         .Select(n =>
+        //             tokenToLacusType(n.Type, n.AttributesTuple.isConst)) //grab all params
+        //         .ToList() // to list of lacus type
+        // );
+        // Program.Functions.AddValue(node.Name, f);
+        this.function = Program.GetFunction(node.Name);
         node.Parameters.ForEach(n => n.Visit(this));
         node.Statements.ForEach(n => n.Visit(this));
         Program.Vars.DeallocateScope();
@@ -221,33 +221,7 @@ public class SemanticVisitStatement : StatementVisit
                 node.Vars.ToDictionary(
                     n => n.Name.buffer, //name
                     n
-                        => tokenToLacusType(n.Type, n.AttributesTuple.isConst) //type
+                        => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
                 ), false)));
-    }
-
-    private LacusType tokenToLacusType(Tokens type, bool isConst)
-    {
-        if (type.tokenType == TokenType.WORD)
-        {
-            return Program.Types.GetValue(type).Type;
-        }
-
-        return type.tokenType switch
-        {
-            TokenType.INT => new IntegerType(isConst, Range.ThirtyTwoBit),
-            TokenType.INT16 => new IntegerType(isConst, Range.SixteenBit),
-            TokenType.INT64 => new IntegerType(isConst, Range.SixtyFourBit),
-            TokenType.BOOL => new BoolType(isConst, Range.OneBit),
-            TokenType.FLOAT => new FloatType(isConst, Range.Float),
-            TokenType.CHAR => new CharType(isConst, Range.EightBit),
-            TokenType.VOID => new VoidType(),
-            TokenType.ULONG => new IntegerType(isConst, Range.SixtyFourBit, true),
-            TokenType.BYTE => new IntegerType(isConst, Range.EightBit, true),
-            TokenType.SBYTE => new IntegerType(isConst, Range.EightBit),
-            TokenType.UINT => new IntegerType(isConst, Range.ThirtyTwoBit, true),
-            TokenType.UINT_16 => new IntegerType(isConst, Range.SixteenBit, true),
-            TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), isConst),
-            _ => throw new Exception($"type{type.ToString()} doesnt exist")
-        };
     }
 }

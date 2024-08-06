@@ -89,8 +89,7 @@ public class Parse
         {
             if (LookAhead(TokenType.OP_PAREN))
                 return ParseFunctionCalls();
-            else
-            if (LookAhead(TokenType.OP_BRACKET))
+            else if (LookAhead(TokenType.OP_BRACKET))
                 return ParseArrayRef();
             return new VaraibleReferenceNode(Current);
         }
@@ -349,7 +348,8 @@ public class Parse
     {
         Tokens? name = Current;
         MatchAndRemove(TokenType.OP_BRACKET);
-        ExpressionNode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
+        ExpressionNode? elem =
+            Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
         MatchAndRemove(TokenType.CL_BRACKET);
 
         Tokens? e =
@@ -692,15 +692,31 @@ public class Parse
             throw new Exception($"{Current}Statement invalid");
     }
 
-    public List<StatementNode> ParseFile()
+    public ModuleNode ParseModuleNode()
     {
-        List<StatementNode> a = new List<StatementNode>();
+        ModuleNode moduleNode = new();
         while (TokenList.Count != 0)
         {
-            a.Add(GlobalStatements());
+            if (MatchAndRemove(TokenType.FUNCTION) != null)
+                moduleNode.FunctionNodes.Add(ParseFunction());
+            else if (MatchAndRemove(TokenType.STRUCT) != null)
+                moduleNode.StructNodes.Add(ParseStructs());
+            else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
+                moduleNode.VaraibleDeclarationNodes.Add(ParseVar());
+            else if (
+                MatchAndRemove(TokenType.EXTERN) != null
+                || MatchAndRemove(TokenType.UNSIGNED) != null
+                || MatchAndRemove(TokenType.CONST) != null
+            )
+                attributes.Push(Current);
             MatchAndRemove(TokenType.EOL);
         }
 
-        return a;
+        return moduleNode;
+    }
+
+    public ModuleNode ParseFile()
+    {
+        return ParseModuleNode();
     }
 }
