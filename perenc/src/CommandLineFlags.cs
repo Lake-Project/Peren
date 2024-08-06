@@ -21,7 +21,7 @@ public class CompileOptions
     [Value(
         index: 0,
         MetaName = "inputFile",
-        HelpText = "The Lumina source file to compile",
+        HelpText = "a peren source file to compile",
         Required = true
     )]
     public IEnumerable<string> InputFiles { get; set; }
@@ -74,15 +74,15 @@ public class CompileOptions
 
 public class CommandLineFlags
 {
-
     public static void Init(string[] args)
-    { //lumina s
+    {
+        //lumina s
         // _args = args;
         // new Options().InputFiles = "a";
         Parser
             .Default.ParseArguments<CompileOptions>(args)
             .WithParsed<CompileOptions>(options => RunCompiler(options))
-            .WithNotParsed(errors => Console.WriteLine($"error invoking lakec"));
+            .WithNotParsed(errors => Console.WriteLine($"error invoking perenc"));
     }
 
     private static void RunCompiler(CompileOptions compileOptions)
@@ -98,6 +98,4 @@ public class CommandLineFlags
         new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }
-
-    
 }

@@ -7,9 +7,9 @@ public class IRCodeGen
 {
     public static void LLVM_Gen(List<StatementNode> statements, CompileOptions compileOptions)
     {
-        var lakeAsmDir = "lumina-asm";
-        var lakeBinDir = "lumina-bin";
-        var lakeIrDir = "lumina-ir";
+        var asmOutDir = "peren-asm";
+        var binOutDir = "peren-bin";
+        var irOutDir = "peren-ir";
 
         LLVM.InitializeAllTargetInfos();
         LLVM.InitializeAllTargets();
@@ -48,24 +48,24 @@ public class IRCodeGen
         {
             if (!compileOptions.CompileOnly)
             {
-                if (!Directory.Exists(lakeBinDir))
-                    Directory.CreateDirectory(lakeBinDir);
+                if (!Directory.Exists(binOutDir))
+                    Directory.CreateDirectory(binOutDir);
                 var out_string = "";
                 targetMachine.TryEmitToFile(
                     module,
-                    $"{lakeBinDir}/a.o",
+                    $"{binOutDir}/a.o",
                     LLVMCodeGenFileType.LLVMObjectFile,
                     out out_string
                 );
                 Process link = new Process();
                 link.StartInfo.FileName = "ld";
-                link.StartInfo.Arguments = $"{lakeBinDir}/a.o -o {compileOptions.OutputFile}";
+                link.StartInfo.Arguments = $"{binOutDir}/a.o -o {compileOptions.OutputFile}";
                 link.Start();
                 link.WaitForExit();
 
-                File.Delete($"{lakeBinDir}/a.o");
+                File.Delete($"{binOutDir}/a.o");
 
-                Directory.Delete(lakeBinDir);
+                Directory.Delete(binOutDir);
             }
             else
             {
@@ -82,22 +82,22 @@ public class IRCodeGen
         //
         if (compileOptions.IrFile)
         {
-            if (!Directory.Exists(lakeIrDir))
-                Directory.CreateDirectory(lakeIrDir);
+            if (!Directory.Exists(irOutDir))
+                Directory.CreateDirectory(irOutDir);
             File.WriteAllText(
-                $"{lakeIrDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}",
+                $"{irOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}",
                 module.ToString()
             );
         }
 
         if (compileOptions.AssemblyFile)
         {
-            if (!Directory.Exists(lakeAsmDir))
-                Directory.CreateDirectory(lakeAsmDir);
+            if (!Directory.Exists(asmOutDir))
+                Directory.CreateDirectory(asmOutDir);
             var out_string = "";
             targetMachine.TryEmitToFile(
                 module,
-                $"{lakeAsmDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}",
+                $"{asmOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}",
                 LLVMCodeGenFileType.LLVMAssemblyFile,
                 out out_string
             );
@@ -112,13 +112,14 @@ public class IRCodeGen
                 Console.WriteLine($"executable output path: {compileOptions.OutputFile} ");
         if (compileOptions.IrFile)
             Console.WriteLine(
-                $"LLVM-IR file path: {lakeIrDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}"
+                $"LLVM-IR file path: {irOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}"
             );
         if (compileOptions.AssemblyFile)
             Console.WriteLine(
-                $"Assembly file file path: {lakeAsmDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}"
+                $"Assembly file file path: {asmOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".s")}"
             );
 
+        
         Console.WriteLine("Compiled successfully");
     }
 }

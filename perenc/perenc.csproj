@@ -17,7 +17,7 @@
 
     </ItemGroup>
     <PropertyGroup>
-        <AssemblyName>luminac</AssemblyName>
+        <AssemblyName>perenc</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
         <ClCompile Include="lacus-IR\Test.c" />

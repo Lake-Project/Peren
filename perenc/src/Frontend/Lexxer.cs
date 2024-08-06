@@ -2,6 +2,7 @@ using System.Text;
 
 namespace Lexxer
 {
+    // int a = 0;
     public enum State
     {
         NumberState,
