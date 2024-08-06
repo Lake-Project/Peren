@@ -12,8 +12,8 @@ test.lm
 *.lk
 *.s
 test2.lk    
-/Luminac/bin
+/perenc/bin
 /Linker/bin
 /Linker/obj
-/Luminac/obj
-/Luminac/obj/
+/perenc/obj
+/perenc/obj/

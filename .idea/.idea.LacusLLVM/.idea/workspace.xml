@@ -11,40 +11,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ExpressionNode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TopLevelStatement.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/src/Visitors/TopLevelVisitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Luminac/src/Visitors/Visitor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefSatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefSatementNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BoolNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BoolNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BooleanExprNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BooleanExprNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CastNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CastNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CharNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CharNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FloatNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FloatNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ForLoopNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ForLoopNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionCallNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionCallNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/INode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/INode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IfNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IfNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IntegerNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IntegerNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ModuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ModuleNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/OpNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/OpNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ReturnNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ReturnNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StatementNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StringNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StringNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StructNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StructNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TupleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TupleNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/WhileLoopNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/WhileLoopNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/Compile.bat" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/Compile.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/Luminac.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/perenc.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/Test.c" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/Test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Addition.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Addition.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Arrays.Im" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Arrays.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/BinaryAddition.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/BinaryAddition.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Consts.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Consts.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Factorial.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Factorial.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Fibonacci.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Fibonacci.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/TestFiles/Strings.lm" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Strings.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/CompileContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/CompileContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ArrayNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ArrayRefNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ArrayRefSatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ArrayRefSatementNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BoolNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/BoolNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/BooleanExprNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/BooleanExprNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CastNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/CastNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/CharNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/CharNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ElseNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ElseNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ExpressionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ExpressionNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FileNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FileNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FloatNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FloatNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ForLoopNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ForLoopNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionCallNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FunctionCallNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/FunctionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FunctionNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/INode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/INode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IfNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/IfNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/IntegerNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/IntegerNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ModuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/OpNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/OpNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/ReturnNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ReturnNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StatementNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StringNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StringNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/StructNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TopLevelStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TopLevelStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TupleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TupleNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/TypeNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TypeNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/VaraibleReferenceNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/VaraibleReferenceStatementNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/AST/WhileLoopNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/WhileLoopNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/ArrayType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/ArrayType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/FloatType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/LacusType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/LacusType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/StringType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StringType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/StructType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StructType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/Type/VoidType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/VoidType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/TypeMisMatchException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/TypeMisMatchException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/VaraibleAlreadyDefinedException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleAlreadyDefinedException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/VaraibleDoesntExistException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleDoesntExistException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Optimizer/OptimizeExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Optimizer/OptimizeExpr.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Optimizer/OptimizeStatements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Optimizer/OptimizeStatements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Visitors/ExpressionVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/ExpressionVisit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Visitors/StatementVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/StatementVisit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Visitors/TopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Luminac/src/Visitors/Visitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/Visitor.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,8 +139,16 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cfccd7797df0d1589048d647547c6cca5a1fbcf0129add75453f158598eb21fe/LLVM.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc1f61ecd89b811d9ba88f38ff729c92c74fbc61757bde2295c46ec7910f0a4/LLVMTargetMachineRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffdb8de92e73e2839bb719d8e42d4ffaa94e3d4e1f9dde9d18fdb4fa44693a1/LLVMTargetDataRef.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Luminac/Test.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/Test.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ExpressionNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -122,7 +170,7 @@
     &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Big__changaes&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -184,7 +232,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Luminac/Luminac.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/perenc/perenc.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -314,7 +362,8 @@
       <workItem from="1722471443562" duration="5952000" />
       <workItem from="1722610906306" duration="4077000" />
       <workItem from="1722711975713" duration="6833000" />
-      <workItem from="1722719081200" duration="4900000" />
+      <workItem from="1722719081200" duration="6886000" />
+      <workItem from="1722962650421" duration="703000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
