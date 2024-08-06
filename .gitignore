@@ -2,7 +2,7 @@
 /bin/
 /obj/
 /.vscode/
-test.lm
+test.pn
 *.o
 *.ll
 *.exe
@@ -12,6 +12,7 @@ test.lm
 *.lk
 *.s
 test2.lk    
+
 /perenc/bin
 /Linker/bin
 /Linker/obj
