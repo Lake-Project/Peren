@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Lexxer
 {
@@ -371,114 +372,123 @@ namespace Lexxer
             CurrentState = State.NumberState;
         }
 
-        public void Lex(string[] Lines, List<Tokens> Tokens)
+        public void LexString(string line, List<Tokens> Tokens,
+            int lineNumber, ref bool multiLineComments)
+        {
+            bool isString = false;
+            StringBuilder buffer = new();
+            for (var nextToken = 0; nextToken < line.Length; nextToken++)
+            {
+                string currentToken = line[nextToken].ToString();
+
+                if (currentToken == "#")
+                {
+                    if (buffer.Length != 0)
+                    {
+                        groupings(Tokens, buffer, lineNumber);
+                    }
+
+                    break;
+                }
+
+                if (multiLineComments)
+                {
+                    if (nextToken >= 1)
+                    {
+                        if (line[nextToken - 1] == '*' && line[nextToken] == ')')
+                            multiLineComments = false;
+                    }
+
+                    continue;
+                }
+
+                if (line[nextToken] == '(' && line[nextToken + 1] == '*')
+                {
+                    if (buffer.Length != 0)
+                    {
+                        groupings(Tokens, buffer, lineNumber);
+                    }
+
+                    multiLineComments = true;
+                    continue;
+                }
+
+                if (currentToken is "\'" or "\"")
+                {
+                    if (buffer.Length != 0)
+                    {
+                        switch (isString)
+                        {
+                            case true when currentToken == "\'":
+                                Tokens.Add(
+                                    new Tokens(TokenType.CHAR_LITERAL, buffer.ToString(), lineNumber)
+                                );
+                                buffer.Clear();
+                                break;
+                            case true when currentToken == "\"":
+                                Tokens.Add(
+                                    new Tokens(TokenType.STRING_LITERAL, buffer.ToString(), lineNumber)
+                                );
+                                buffer.Clear();
+                                break;
+                            default:
+                                groupings(Tokens, buffer, lineNumber);
+                                break;
+                        }
+                    }
+
+                    isString = !isString;
+                    continue;
+                }
+
+                if (isString)
+                {
+                    buffer.Append(currentToken);
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(currentToken))
+                {
+                    if (buffer.Length != 0)
+                    {
+                        groupings(Tokens, buffer, lineNumber);
+                    }
+
+                    continue;
+                }
+
+                switch (CurrentState)
+                {
+                    case State.NumberState:
+                        Number(currentToken, Tokens, buffer, lineNumber);
+                        break;
+                    case State.OperationState:
+                        Operand(currentToken, Tokens, buffer, lineNumber);
+                        break;
+                    case State.EqualsState:
+                        Equals(currentToken, Tokens, buffer, lineNumber);
+                        break;
+                    case State.DotState:
+                        DotState(currentToken, Tokens, buffer, lineNumber);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            if (buffer.Length != 0)
+            {
+                groupings(Tokens, buffer, lineNumber);
+            }
+        }
+
+        public void LexList(string[] Lines, List<Tokens> Tokens)
         {
             StringBuilder buffer = new();
             bool isString = false;
             bool multiLineComments = false;
             int lineNumber = 0;
-
-            foreach (var line in Lines)
-            {
-                for (var nextToken = 0; nextToken < line.Length; nextToken++)
-                {
-                    string currentToken = line[nextToken].ToString();
-                    if (currentToken == "#")
-                    {
-                        if (buffer.Length != 0)
-                        {
-                            groupings(Tokens, buffer, lineNumber);
-                        }
-
-                        break;
-                    }
-
-                    if (multiLineComments)
-                    {
-                        if (nextToken >= 1)
-                        {
-                            if (line[nextToken - 1] == '*' && line[nextToken] == ')')
-                                multiLineComments = false;
-                        }
-
-                        continue;
-                    }
-
-                    if (line[nextToken] == '(' && line[nextToken + 1] == '*')
-                    {
-                        if (buffer.Length != 0)
-                        {
-                            groupings(Tokens, buffer, lineNumber);
-                        }
-
-                        multiLineComments = true;
-                        continue;
-                    }
-
-                    if (currentToken is "\'" or "\"")
-                    {
-                        if (buffer.Length != 0)
-                        {
-                            switch (isString)
-                            {
-                                case true when currentToken == "\'":
-                                    Tokens.Add(
-                                        new Tokens(TokenType.CHAR_LITERAL, buffer.ToString(), lineNumber)
-                                    );
-                                    buffer.Clear();
-                                    break;
-                                case true when currentToken == "\"":
-                                    Tokens.Add(
-                                        new Tokens(TokenType.STRING_LITERAL, buffer.ToString(), lineNumber)
-                                    );
-                                    buffer.Clear();
-                                    break;
-                                default:
-                                    groupings(Tokens, buffer, lineNumber);
-                                    break;
-                            }
-                        }
-
-                        isString = !isString;
-                        continue;
-                    }
-
-                    if (isString)
-                    {
-                        buffer.Append(currentToken);
-                        continue;
-                    }
-
-                    if (string.IsNullOrWhiteSpace(currentToken))
-                    {
-                        if (buffer.Length != 0)
-                        {
-                            groupings(Tokens, buffer, lineNumber);
-                        }
-
-                        continue;
-                    }
-
-                    switch (CurrentState)
-                    {
-                        case State.NumberState:
-                            Number(currentToken, Tokens, buffer, lineNumber);
-                            break;
-                        case State.OperationState:
-                            Operand(currentToken, Tokens, buffer, lineNumber);
-                            break;
-                        case State.EqualsState:
-                            Equals(currentToken, Tokens, buffer, lineNumber);
-                            break;
-                        case State.DotState:
-                            DotState(currentToken, Tokens, buffer, lineNumber);
-                            break;
-                    }
-                }
-
-                lineNumber++;
-            }
-
+            Lines.ToList().ForEach(n => { LexString(n, Tokens, ++lineNumber, ref multiLineComments); });
             if (buffer.Length != 0)
             {
                 groupings(Tokens, buffer, Lines.Length);

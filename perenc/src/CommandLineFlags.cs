@@ -94,7 +94,7 @@ public class CommandLineFlags
                 : [n])
             .ToList()
             .ForEach(n =>
-                t.Lex(File.ReadAllLines(n),
+                t.LexList(File.ReadAllLines(n),
                     tokens)); //little function designed to grab All the files in a Directory :3
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
