@@ -11,17 +11,17 @@ public class LLVMExprVisitor(
     LLVMModuleRef moduleRef
 ) : ExpressionVisit<LLVMValueRef>
 {
-    // private LLVMContext Context { get; } = context;
-
     public override LLVMValueRef Visit(IntegerNode node)
     {
-        if (node.Range == Range.EightBit)
-            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)node.Value);
-        else if (node.Range == Range.SixteenBit)
-            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int16, (ulong)node.Value);
-        else if (node.Range == Range.SixtyFourBit)
-            return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int64, (ulong)node.Value);
-        return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int32, (ulong)node.Value);
+        return LLVMValueRef.CreateConstInt(node.Range switch
+        {
+            Range.OneBit => LLVMTypeRef.Int1,
+            Range.EightBit => LLVMTypeRef.Int8,
+            Range.SixteenBit => LLVMTypeRef.Int16,
+            Range.ThirtyTwoBit => LLVMTypeRef.Int32,
+            Range.SixtyFourBit => LLVMTypeRef.Int64,
+            _ => throw new Exception("erro")
+        }, (ulong)node.Value);
     }
 
     public override LLVMValueRef Visit(FloatNode node)
@@ -144,17 +144,7 @@ public class LLVMExprVisitor(
     public override LLVMValueRef Visit(CastNode node)
     {
         var v = node.Expr.Visit(this);
-        var TargetType = node.type.tokenType switch
-        {
-            TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
-            TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
-            TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
-            TokenType.FLOAT => LLVMTypeRef.Float,
-            TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
-            TokenType.VOID => LLVMTypeRef.Void,
-            _ => throw new Exception("unaccepted type")
-        };
+        var TargetType = Compile.ToLLVMType(node.type, context);
         if (node.inferredtype == CastType.FLOAT)
         {
             return builderRef.BuildFPToSI(v, TargetType);

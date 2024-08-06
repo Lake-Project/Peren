@@ -262,33 +262,5 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
             builderRef.PositionAtEnd(After);
         }
     }
-
-    public override void Visit(StructNode node)
-    {
-        var llvmstruct = moduleRef.Context.CreateNamedStruct(node.Name.buffer);
-        Context.types.Add(node.Name.buffer, new LLVMType(
-            llvmstruct, node.Vars));
-    }
-
-    // public LLVMTypeRef ToLLVMType(Tokens type)
-    // {
-    //     if (type.tokenType == TokenType.WORD)
-    //     {
-    //         return Context.types.Get(type.buffer).Type;
-    //     }
-    //
-    //     return type.tokenType switch
-    //     {
-    //         TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
-    //         TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
-    //         TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
-    //
-    //         TokenType.FLOAT => LLVMTypeRef.Float,
-    //         TokenType.BOOL => LLVMTypeRef.Int1,
-    //         TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
-    //         TokenType.VOID => LLVMTypeRef.Void,
-    //         TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
-    //         _ => throw new Exception($"undefined {type.ToString()} type")
-    //     };
-    // }
+    
 }
