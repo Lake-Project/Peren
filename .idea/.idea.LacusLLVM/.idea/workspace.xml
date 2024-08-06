@@ -11,9 +11,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/Test.c" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/Test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,8 +77,16 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cfccd7797df0d1589048d647547c6cca5a1fbcf0129add75453f158598eb21fe/LLVM.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc1f61ecd89b811d9ba88f38ff729c92c74fbc61757bde2295c46ec7910f0a4/LLVMTargetMachineRef.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffdb8de92e73e2839bb719d8e42d4ffaa94e3d4e1f9dde9d18fdb4fa44693a1/LLVMTargetDataRef.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Luminac/Test.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/jduda/OneDrive/Documents/~VScodeFiles/CSharp/LacusLLVM/Luminac/src/Frontend/Parser/AST/BooleanExprNode.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/Test.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ExpressionNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -91,7 +108,7 @@
     &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Big__changaes&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -153,7 +170,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Luminac/Luminac.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/perenc/perenc.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -283,7 +300,8 @@
       <workItem from="1722471443562" duration="5952000" />
       <workItem from="1722610906306" duration="4077000" />
       <workItem from="1722711975713" duration="6833000" />
-      <workItem from="1722719081200" duration="1906000" />
+      <workItem from="1722719081200" duration="6886000" />
+      <workItem from="1722962650421" duration="9494000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
@@ -726,23 +744,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="lumina" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Luminac/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs</url>
-          <line>104</line>
-          <properties documentPath="C:\Users\jduda\OneDrive\Documents\~VScodeFiles\CSharp\LacusLLVM\Luminac\src\Frontend\SemanticAnalysis\SemanticAanylyzerVisitor\SemanticVisitExpr.cs" containingFunctionPresentation="Method 'Visit'">
-            <startOffsets>
-              <option value="3471" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3472" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Frame#CompileOptions.set_InputFiles" memberName="value" />

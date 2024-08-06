@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>12</LangVersion>
+        <RootNamespace>LLVMLake</RootNamespace>
+
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
+        <PackageReference Include="libLLVM" Version="16.0.6" />
+        <PackageReference Include="LLVMSharp" Version="16.0.0" />
+
+    </ItemGroup>
+    <PropertyGroup>
+        <AssemblyName>perenc</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <ClCompile Include="lacus-IR\Test.c" />
+        <ClCompile Include="Test.c" />
+    </ItemGroup>
+</Project>
