@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Text.RegularExpressions;
 using CommandLine;
-using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 
@@ -89,13 +86,22 @@ public class CommandLineFlags
     {
         List<Tokens> tokens = new();
         LexTokens t = new();
-        compileOptions.InputFiles.ToList().ForEach(n => { t.Lex(File.ReadAllLines(n), tokens); });
+        compileOptions.InputFiles.ToList()
+            .SelectMany(n => Directory.Exists(n)
+                ? Directory
+                    .GetFiles(n, "*.pn")
+                    .ToList()
+                : [n])
+            .ToList()
+            .ForEach(n =>
+                t.Lex(File.ReadAllLines(n),
+                    tokens)); //little function designed to grab All the files in a Directory :3
         if (compileOptions.PrintTokens)
             tokens.ForEach(n => Console.WriteLine(n.ToString()));
 
         // Parse p = new MonadicParser<INode>(tokens);
         var s = new Parse(tokens).ParseFile();
-        
+
         new SemanticAnaylsis().SemanticEntry(s);
         IRCodeGen.LLVM_Gen(s, compileOptions);
     }

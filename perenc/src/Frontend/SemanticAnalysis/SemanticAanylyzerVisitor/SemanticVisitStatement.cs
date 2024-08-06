@@ -212,16 +212,16 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
         Program.Vars.DeallocateScope();
     }
 
-    public override void Visit(StructNode node)
-    {
-        Program.Types.AddValue(node.Name, new SemanticTypes(
-            new StructType(node
-                    .Name
-                    .buffer,
-                node.Vars.ToDictionary(
-                    n => n.Name.buffer, //name
-                    n
-                        => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
-                ), false)));
-    }
+    // public override void Visit(StructNode node)
+    // {
+    //     Program.Types.AddValue(node.Name, new SemanticTypes(
+    //         new StructType(node
+    //                 .Name
+    //                 .buffer,
+    //             node.Vars.ToDictionary(
+    //                 n => n.Name.buffer, //name
+    //                 n
+    //                     => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
+    //             ), false)));
+    // }
 }

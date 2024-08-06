@@ -45,8 +45,8 @@ public class OptimizeStatements : StatementVisit
         throw new NotImplementedException();
     }
 
-    public override void Visit(StructNode node)
-    {
-        throw new NotImplementedException();
-    }
+    // public override void Visit(StructNode node)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
