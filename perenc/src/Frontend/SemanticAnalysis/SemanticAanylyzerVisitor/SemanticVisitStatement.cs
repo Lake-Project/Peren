@@ -96,7 +96,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
     {
         if (node is ArrayNode n)
         {
-            n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(true)));
+            n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
         }
 
         // if (node is ArrayNode)

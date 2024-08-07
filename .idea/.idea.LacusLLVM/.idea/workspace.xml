@@ -12,19 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FunctionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/FunctionNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TopLevelStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TopLevelStatement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/VaraibleDeclarationNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Visitors/StatementVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/StatementVisit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -308,7 +296,8 @@
       <workItem from="1722711975713" duration="6833000" />
       <workItem from="1722719081200" duration="6886000" />
       <workItem from="1722962650421" duration="9494000" />
-      <workItem from="1723003906680" duration="9118000" />
+      <workItem from="1723003906680" duration="10432000" />
+      <workItem from="1723058488925" duration="68000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
