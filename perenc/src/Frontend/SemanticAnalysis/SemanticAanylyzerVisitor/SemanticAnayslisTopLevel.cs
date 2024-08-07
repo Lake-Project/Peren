@@ -4,7 +4,7 @@ using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
-public class SemanticAnayslisTopLevel : TopLevelVisitor
+public class SemanticAnayslisTopLevel : StatementVisit
 {
     public SemanticContext<SemanticVar> Vars { get; set; }
     public SemanticContext<SemanticTypes> Types { get; set; }
@@ -25,6 +25,11 @@ public class SemanticAnayslisTopLevel : TopLevelVisitor
 
     public override void Visit(VaraibleDeclarationNode node)
     {
+        if (node is ArrayNode n)
+        {
+            n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(true)));
+        }
+
         var type = SemanticAnaylsis.tokenToLacusType(node.Type, node.AttributesTuple.isConst, Program);
         Program.AddVar(
             node.Name,
@@ -66,10 +71,6 @@ public class SemanticAnayslisTopLevel : TopLevelVisitor
         node.FunctionNodes.ForEach(n => n.Visit(new SemanticVisitStatement(Program)));
     }
 
-    public override void Visit(TopLevelStatement node)
-    {
-        throw new NotImplementedException();
-    }
 
     public override void Visit(StructNode node)
     {

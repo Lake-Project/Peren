@@ -701,11 +701,12 @@ public class Parse
                 moduleNode.FunctionNodes.Add(ParseFunction());
             else if (MatchAndRemove(TokenType.STRUCT) != null)
                 moduleNode.StructNodes.Add(ParseStructs());
+            else if (MatchAndRemove(TokenType.ARRAY) != null)
+                moduleNode.VaraibleDeclarationNodes.Add(ParseArray());
             else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
                 moduleNode.VaraibleDeclarationNodes.Add(ParseVar());
             else if (
                 MatchAndRemove(TokenType.EXTERN) != null
-                || MatchAndRemove(TokenType.UNSIGNED) != null
                 || MatchAndRemove(TokenType.CONST) != null
             )
                 attributes.Push(Current);

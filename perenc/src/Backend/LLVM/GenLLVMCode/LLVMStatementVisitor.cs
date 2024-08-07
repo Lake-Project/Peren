@@ -61,6 +61,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         {
             var size = n.Size.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
             var value = builderRef.BuildArrayAlloca(type, size);
+            
             Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
         }
         else

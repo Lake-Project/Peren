@@ -8,7 +8,7 @@ public class FunctionNode(
     List<VaraibleDeclarationNode> parameters,
     TypeNode retType,
     List<StatementNode> statements
-) : TopLevelStatement
+) : StatementNode
 {
     public List<StatementNode> Statements { get; set; } = statements;
     // public bool IsExtern { get; set; } = isExtern;
@@ -19,7 +19,7 @@ public class FunctionNode(
     public Tokens Name { get; set; } = name;
 
     public override void Visit(StatementVisit visitor) => visitor.Visit(this);
-    public override void Visit(TopLevelVisitor v) => v.Visit(this);
+    // public override void Visit(TopLevelVisitor v) => v.Visit(this);
 
 
     // public override string ToString()

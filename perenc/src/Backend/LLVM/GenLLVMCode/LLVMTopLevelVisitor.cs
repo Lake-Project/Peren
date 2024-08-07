@@ -3,7 +3,7 @@ using LLVMSharp.Interop;
 
 namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
-public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef) : TopLevelVisitor
+public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef) : StatementVisit
 {
     private LLVMContext Context { get; } = new();
 
@@ -17,6 +17,15 @@ public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef module
             // Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
             // value.Initializer = 
             ///TODO: come up with a plan for arrays
+            // throw new NotImplementedException();
+            var value = moduleRef.AddGlobal(type, node.Name.buffer);
+
+            value.Initializer = builderRef.BuildArrayAlloca(type,
+                n.Size.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
+                "test");
+            // LLVMTypeRef.CreateArray()
+            Context.globalVars.Add(node.Name.buffer, new LLVMVar(value, type));
+            // LLVMTypeRef.CreateArray
             throw new NotImplementedException();
         }
         else
@@ -68,10 +77,6 @@ public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef module
         // node.StatementNodes.ForEach(n => n.Visit(this));
     }
 
-    public override void Visit(TopLevelStatement node)
-    {
-        throw new NotImplementedException();
-    }
 
     public override void Visit(StructNode node)
     {

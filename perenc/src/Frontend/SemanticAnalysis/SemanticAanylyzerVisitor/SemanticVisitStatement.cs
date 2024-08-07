@@ -94,6 +94,11 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
 
     public override void Visit(VaraibleDeclarationNode node)
     {
+        if (node is ArrayNode n)
+        {
+            n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(true)));
+        }
+
         // if (node is ArrayNode)
         // {
         //     p.AddVar(node.Name,
