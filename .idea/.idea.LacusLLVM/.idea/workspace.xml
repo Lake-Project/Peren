@@ -13,7 +13,7 @@
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

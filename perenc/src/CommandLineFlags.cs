@@ -85,24 +85,23 @@ public class CommandLineFlags
     private static void RunCompiler(CompileOptions compileOptions)
     {
         List<Tokens> tokens = new();
-        LexTokens t = new();
+
         compileOptions.InputFiles.ToList()
-            .SelectMany(n => Directory.Exists(n)
+            .SelectMany(inputDirOrFile => Directory.Exists(inputDirOrFile)
                 ? Directory
-                    .GetFiles(n, "*.pn")
+                    .GetFiles(inputDirOrFile, "*.pn")
                     .ToList()
-                : [n])
+                : [inputDirOrFile])
             .ToList()
-            .ForEach(n =>
-                t.LexList(File.ReadAllLines(n),
-                    tokens)); //little function designed to grab All the files in a Directory :3
+            .ForEach(inputFile =>
+                new LexTokens().LexList(File.ReadAllLines(inputFile),
+                    tokens)); //little function designed to grab All the files in a Directory and lexes them:3
         if (compileOptions.PrintTokens)
-            tokens.ForEach(n => Console.WriteLine(n.ToString()));
+            tokens.ForEach(token => Console.WriteLine(token)); //prints the tokens
 
-        // Parse p = new MonadicParser<INode>(tokens);
-        var s = new Parse(tokens).ParseFile();
+        var parsedProgram = new Parse(tokens).ParseFile();
 
-        new SemanticAnaylsis().SemanticEntry(s);
-        IRCodeGen.LLVM_Gen(s, compileOptions);
+        SemanticAnaylsis.init(parsedProgram);
+        IRCodeGen.LLVM_Gen(parsedProgram, compileOptions);
     }
 }

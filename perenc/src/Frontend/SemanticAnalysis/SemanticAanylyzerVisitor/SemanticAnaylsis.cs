@@ -6,7 +6,7 @@ namespace LacusLLVM.SemanticAanylyzerVisitor;
 
 public class SemanticAnaylsis
 {
-    public void SemanticEntry(ModuleNode n)
+    public static void init(ModuleNode n)
     {
         var s = new SemanticAnayslisTopLevel();
         n.Visit(s);
