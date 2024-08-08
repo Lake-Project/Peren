@@ -5,7 +5,7 @@ using LLVMSharp.Interop;
 
 public class IRCodeGen
 {
-    public static void LLVM_Gen(ModuleNode statements, CompileOptions compileOptions)
+    public static void LLVM_Gen(PerenNode statements, CompileOptions compileOptions)
     {
         var asmOutDir = "peren-asm";
         var binOutDir = "peren-bin";
@@ -17,7 +17,7 @@ public class IRCodeGen
         LLVM.InitializeAllAsmPrinters();
         LLVM.InitializeAllAsmParsers();
 
-        var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(compileOptions.OutputFile, ".ll"));
+        var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(statements.GetStart().Name.buffer, ".ll"));
         LLVMBuilderRef builder = module.Context.CreateBuilder();
         var visit = new LLVMTopLevelVisitor(builder, module);
         statements.Visit(visit);

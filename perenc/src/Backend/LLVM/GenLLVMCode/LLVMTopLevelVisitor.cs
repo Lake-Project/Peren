@@ -77,6 +77,11 @@ public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef module
         // node.StatementNodes.ForEach(n => n.Visit(this));
     }
 
+    public override void Visit(PerenNode node)
+    {
+        node.ModuleNodes.ForEach(n => n.Visit(this));
+        // base.Visit(node);
+    }
 
     public override void Visit(StructNode node)
     {

@@ -1,5 +1,6 @@
-fn main() returns int{
-    string hello_world := "hello world"; (* hello world *)
-    
-    return 0;
+module Strings{
+    fn main() returns int{
+        string hello_world := "hello world"; (* hello world *)
+        return 0;
+    }
 }

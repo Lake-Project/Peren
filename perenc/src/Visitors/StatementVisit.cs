@@ -9,6 +9,9 @@ public abstract class StatementVisit
     {
     }
 
+    public virtual void Visit(PerenNode node)
+    {
+    }
 
     public virtual void Visit(VaraibleReferenceStatementNode node)
     {

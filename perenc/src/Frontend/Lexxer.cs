@@ -187,7 +187,7 @@ namespace Lexxer
                     ["depends"] = new(TokenType.DEPENDS),
 
                     ["while"] = new(TokenType.WHILE),
-                    ["mod"] = new(TokenType.MOD),
+                    ["module"] = new(TokenType.MOD),
                     ["Array"] = new(TokenType.ARRAY),
                 };
             if (double.TryParse(buffer.ToString(), out _))

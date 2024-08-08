@@ -1,7 +1,9 @@
-fn main() returns int
-{
-    const float pi := 3.1415;
-    const int Error_exit := 1;
-    const int Exit_success := 0; 
-    return Exit_success;
-} 
+module Constants{
+    fn main() returns int
+    {
+        const float pi := 3.1415;
+        const int Error_exit := 1;
+        const int Exit_success := 0; 
+        return Exit_success;
+    } 
+}

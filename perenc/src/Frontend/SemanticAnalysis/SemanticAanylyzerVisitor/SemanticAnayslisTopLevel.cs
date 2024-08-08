@@ -10,6 +10,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
     public SemanticContext<SemanticTypes> Types { get; set; }
     public SemanticContext<SemanticFunction> Function { get; init; }
     public SemanticProgram Program { get; set; }
+    public Dictionary<string, ModuleNode> AvaibleModules;
 
     public SemanticAnayslisTopLevel()
     {
@@ -65,6 +66,14 @@ public class SemanticAnayslisTopLevel : StatementVisit
 
     public override void Visit(ModuleNode node)
     {
+        node.Imports.ForEach(n =>
+        {
+            if (!AvaibleModules.ContainsKey(n.buffer))
+                throw new Exception(
+                    $"module {node.Name.buffer} Cant import Module {n.buffer} on line {node.Name.GetLine()}");
+            if (n.buffer == node.Name.buffer)
+                throw new Exception($"recursive import detected in module {node.Name} on line {node.Name.GetLine()}");
+        });
         node.FunctionNodes.ForEach(n => n.Visit(this));
         node.StructNodes.ForEach(n => n.Visit(this));
         node.VaraibleDeclarationNodes.ForEach(n => n.Visit(this));
@@ -83,5 +92,12 @@ public class SemanticAnayslisTopLevel : StatementVisit
                     n
                         => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
                 ), false)));
+    }
+
+    public override void Visit(PerenNode node)
+    {
+        AvaibleModules = node.ModuleNodes;
+        node.ModuleNodes.Values.ToList()
+            .ForEach(n => { n.Visit(this); });
     }
 }

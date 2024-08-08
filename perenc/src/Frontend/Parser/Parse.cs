@@ -6,7 +6,7 @@ using Lexxer;
 
 public struct AttributesTuple
 {
-    public bool isUnsigned;
+    public bool isPub;
     public bool isExtern;
     public bool isConst;
 }
@@ -445,8 +445,8 @@ public class Parse
         while (attributes.Any())
         {
             Tokens v = attributes.Pop();
-            if (v.tokenType == TokenType.UNSIGNED && list.Contains(TokenType.UNSIGNED))
-                attributesTuple.isUnsigned = true;
+            if (v.tokenType == TokenType.PUB && list.Contains(TokenType.PUB))
+                attributesTuple.isPub = true;
             else if (v.tokenType == TokenType.EXTERN
                      && list.Contains(TokenType.EXTERN))
                 attributesTuple.isExtern = true;
@@ -593,7 +593,6 @@ public class Parse
         else if (MatchAndRemove(
                      new[]
                      {
-                         TokenType.UNSIGNED,
                          TokenType.CONST,
                      }) != null)
         {
@@ -653,7 +652,8 @@ public class Parse
     {
         var p = GetAttributes(new List<TokenType>()
         {
-            TokenType.EXTERN
+            TokenType.EXTERN,
+            TokenType.PUB
         });
         Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
         List<StatementNode> statements = new List<StatementNode>();
@@ -694,8 +694,21 @@ public class Parse
 
     public ModuleNode ParseModuleNode()
     {
-        ModuleNode moduleNode = new();
-        while (TokenList.Count != 0)
+        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("module needs name");
+        List<Tokens> Imports = new();
+        if (MatchAndRemove(TokenType.OP_PAREN) != null)
+        {
+            while (MatchAndRemove(TokenType.CL_PAREN) == null)
+            {
+                Imports.Add(MatchAndRemove(TokenType.WORD) ?? throw new Exception("error"));
+                MatchAndRemove(TokenType.COMMA);
+            }
+        }
+
+        ModuleNode moduleNode = new(name.Value, Imports);
+
+        Tokens? t = MatchAndRemove(TokenType.BEGIN) ?? throw new Exception("need begin");
+        while (MatchAndRemove(TokenType.END) == null)
         {
             if (MatchAndRemove(TokenType.FUNCTION) != null)
                 moduleNode.FunctionNodes.Add(ParseFunction());
@@ -708,6 +721,7 @@ public class Parse
             else if (
                 MatchAndRemove(TokenType.EXTERN) != null
                 || MatchAndRemove(TokenType.CONST) != null
+                || MatchAndRemove(TokenType.PUB) != null
             )
                 attributes.Push(Current);
             MatchAndRemove(TokenType.EOL);
@@ -716,8 +730,17 @@ public class Parse
         return moduleNode;
     }
 
-    public ModuleNode ParseFile()
+    public PerenNode ParseFile()
     {
-        return ParseModuleNode();
+        Dictionary<string, ModuleNode> modules = new();
+        while (TokenList.Count != 0)
+        {
+            if (MatchAndRemove(TokenType.MOD) != null)
+            {
+                ModuleNode m = ParseModuleNode();
+                modules.Add(m.Name.buffer, m);
+            }
+        }
+        return new PerenNode(modules);
     }
 }

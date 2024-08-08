@@ -6,10 +6,11 @@ namespace LacusLLVM.SemanticAanylyzerVisitor;
 
 public class SemanticAnaylsis
 {
-    public static void init(ModuleNode n)
+    public static void init(PerenNode p)
     {
         var s = new SemanticAnayslisTopLevel();
-        n.Visit(s);
+        p.Visit(s);
+        // n.ForEach(n => n.Visit(s));
     }
 
     public static LacusType tokenToLacusType(Tokens type, bool isConst, SemanticProgram program)
