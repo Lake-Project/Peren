@@ -11,24 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/perenc/TestCompile.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/PerenNode.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Addition.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Addition.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Arrays.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Arrays.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/BinaryAddition.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/BinaryAddition.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Consts.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Consts.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Factorial.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Factorial.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Fibonacci.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Fibonacci.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/Strings.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/Strings.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Visitors/StatementVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Visitors/StatementVisit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TopLevelStatement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +299,7 @@
       <workItem from="1722962650421" duration="9494000" />
       <workItem from="1723003906680" duration="10432000" />
       <workItem from="1723058488925" duration="1918000" />
-      <workItem from="1723132883593" duration="6393000" />
+      <workItem from="1723132883593" duration="8493000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
