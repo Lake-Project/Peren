@@ -11,9 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/TopLevelStatement.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Visitors/TopLevelVisitor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +123,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Project.LacusLLVM">
+  <component name="RunManager" selected=".NET Project.Lakec">
     <configuration name="LacusLLVM" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Linker/bin/Debug/net8.0/Linker.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -299,7 +302,9 @@
       <workItem from="1722962650421" duration="9494000" />
       <workItem from="1723003906680" duration="10432000" />
       <workItem from="1723058488925" duration="1918000" />
-      <workItem from="1723132883593" duration="8493000" />
+      <workItem from="1723132883593" duration="8694000" />
+      <workItem from="1723146269861" duration="625000" />
+      <workItem from="1723163530185" duration="1599000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

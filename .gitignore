@@ -18,3 +18,5 @@ test2.lk
 /Linker/obj
 /perenc/obj
 /perenc/obj/
+/PerenTests/bin/
+/PerenTests/obj/

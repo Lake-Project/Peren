@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linker", "Linker\Linker.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "perenc", "perenc\perenc.csproj", "{22ED844F-932D-477C-B86F-D5766C788D6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerenTests", "PerenTests\PerenTests.csproj", "{7CFF2FD7-0DD4-497C-A9A3-DE9F9645600F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{22ED844F-932D-477C-B86F-D5766C788D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22ED844F-932D-477C-B86F-D5766C788D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22ED844F-932D-477C-B86F-D5766C788D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CFF2FD7-0DD4-497C-A9A3-DE9F9645600F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CFF2FD7-0DD4-497C-A9A3-DE9F9645600F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CFF2FD7-0DD4-497C-A9A3-DE9F9645600F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CFF2FD7-0DD4-497C-A9A3-DE9F9645600F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
