@@ -1,5 +1,5 @@
 # Peren Programming Langauge
-[![.NET build status](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml)
+[![.NET build status](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml) 
 
 Peren. Name derived from Perenial. to mean "long lasting"  
 
