@@ -6,6 +6,9 @@ namespace PerenTests;
 
 public class SemanticAnalysisTests
 {
+    /// <summary>
+    /// Tests for forbidden assignments
+    /// </summary>
     [Test]
     public void TestForbiddenAssignment()
     {
@@ -82,6 +85,9 @@ public class SemanticAnalysisTests
             });
     }
 
+    /// <summary>
+    /// Tests for forbidden casts
+    /// </summary>
     [Test]
     public void TestForbiddenCasts()
     {

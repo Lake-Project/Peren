@@ -11,16 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PerenTests/UnitTest1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/ParseTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/perenc.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/perenc.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/CommandLineFlags.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Perenc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/CastNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/CastNode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +303,7 @@
       <workItem from="1723146269861" duration="625000" />
       <workItem from="1723163530185" duration="3056000" />
       <workItem from="1723422723294" duration="613000" />
-      <workItem from="1723473744822" duration="9245000" />
+      <workItem from="1723473744822" duration="16571000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
