@@ -20,7 +20,6 @@
         <AssemblyName>perenc</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
-        <ClCompile Include="lacus-IR\Test.c" />
         <ClCompile Include="Test.c" />
     </ItemGroup>
 </Project>

@@ -12,7 +12,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(IntegerNode node)
     {
-        node.Range = assignedType is not BoolType ? assignedType.Range : Range.ThirtyTwoBit;
+        node.Range = assignedType is IntegerType ? assignedType.Range : Range.ThirtyTwoBit;
         return new IntegerType(true, node.Range, assignedType.IsUnsigned);
     }
 
@@ -139,41 +139,46 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
 
     public override LacusType Visit(CastNode node)
     {
-        LacusType t = node.type.tokenType switch
-        {
-            TokenType.INT => new IntegerType(false, Range.ThirtyTwoBit),
-            TokenType.INT16 => new IntegerType(false, Range.SixteenBit),
-            TokenType.INT64 => new IntegerType(false, Range.SixtyFourBit),
-            TokenType.BOOL => new BoolType(false, Range.OneBit),
-            TokenType.FLOAT => new FloatType(false, Range.Float),
-            TokenType.CHAR => new CharType(false, Range.EightBit),
-            TokenType.ULONG => new IntegerType(false, Range.SixtyFourBit, true),
-            TokenType.BYTE => new IntegerType(false, Range.EightBit, true),
-            TokenType.SBYTE => new IntegerType(false, Range.EightBit),
-            TokenType.UINT => new IntegerType(false, Range.ThirtyTwoBit, true),
-            TokenType.UINT_16 => new IntegerType(false, Range.SixteenBit, true),
-            TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), false),
-            _ => throw new Exception($"type{node.type.ToString()} doesnt exist")
-        };
+        // LacusType t = node.type.tokenType switch
+        // {
+        //     TokenType.INT => new IntegerType(false, Range.ThirtyTwoBit),
+        //     TokenType.INT16 => new IntegerType(false, Range.SixteenBit),
+        //     TokenType.INT64 => new IntegerType(false, Range.SixtyFourBit),
+        //     TokenType.BOOL => new BoolType(false, Range.OneBit),
+        //     TokenType.FLOAT => new FloatType(false, Range.Float),
+        //     TokenType.CHAR => new CharType(false, Range.EightBit),
+        //     TokenType.ULONG => new IntegerType(false, Range.SixtyFourBit, true),
+        //     TokenType.BYTE => new IntegerType(false, Range.EightBit, true),
+        //     TokenType.SBYTE => new IntegerType(false, Range.EightBit),
+        //     TokenType.UINT => new IntegerType(false, Range.ThirtyTwoBit, true),
+        //     TokenType.UINT_16 => new IntegerType(false, Range.SixteenBit, true),
+        //     TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), false),
+        //     _ => throw new Exception($"type{node.type.ToString()} doesnt exist")
+        // };
+        var t = SemanticAnaylsis.tokenToLacusType(node.type, false, program);
         var ty = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType(false, Range.None)));
-        Console.WriteLine(ty);
-        Console.WriteLine(t);
+        // t switch ()
+        switch (t)
+        {
+            case IntegerType when ty is FloatType:
+                node.inferredtype = CastType.FLOAT;
+                break;
+            case FloatType when ty is IntegerType:
+                node.inferredtype = CastType.INT;
+                break;
+            default:
+            {
+                if (t.Range < ty.Range)
+                {
+                    node.inferredtype = CastType.TRUNCATE;
+                }
+                else if (t.Range > ty.Range)
+                {
+                    node.inferredtype = CastType.SEXT;
+                }
 
-        if (t.Range > ty.Range)
-        {
-            node.inferredtype = CastType.TRUNCATE;
-        }
-        else if (t.Range < ty.Range)
-        {
-            node.inferredtype = CastType.SEXT;
-        }
-        else if (t is IntegerType && ty is FloatType)
-        {
-            node.inferredtype = CastType.FLOAT;
-        }
-        else if (t is FloatType && ty is IntegerType)
-        {
-            node.inferredtype = CastType.INT;
+                break;
+            }
         }
 
         return t;

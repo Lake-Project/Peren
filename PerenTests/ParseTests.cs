@@ -1,14 +1,15 @@
 using System.Text.RegularExpressions;
 using LacusLLVM.Frontend.Parser.AST;
+using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
 
 namespace PerenTests;
 
-public class Tests
+public class ParseTests
 {
     private PerenNode p;
 
-    public string[] getFile(string code)
+    public static string[] getFile(string code)
     {
         string pattern = @"([{};])";
         string[] parts = Regex.Split(code, pattern);
@@ -41,7 +42,7 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void TestModuleParsing()
     {
         string code = @"
        
@@ -56,7 +57,8 @@ public class Tests
         }
         fn main() returns int{
             int f := Factorial(10);
-            n := 10;
+            f := 10;
+            f := 10.2;
             return 0;
     
         }
@@ -66,5 +68,8 @@ public class Tests
 
         var p = new Parse(list).ParseFile();
         p.ModuleNodes.Keys.ToList().ForEach(n => { Assert.That(n, Is.EqualTo("Factorial")); });
+        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.init(p));
     }
+
+    // [Test]
 }

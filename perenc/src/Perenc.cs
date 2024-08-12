@@ -15,6 +15,7 @@ public class CompileOptions
 {
     private string _input;
 
+
     [Value(
         index: 0,
         MetaName = "inputFile",
@@ -69,7 +70,7 @@ public class CompileOptions
     public string TargetArchitechure { get; set; }
 }
 
-public class CommandLineFlags
+public class Perenc
 {
     public static void Init(string[] args)
     {
@@ -78,8 +79,14 @@ public class CommandLineFlags
         // new Options().InputFiles = "a";
         Parser
             .Default.ParseArguments<CompileOptions>(args)
-            .WithParsed<CompileOptions>(options => RunCompiler(options))
-            .WithNotParsed(errors => Console.WriteLine($"error invoking perenc"));
+            .WithParsed(options => RunCompiler(options))
+            .WithNotParsed(errors =>
+            {
+                using var enumerator = errors.GetEnumerator();
+                enumerator.MoveNext();
+                Console.WriteLine($"error invoking perenc {enumerator.Current}, " +
+                                  $"perenc --help to see a list of options");
+            });
     }
 
     private static void RunCompiler(CompileOptions compileOptions)

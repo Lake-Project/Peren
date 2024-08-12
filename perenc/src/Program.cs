@@ -8,7 +8,7 @@ partial class Program
 {
     public static void Main(string[] args)
     {
-        CommandLineFlags.Init(args);
+        Perenc.Init(args);
   
         // code.Split("\t ;")
     }
