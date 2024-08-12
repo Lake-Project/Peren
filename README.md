@@ -1,7 +1,5 @@
 # Peren Programming Langauge
 
-![][https://github.com/Lake-Project/Lakev2/actions/workflows/ci.yml/badge.svg]
-
 Peren. Name derived from Perenial. to mean "long lasting"  
 
 Peren, programming langauge developed with the intention of being a middle ground between C and rust with learning curve and complexity. 
