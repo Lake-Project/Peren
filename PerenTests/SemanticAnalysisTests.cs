@@ -1,11 +1,63 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.SemanticAanylyzerVisitor;
 using Lexxer;
+using LLVMLake.Frontend;
 
 namespace PerenTests;
 
 public class SemanticAnalysisTests
 {
+    [Test]
+    public void TestForbiddenImport()
+    {
+        string code = @"
+       
+        module Factorial(Factorial){
+        fn Factorial(int n) returns int
+        {
+            if (n == 1) {
+                return 1;
+            }
+  
+            return n * Factorial(n - 1);
+        }
+        fn main() returns int{
+            int f := Factorial(10);
+            f := 10.2;
+            return 0;
+    
+        }
+    }";
+        var list = new List<Tokens>();
+        new LexTokens().LexList(ParseTests.getFile(code), list);
+
+        var p = new Parse(list).ParseFile();
+        Assert.Throws<ModuleException>(() => SemanticAnaylsis.init(p));
+        code = @"
+       
+        module Factorial(Foo){
+        fn Factorial(int n) returns int
+        {
+            if (n == 1) {
+                return 1;
+            }
+  
+            return n * Factorial(n - 1);
+        }
+        fn main() returns int{
+            int f := Factorial(10);
+            f := 10.2;
+            return 0;
+    
+        }
+    }";
+        list = new List<Tokens>();
+        new LexTokens().LexList(ParseTests.getFile(code), list);
+
+        p = new Parse(list).ParseFile();
+        Assert.Throws<ModuleException>(() => SemanticAnaylsis.init(p));
+    }
+
     /// <summary>
     /// Tests for forbidden assignments
     /// </summary>

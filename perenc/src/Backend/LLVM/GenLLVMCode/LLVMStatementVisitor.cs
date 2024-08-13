@@ -61,7 +61,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         {
             var size = n.Size.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
             var value = builderRef.BuildArrayAlloca(type, size);
-            
+
             Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
         }
         else
@@ -167,6 +167,12 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         // Context.vars.DeallocateScope();
     }
 
+    public override void Visit(ModuleNode moduleNode)
+    {
+        moduleNode.FunctionNodes.ForEach(n => n.Visit(this));
+        // base.Visit(moduleNode);
+    }
+
     public override void Visit(ReturnNode node)
     {
         if (_currentFunction.returnType == LLVMTypeRef.Void)
@@ -263,5 +269,4 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
             builderRef.PositionAtEnd(After);
         }
     }
-    
 }

@@ -25,7 +25,7 @@ public struct SemanticFunction
     public LacusType RetType { get; set; }
     public List<LacusType> ParamTypes { get; set; }
 
-    public SemanticFunction(LacusType type, List<LacusType> paramTypes)
+    public SemanticFunction(LacusType type, List<LacusType> paramTypes, bool isPub)
     {
         RetType = type;
         ParamTypes = paramTypes;
@@ -217,16 +217,9 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
         Program.Vars.DeallocateScope();
     }
 
-    // public override void Visit(StructNode node)
-    // {
-    //     Program.Types.AddValue(node.Name, new SemanticTypes(
-    //         new StructType(node
-    //                 .Name
-    //                 .buffer,
-    //             node.Vars.ToDictionary(
-    //                 n => n.Name.buffer, //name
-    //                 n
-    //                     => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
-    //             ), false)));
-    // }
+    public override void Visit(ModuleNode moduleNode)
+    {
+        moduleNode
+            .FunctionNodes.ForEach(n => n.Visit(this));
+    }
 }

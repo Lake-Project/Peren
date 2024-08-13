@@ -10,7 +10,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="" />
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Add.pn" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Start.pn" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Subtract.pn" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/ModuleException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -300,7 +311,8 @@
       <workItem from="1723163530185" duration="3056000" />
       <workItem from="1723422723294" duration="613000" />
       <workItem from="1723473744822" duration="22227000" />
-      <workItem from="1723512185812" duration="259000" />
+      <workItem from="1723512185812" duration="1466000" />
+      <workItem from="1723572601854" duration="5367000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

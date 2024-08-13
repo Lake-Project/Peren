@@ -73,13 +73,15 @@ public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef module
         node.FunctionNodes.ForEach(n => n.Visit(this));
         node.StructNodes.ForEach(n => n.Visit(this));
         node.VaraibleDeclarationNodes.ForEach(n => n.Visit(this));
-        node.FunctionNodes.ForEach(n => n.Visit(new LLVMStatementVisitor(Context, builderRef, moduleRef)));
+        // Console.WriteLine(Con);
         // node.StatementNodes.ForEach(n => n.Visit(this));
     }
 
     public override void Visit(PerenNode node)
     {
         node.ModuleNodes.Values.ToList().ForEach(n => n.Visit(this));
+        node.ModuleNodes.Values.ToList()
+            .ForEach(n => n.Visit(new LLVMStatementVisitor(Context, builderRef, moduleRef)));
         // base.Visit(node);
     }
 
