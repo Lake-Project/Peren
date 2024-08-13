@@ -67,7 +67,7 @@ public class ParseTests
         new LexTokens().LexList(getFile(code), list);
 
         var p = new Parse(list).ParseFile();
-        p.ModuleNodes.Keys.ToList().ForEach(n => { Assert.That(n, Is.EqualTo("Factorialss")); });
+        p.ModuleNodes.Keys.ToList().ForEach(n => { Assert.That(n, Is.EqualTo("Factorial")); });
         Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.init(p));
     }
 
