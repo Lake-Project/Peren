@@ -1,0 +1,8 @@
+module Subtraction{
+       pub fn sub(int a, int b) returns int{
+               return sub2(a,b);
+        }
+        fn sub2(int a, int b) returns int{
+            return a - b;
+        }
+ }

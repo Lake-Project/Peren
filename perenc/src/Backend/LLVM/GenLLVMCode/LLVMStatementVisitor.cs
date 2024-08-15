@@ -30,18 +30,112 @@ public struct LLVMType(
     public List<VaraibleDeclarationNode> Vars = varaibleDeclarationNodes;
 };
 
-public struct LLVMContext
+public class LLVMContext(Dictionary<string, CompilerModule> modules)
 {
-    public CompileContext<LLVMVar> globalVars = new();
-    public CompileContext<LLVMVar> vars = new();
-    public CompileContext<LLVMFunction> functions = new();
-    public CompileContext<LLVMType> types = new();
+    public Dictionary<string, CompilerModule> Modules = modules;
 
-    public LLVMContext()
+    public CompilerModule CurrentModule;
+
+    // private CompileContext<LLVMVar> globalVars = new();
+    private CompileContext<LLVMVar> vars = new();
+
+    // private CompileContext<LLVMType> types = new();
+    //
+    // public LLVMContext(Dictionary<string, CompilerModule> modules)
+    // {
+    //     this.Modules = modules;
+    //     // functions.AllocateScope();
+    //     // types.AllocateScope();
+    //     // vars.AllocateScope();
+    // }
+
+    public void AddVars(string name, LLVMVar var)
     {
-        // functions.AllocateScope();
-        // types.AllocateScope();
-        // vars.AllocateScope();
+        vars.Add(name, var);
+    }
+
+    public LLVMVar GetVar(string name)
+    {
+        Console.WriteLine(name);
+        if (vars.Values.ContainsKey(name))
+        {
+            return vars.Get(name);
+        }
+        else if (CurrentModule.Varaibles.ContainsKey(name))
+        {
+            return CurrentModule.Varaibles[name];
+        }
+        else
+        {
+            foreach (var module in CurrentModule.imports)
+            {
+                if (module.Varaibles.ContainsKey(name))
+                {
+                    return module.Varaibles[name];
+                }
+            }
+
+            throw new Exception("errpr");
+            // CurrentModule.imports.ForEach(n =>
+            // {
+            //     if(n.Varaibles.ContainsKey())
+            // });
+        }
+    }
+
+    public LLVMFunction GetFunction(string name)
+    {
+        Console.WriteLine(name);
+        if (CurrentModule.Functions.ContainsKey(name))
+        {
+            return CurrentModule.Functions[name];
+        }
+        else
+        {
+            foreach (var module in CurrentModule.imports)
+            {
+                if (module.Functions.ContainsKey(name))
+                {
+                    return module.Functions[name];
+                }
+            }
+
+            throw new Exception("error");
+            // CurrentModule.imports.ForEach(n =>
+            // {
+            //     if(n.Varaibles.ContainsKey())
+            // });
+        }
+    }
+
+    public LLVMType GetType(string name)
+    {
+        if (CurrentModule.Types.ContainsKey(name))
+        {
+            return CurrentModule.Types[name];
+        }
+        else
+        {
+            foreach (var module in CurrentModule.imports)
+            {
+                if (module.Types.ContainsKey(name))
+                {
+                    return module.Types[name];
+                }
+            }
+
+            throw new Exception("errpr");
+            // CurrentModule.imports.ForEach(n =>
+            // {
+            //     if(n.Varaibles.ContainsKey())
+            // });
+        }
+    }
+
+    public CompilerModule SetCurrent(string name)
+    {
+        CurrentModule = modules[name];
+        return modules[name];
     }
 }
 
@@ -61,13 +155,13 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         {
             var size = n.Size.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef));
             var value = builderRef.BuildArrayAlloca(type, size);
-            
-            Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
+
+            Context.AddVars(node.Name.buffer, new LLVMVar(value, type));
         }
         else
         {
             var value = builderRef.BuildAlloca(type, node.Name.buffer);
-            Context.vars.Add(node.Name.buffer, new LLVMVar(value, type));
+            Context.AddVars(node.Name.buffer, new LLVMVar(value, type));
             {
                 if (node.Expression != null)
                 {
@@ -82,7 +176,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
-        LLVMVar a = Compile.GetVar(Context, node.Name.buffer);
+        LLVMVar a = Context.GetVar(node.Name.buffer);
 
         if (node is ArrayRefStatementNode arr)
         {
@@ -107,7 +201,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
 
     public override void Visit(FunctionCallNode node)
     {
-        LLVMFunction a = Context.functions.Get(node.Name.buffer);
+        LLVMFunction a = Context.GetFunction(node.Name.buffer);
         builderRef.BuildCall2(
             a.FunctionType,
             a.FunctionValue,
@@ -139,7 +233,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         // }
         if (node.AttributesTuple.isExtern)
             return;
-        var function = Context.functions.Get(node.Name.buffer);
+        var function = Context.GetFunction(node.Name.buffer);
         _currentFunction = function;
         LLVMBasicBlockRef entry = function.FunctionValue.AppendBasicBlock("entry");
         builderRef.PositionAtEnd(entry);
@@ -148,7 +242,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
             var llvmParam = function.FunctionValue.GetParam((uint)index);
             var name = param.Name.buffer;
             llvmParam.Name = name;
-            Context.vars.Add(
+            Context.AddVars(
                 param.Name.buffer,
                 new LLVMVar(
                     builderRef.BuildAlloca(Compile.ToLLVMType(param.Type, Context), name),
@@ -157,7 +251,7 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
             );
             builderRef.BuildStore(
                 function.FunctionValue.GetParam((uint)index),
-                Compile.GetVar(Context, name).Value
+                Context.GetVar(param.Name.buffer).Value
             );
         }
 
@@ -165,6 +259,13 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         if (!_returns && _currentFunction.returnType == LLVMTypeRef.Void)
             builderRef.BuildRetVoid();
         // Context.vars.DeallocateScope();
+    }
+
+    public override void Visit(ModuleNode moduleNode)
+    {
+        Context.SetCurrent(moduleNode.Name.buffer);
+        moduleNode.FunctionNodes.ForEach(n => n.Visit(this));
+        // base.Visit(moduleNode);
     }
 
     public override void Visit(ReturnNode node)
@@ -263,5 +364,4 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
             builderRef.PositionAtEnd(After);
         }
     }
-    
 }

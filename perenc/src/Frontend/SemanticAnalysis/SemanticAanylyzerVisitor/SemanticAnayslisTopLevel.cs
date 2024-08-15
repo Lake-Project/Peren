@@ -1,6 +1,7 @@
 using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.Frontend.SemanticAnalysis;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
+using LLVMLake.Frontend;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
@@ -9,6 +10,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
     public SemanticContext<SemanticVar> Vars { get; set; }
     public SemanticContext<SemanticTypes> Types { get; set; }
     public SemanticContext<SemanticFunction> Function { get; init; }
+
     public SemanticProgram Program { get; set; }
     public Dictionary<string, ModuleNode> AvaibleModules;
 
@@ -18,9 +20,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
 
         Types = new();
         Vars = new();
-        Function.AllocateScope();
-        Types.AllocateScope();
-        Vars.AllocateScope();
+
         Program = new(Vars, Function, Types);
     }
 
@@ -59,7 +59,8 @@ public class SemanticAnayslisTopLevel : StatementVisit
             node.Parameters
                 .Select(n =>
                     SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program)) //grab all params
-                .ToList() // to list of lacus type
+                .ToList(),
+            node.AttributesTuple.isPub // to list of lacus type
         );
         Program.Functions.AddValue(node.Name, f);
     }
@@ -69,15 +70,19 @@ public class SemanticAnayslisTopLevel : StatementVisit
         node.Imports.ForEach(n =>
         {
             if (!AvaibleModules.ContainsKey(n.buffer))
-                throw new Exception(
+                throw new ModuleException(
                     $"module {node.Name.buffer} Cant import Module {n.buffer} on line {node.Name.GetLine()}");
             if (n.buffer == node.Name.buffer)
-                throw new Exception($"recursive import detected in module {node.Name} on line {node.Name.GetLine()}");
+                throw new ModuleException(
+                    $"recursive import detected in module {node.Name.buffer} on line {node.Name.GetLine()}");
+
+            AvaibleModules[n.buffer].FunctionNodes.Where(n => n.AttributesTuple.isPub).ToList()
+                .ForEach(n => n.Visit(this));
+            
         });
         node.FunctionNodes.ForEach(n => n.Visit(this));
         node.StructNodes.ForEach(n => n.Visit(this));
         node.VaraibleDeclarationNodes.ForEach(n => n.Visit(this));
-        node.FunctionNodes.ForEach(n => n.Visit(new SemanticVisitStatement(Program)));
     }
 
 
@@ -98,6 +103,16 @@ public class SemanticAnayslisTopLevel : StatementVisit
     {
         AvaibleModules = node.ModuleNodes;
         node.ModuleNodes.Values.ToList()
-            .ForEach(n => { n.Visit(this); });
+            .ForEach(module =>
+            {
+                Program.Functions.AllocateScope();
+                Program.Types.AllocateScope();
+                Program.Vars.AllocateScope();
+                module.Visit(this);
+                module.Visit(new SemanticVisitStatement(Program));
+                Program.Functions.DeallocateScope();
+                Program.Vars.DeallocateScope();
+                Program.Types.DeallocateScope();
+            });
     }
 }
