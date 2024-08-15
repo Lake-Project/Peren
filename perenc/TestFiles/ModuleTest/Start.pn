@@ -1,7 +1,7 @@
 module Start(Addition, Subtraction){
     fn main() returns int{
-        int sum := sub2(1,1);
+        int sum := sub2();
         return 0;
     }
-     
+    
 }

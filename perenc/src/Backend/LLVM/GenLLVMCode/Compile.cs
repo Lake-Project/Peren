@@ -10,7 +10,7 @@ public class Compile
     {
         if (type.tokenType == TokenType.WORD)
         {
-            return Context.types.Get(type.buffer).Type;
+            return Context.GetType(type.buffer).Type;
         }
 
         return type.tokenType switch
@@ -28,8 +28,8 @@ public class Compile
         };
     }
 
-    public static LLVMVar GetVar(LLVMContext context, string name)
-    {
-        return context.globalVars.Values.ContainsKey(name) ? context.globalVars.Get(name) : context.vars.Get(name);
-    }
+    // public static LLVMVar GetVar(LLVMContext context, string name)
+    // {
+    //     return context.globalVars.Values.ContainsKey(name) ? context.globalVars.Get(name) : context.vars.Get(name);
+    // }
 }

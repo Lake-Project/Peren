@@ -70,6 +70,8 @@ public class IRCodeGen
             else
             {
                 var out_string = "";
+                
+                // targetMachine.TryToEmitTo
                 targetMachine.TryEmitToFile(
                     module,
                     $"{compileOptions.OutputFile}",
