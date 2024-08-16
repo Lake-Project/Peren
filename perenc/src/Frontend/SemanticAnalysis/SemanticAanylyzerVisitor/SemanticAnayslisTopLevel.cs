@@ -17,10 +17,8 @@ public class SemanticAnayslisTopLevel : StatementVisit
     public SemanticAnayslisTopLevel()
     {
         Function = new();
-
         Types = new();
         Vars = new();
-
         Program = new(Vars, Function, Types);
     }
 
@@ -39,7 +37,6 @@ public class SemanticAnayslisTopLevel : StatementVisit
         );
         if (node.Expression != null)
         {
-            // type.IsConst = true;
             LacusType t = node.Expression.Visit(
                 new SemanticVisitExpr(Program, type)
             );
@@ -48,7 +45,6 @@ public class SemanticAnayslisTopLevel : StatementVisit
                     $"type {t} cant fit "
                     + $"{type} on line {node.Type.GetLine()}"
                 );
-            // type.IsConst = false;
         }
     }
 
@@ -76,12 +72,15 @@ public class SemanticAnayslisTopLevel : StatementVisit
                 throw new ModuleException(
                     $"recursive import detected in module {node.Name.buffer} on line {node.Name.GetLine()}");
 
+            AvaibleModules[n.buffer].StructNodes.Where(n => n.AttributesTuple.isPub).ToList()
+                .ForEach(n => n.Visit(this));
             AvaibleModules[n.buffer].FunctionNodes.Where(n => n.AttributesTuple.isPub).ToList()
                 .ForEach(n => n.Visit(this));
-            
+            AvaibleModules[n.buffer].VaraibleDeclarationNodes.Where(n => n.AttributesTuple.isPub).ToList()
+                .ForEach(n => n.Visit(this));
         });
-        node.FunctionNodes.ForEach(n => n.Visit(this));
         node.StructNodes.ForEach(n => n.Visit(this));
+        node.FunctionNodes.ForEach(n => n.Visit(this));
         node.VaraibleDeclarationNodes.ForEach(n => n.Visit(this));
     }
 

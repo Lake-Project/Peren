@@ -54,17 +54,11 @@ public class LLVMVaraibles(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef, L
             }
         }
     }
+
     public override void Visit(ModuleNode moduleNode)
     {
+        CurrentModule = context.SetCurrent(moduleNode.Name.buffer);
         moduleNode.VaraibleDeclarationNodes.ForEach(n => n.Visit(this));
     }
-
-    public override void Visit(PerenNode node)
-    {
-        node.ModuleNodes.Values.ToList().ForEach(n =>
-        {
-            CurrentModule = context.SetCurrent(n.Name.buffer);
-            n.Visit(this);
-        });
-    }
+    
 }

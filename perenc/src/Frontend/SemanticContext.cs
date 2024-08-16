@@ -43,8 +43,8 @@ public class SemanticContext<T>
         {
             if (Scopes[i].values.ContainsKey(name.buffer))
             {
-                throw new VaraibleAlreadyDefinedException(
-                    $"Variable {name.buffer} already exists on line ${name.GetLine() + 1}"
+                throw new IdentfierAlreadyDefined(
+                    $"Identifier {name.buffer} Type {typeof(T).ToString()} already exists on line ${name.GetLine() + 1}"
                 );
             }
         }
@@ -62,16 +62,11 @@ public class SemanticContext<T>
             }
         }
 
-        throw new VaraibleDoesntExistException(
+        throw new IdentifierDoesntExist(
             $"Identifier {name.buffer} doesnt exist on line {name.GetLine() + 1}"
         );
     }
-
-    public T GetValue(Tokens name, int index)
-    {
-        return Scopes[index].Get(name.buffer);
-    }
-
+    
     public void DeallocateScope()
     {
         int l = Scopes.Count - 1;

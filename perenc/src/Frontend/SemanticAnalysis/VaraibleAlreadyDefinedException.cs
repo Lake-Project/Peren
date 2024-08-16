@@ -1,3 +1,3 @@
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
-public class VaraibleAlreadyDefinedException(string message) : Exception(message);
+public class IdentfierAlreadyDefined(string message) : Exception(message);

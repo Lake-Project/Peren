@@ -3,6 +3,7 @@ using LacusLLVM.Frontend.Parser.AST;
 using LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 using LLVMSharp.Interop;
 
+
 public class IRCodeGen
 {
     public static void LLVM_Gen(PerenNode statements, CompileOptions compileOptions)
@@ -70,7 +71,7 @@ public class IRCodeGen
             else
             {
                 var out_string = "";
-                
+
                 // targetMachine.TryToEmitTo
                 targetMachine.TryEmitToFile(
                     module,

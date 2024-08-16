@@ -1,0 +1,10 @@
+module Start(Subtraction){
+    fn main() returns int{
+        int sum := sub(1,1);
+        return 0;
+    }
+    fn sub2(int a, int b) returns int{
+                return a - b;
+            }
+    
+}

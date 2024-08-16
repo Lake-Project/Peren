@@ -189,4 +189,37 @@ public class SemanticAnalysisTests
         CastNode h = (CastNode)exprs[4];
         Assert.That(h.inferredtype, Is.EqualTo(CastType.FLOAT));
     }
+
+    [Test]
+    public void TestModules()
+    {
+        string code = @"
+       
+        module Start(Subtraction){
+        fn main() returns int{
+            int sum := sub(1,1);
+            return 0;
+        }
+        fn sub2(int a, int b) returns int{
+                return a - b;
+        }
+
+    module Start(Subtraction){
+        fn main() returns int{
+            int sum := sub(1,1);
+            return 0;
+        }
+        fn sub2(int a, int b) returns int{
+                return a - b;
+            }
+        }
+"
+            ;
+
+        var list = new List<Tokens>();
+        new LexTokens().LexList(ParseTests.getFile(code), list);
+        var p = new Parse(list).ParseFile();
+        SemanticAnaylsis.init(p);
+        
+    }
 }

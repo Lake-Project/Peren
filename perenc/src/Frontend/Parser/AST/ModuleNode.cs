@@ -10,6 +10,8 @@ public class ModuleNode(Tokens name, List<Tokens> imports) : StatementNode
     public List<FunctionNode> FunctionNodes = new();
     public List<StructNode> StructNodes = new();
     public List<VaraibleDeclarationNode> VaraibleDeclarationNodes = new();
+    
+    
     public Tokens Name { get; set; } = name;
     public List<Tokens> Imports { get; set; } = imports;
 

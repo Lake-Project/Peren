@@ -1,3 +1,3 @@
 namespace Lexxer.SemanticAnalysis;
 
-public class VaraibleDoesntExistException(string message) : Exception(message);
+public class IdentifierDoesntExist(string message) : Exception(message);

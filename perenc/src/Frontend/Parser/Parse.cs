@@ -522,7 +522,7 @@ public class Parse
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception($"invalid type {Current.ToString()}");
         Tokens? e = MatchAndRemove(TokenType.EQUALS);
         AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
-            { TokenType.CONST, TokenType.EXTERN, TokenType.UNSIGNED });
+            { TokenType.CONST, TokenType.EXTERN, TokenType.UNSIGNED, TokenType.PUB });
 
         if (e != null)
             return new VaraibleDeclarationNode(Type, name.Value, attributesTuple, ParseSingleExpr());
@@ -616,18 +616,17 @@ public class Parse
 
     public StructNode ParseStructs()
     {
-        if (attributes.Any())
-            throw new Exception("Struct cant have attributes");
+        AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
+            {  TokenType.EXTERN, TokenType.PUB });
         Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("name is nul");
-        return new StructNode(ParseTupleDef(), name.Value);
+        return new StructNode(ParseTupleDef(), name.Value, attributesTuple);
     }
 
     public StatementNode ParseWhile()
     {
         MatchAndRemove(TokenType.OP_PAREN);
-        ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
+        ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in while {Current.GetLine()} ");
         MatchAndRemove(TokenType.CL_PAREN);
-
         List<StatementNode> statementNodes = ParseBlock();
         return new WhileLoopNode(expr, statementNodes);
     }
@@ -640,7 +639,6 @@ public class Parse
 
         while (MatchAndRemove(TokenType.CL_PAREN) == null)
         {
-            // GetTokenType();
             param.Add(ParseAttributes());
             MatchAndRemove(TokenType.COMMA);
         }
@@ -741,6 +739,7 @@ public class Parse
                 modules.Add(m.Name.buffer, m);
             }
         }
+
         return new PerenNode(modules);
     }
 }

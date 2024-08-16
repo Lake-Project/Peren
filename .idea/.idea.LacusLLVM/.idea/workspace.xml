@@ -10,7 +10,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="" />
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest2/Start.pn" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest2/Subtract.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/dotnet.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dotnet.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Add.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Add.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Start.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Start.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Subtract.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Subtract.pn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMFunctions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTypes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTypes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMVaraibles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMVaraibles.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ModuleNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleAlreadyDefinedException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleAlreadyDefinedException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleDoesntExistException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/VaraibleDoesntExistException.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,7 +120,7 @@
     &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;adding__imports&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -307,6 +328,8 @@
       <workItem from="1723668862794" duration="776000" />
       <workItem from="1723680130608" duration="5104000" />
       <workItem from="1723748208137" duration="10934000" />
+      <workItem from="1723826230609" duration="108000" />
+      <workItem from="1723841573653" duration="8200000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
@@ -746,7 +769,7 @@
     <MESSAGE value="fixed up a few things :3" />
     <MESSAGE value="I divorced linker and Compiler :3" />
     <MESSAGE value="lumina" />
-    <option name="LAST_COMMIT_MESSAGE" value="lumina" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

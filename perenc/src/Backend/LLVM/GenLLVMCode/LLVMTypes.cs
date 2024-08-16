@@ -6,7 +6,7 @@ namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 public class LLVMTypes(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef, LLVMContext context) : StatementVisit
 {
-    public CompilerModule CurrentModule = new();
+    public CompilerModule CurrentModule { get; set; } = new();
 
     public override void Visit(StructNode node)
     {
@@ -17,16 +17,8 @@ public class LLVMTypes(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef, LLVMC
 
     public override void Visit(ModuleNode moduleNode)
     {
+        CurrentModule = context.SetCurrent(moduleNode.Name.buffer);
         moduleNode.StructNodes.ForEach(n => n.Visit(this));
-        // base.Visit(moduleNode);
     }
-
-    public override void Visit(PerenNode node)
-    {
-        node.ModuleNodes.Values.ToList().ForEach(n =>
-        {
-            CurrentModule = context.SetCurrent(n.Name.buffer);
-            n.Visit(this);
-        });
-    }
+    
 }
