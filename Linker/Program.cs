@@ -1,3 +1,5 @@
+using Linker.Dos;
+
 namespace Linker;
 
 public class Program
@@ -6,7 +8,9 @@ public class Program
     {
         // ElfLinker.DeserializeElfHeader("Elf.o");
         // LinkerRun.LinkCode("HelloWorld.o");
-        DosLinker.GetSections("Test.o");
+        new CoffParser("HelloWorld.o").GetCoff().print();
+        
+        // DosLinker.GetSections("Test.o");
         // var b = ElfHeaderSearlize.DeserializeElfHeader("Elf.o");
         // b.e_ident.ToList().ForEach(n => Console.WriteLine("{0:X}", n));
     }
