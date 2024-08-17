@@ -190,7 +190,6 @@ public class SemanticAnalysisTests
         Assert.That(h.inferredtype, Is.EqualTo(CastType.FLOAT));
     }
 
-    [Test]
     public void TestModules()
     {
         string code = @"

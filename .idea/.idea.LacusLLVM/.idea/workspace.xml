@@ -10,14 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Linker/Dos/CoffHeaders.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linker/Elf/ElfHeaders.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linker/Elf/ElfParse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Program.cs" afterDir="false" />
-    </list>
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -316,7 +309,7 @@
       <workItem from="1723680130608" duration="5104000" />
       <workItem from="1723748208137" duration="10934000" />
       <workItem from="1723826230609" duration="108000" />
-      <workItem from="1723841573653" duration="22067000" />
+      <workItem from="1723841573653" duration="22261000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
