@@ -1,4 +1,6 @@
+using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Linker;
 
@@ -16,7 +18,8 @@ public struct Coff_Hdr
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct CoffSectionHeader
+// [MarshalAs(UnmanagedType.Struct, SizeConst = 52)]
+public unsafe struct CoffSectionHeader
 {
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
     public byte[] Name; // 8 bytes
@@ -34,4 +37,49 @@ public struct CoffSectionHeader
 
 public class DosLinker
 {
+    
+    
+    public static Dictionary<string, List<byte>> GetSections(string filePath)
+    {
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        Dictionary<string, List<byte>> section = new();
+
+        List<byte> raw = File.ReadAllBytes(filePath).ToList();
+        List<CoffSectionHeader> sectionHeaders = new();
+        using var reader = new BinaryReader(stream);
+
+        Coff_Hdr a = Util.GetSection<Coff_Hdr>(reader);
+        List<byte> SymbolTable = new();
+        for (uint idx = a.PointerToSymbolTable; idx < (a.PointerToSymbolTable + a.NumberOfSymbols); idx += 18)
+        {
+            
+            for (uint idy = idx; idy < idx +  18; idy++)
+            {
+                SymbolTable.Add(raw[(int)idy]);
+            }
+        }
+
+        for (int i = 0; i < a.NumberOfSections; i++)
+        {
+            CoffSectionHeader b = Util.GetSection<CoffSectionHeader>(reader);
+            List<byte> Section = new();
+            
+            for (uint idx = b.PointerToRawData; idx < b.PointerToRawData + b.SizeOfRawData; idx++)
+            {
+                Section.Add(raw[(int)idx]);
+            }
+
+            section.Add(Encoding.Default.GetString(b.Name), Section);
+        }
+
+        section.ToList().ForEach(n =>
+        {
+            Console.WriteLine($"section: {n.Key} data: {BitConverter.ToString(n.Value.ToArray())}");
+        });
+        // Console.W
+        Console.WriteLine("{0:X}", a.PointerToSymbolTable);
+        Console.WriteLine("{0:X}", a.NumberOfSymbols);
+
+        return section;
+    }
 }

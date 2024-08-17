@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct Elf64_Ehdr
+unsafe public struct Elf64_Ehdr
 {
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
     public byte[] e_ident; // Magic number and other info
@@ -30,26 +30,10 @@ public class ElfLinker
     public static Elf64_Ehdr DeserializeElfHeader(string filePath)
     {
         Elf64_Ehdr header = new Elf64_Ehdr();
-
-        using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-        using (var reader = new BinaryReader(stream))
-        {
-            header.e_ident = reader.ReadBytes(16);
-            header.e_type = reader.ReadUInt16();
-            header.e_machine = reader.ReadUInt16();
-            header.e_version = reader.ReadUInt32();
-            header.e_entry = reader.ReadUInt64();
-            header.e_phoff = reader.ReadUInt64();
-            header.e_shoff = reader.ReadUInt64();
-            header.e_flags = reader.ReadUInt32();
-            header.e_ehsize = reader.ReadUInt16();
-            header.e_phentsize = reader.ReadUInt16();
-            header.e_phnum = reader.ReadUInt16();
-            header.e_shentsize = reader.ReadUInt16();
-            header.e_shnum = reader.ReadUInt16();
-            header.e_shstrndx = reader.ReadUInt16();
-        }
-
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        using var reader = new BinaryReader(stream);
+        Elf64_Ehdr a = Util.GetSection<Elf64_Ehdr>(reader);
+        a.e_ident.ToList().ForEach(n => Console.WriteLine("byte: {0:X}", n));
         return header;
     }
 }
