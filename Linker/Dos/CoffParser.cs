@@ -1,11 +1,12 @@
 using System.Text;
 
 namespace Linker.Dos;
-public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, List<byte> symbolTable)
+
+public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, List<SymbolTable> symbolTable)
 {
     public Coff_Hdr Header { get; set; } = header;
     public Dictionary<string, List<byte>> Sections { get; set; } = sections;
-    public List<byte> SymbolTable { get; set; } = symbolTable; //idk
+    public List<SymbolTable> SymbolTable { get; set; } = symbolTable; //idk
 
     public void print()
     {
@@ -32,10 +33,21 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
         Console.WriteLine("");
         Console.WriteLine("Symbol table bytes");
         Console.WriteLine("");
-        SymbolTable.ForEach(n => Console.Write("0x{0:X} ", n));
-        Console.WriteLine("");
+        SymbolTable
+            .ToList()
+            .ForEach(n =>
+            {
+                Console.WriteLine($"Section {ASCIIEncoding.Default.GetString(n.Name)}");
+                Console.WriteLine(
+                    "data: {0:X}",n.Value
+                );
+                Console.WriteLine("section num: {0:X}",n.SectionNumber );
+                Console.WriteLine("");
+            });
+        // Console.WriteLine("");
     }
 }
+
 public class CoffParser
 {
     private List<byte> Raw { get; set; }
@@ -81,16 +93,20 @@ public class CoffParser
         using var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
         using var reader = new BinaryReader(stream);
         Coff_Hdr header = Util.GetSection<Coff_Hdr>(reader);
-        List<byte> SymbolTable = new();
-        for (
-            uint i = header.PointerToSymbolTable;
-            i < header.PointerToSymbolTable + header.NumberOfSymbols;
-            i++
-        )
+        // Coff_Hdr header = Util.GetSection<Coff_Hdr>(Raw, 0);
+        // List<byte> SymbolTable = new();
+        List<SymbolTable> symbolTables = new();
+        Console.WriteLine("Machine 0x{0:x}", header.Machine);
+        uint ptr = header.PointerToSymbolTable;
+        for (int i = 0; i < header.NumberOfSymbols; i++)
         {
-            SymbolTable.Add(Raw[(int)i]);
+            var b = Util.GetSection<SymbolTable>(Raw, ptr, 18);
+            symbolTables.Add(b);
+
+            ptr += 18;
         }
 
-        return new(header, GetCoffSections(header, reader), SymbolTable);
+
+        return new(header, GetCoffSections(header, reader), symbolTables);
     }
 }

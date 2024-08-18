@@ -21,4 +21,23 @@ public class Util
         handle.Free();
         return theStructure;
     }
+
+    public static unsafe T GetSection<T>(List<byte> raw, uint ptr, int size)
+    {
+        byte[] bytes = new byte[size];
+        int idx = 0;
+        for (int i = (int)ptr; i < ptr + size; i++)
+        {
+            Console.WriteLine(i);
+            Console.WriteLine(idx);
+            Console.WriteLine(raw.Count);
+            bytes[idx] = raw[i];
+            idx++;
+        }
+        
+        GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
+        T theStructure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+        handle.Free();
+        return theStructure;
+    }
 }
