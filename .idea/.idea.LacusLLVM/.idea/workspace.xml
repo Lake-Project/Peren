@@ -12,7 +12,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Dos/CoffHeaders.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Dos/CoffHeaders.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Linker/Util.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Util.cs" afterDir="false" />
     </list>
@@ -97,31 +96,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.LLVMLake.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.LacusLLVM.executor&quot;: &quot;Debug&quot;,
-    &quot;.NET Project.Lakec.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.LLVMLake.executor": "Run",
+    ".NET Project.LacusLLVM.executor": "Debug",
+    ".NET Project.Lakec.executor": "Run",
+    ".NET Project.Linker.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "XThreadsFramesViewSplitterKey": "0.4965035",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\jduda\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\jduda\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\jduda\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.Lakec">
     <configuration name="LacusLLVM" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Linker/bin/Debug/net8.0/Linker.exe" />
@@ -315,7 +314,8 @@
       <workItem from="1723748208137" duration="10934000" />
       <workItem from="1723826230609" duration="108000" />
       <workItem from="1723841573653" duration="24295000" />
-      <workItem from="1723940998843" duration="4541000" />
+      <workItem from="1723940998843" duration="5268000" />
+      <workItem from="1724533319315" duration="715000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

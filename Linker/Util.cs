@@ -28,9 +28,7 @@ public class Util
         int idx = 0;
         for (int i = (int)ptr; i < ptr + size; i++)
         {
-            Console.WriteLine(i);
-            Console.WriteLine(idx);
-            Console.WriteLine(raw.Count);
+            
             bytes[idx] = raw[i];
             idx++;
         }

@@ -10,9 +10,15 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
 
     public void print()
     {
-        Console.WriteLine("Header COFF x64 amd");
+        // Dictionary<short, string>
+
+        Console.WriteLine($"Header COFF {Header.Machine switch {
+            0x8664 => "x64 amd",
+            0x014c => "i386",
+            0x2000 => "intel Itanuim",
+            _ => throw new Exception($"unsupported machine type{Header.Machine}")
+        }} ");
         Console.WriteLine("");
-        Console.WriteLine("Machine 0x{0:x}", Header.Machine);
         Console.WriteLine($"Number Of Sections {Header.NumberOfSections}");
         Console.WriteLine($"TimeDate: {Header.TimeDateStamp}");
         Console.WriteLine("Pointer to symbol table 0x{0:x}", Header.PointerToSymbolTable);
@@ -39,9 +45,9 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
             {
                 Console.WriteLine($"Section {ASCIIEncoding.Default.GetString(n.Name)}");
                 Console.WriteLine(
-                    "data: {0:X}",n.Value
+                    "data: {0:X}", n.Value
                 );
-                Console.WriteLine("section num: {0:X}",n.SectionNumber );
+                Console.WriteLine("section num: {0:X}", n.SectionNumber);
                 Console.WriteLine("");
             });
         // Console.WriteLine("");
@@ -96,9 +102,8 @@ public class CoffParser
         // Coff_Hdr header = Util.GetSection<Coff_Hdr>(Raw, 0);
         // List<byte> SymbolTable = new();
         List<SymbolTable> symbolTables = new();
-        Console.WriteLine("Machine 0x{0:x}", header.Machine);
         uint ptr = header.PointerToSymbolTable;
-        for (int i = 0; i < header.NumberOfSymbols; i++)
+        for (var i = 0; i < header.NumberOfSymbols; i++)
         {
             var b = Util.GetSection<SymbolTable>(Raw, ptr, 18);
             symbolTables.Add(b);
@@ -107,6 +112,6 @@ public class CoffParser
         }
 
 
-        return new(header, GetCoffSections(header, reader), symbolTables);
+        return new Coff(header, GetCoffSections(header, reader), symbolTables);
     }
 }
