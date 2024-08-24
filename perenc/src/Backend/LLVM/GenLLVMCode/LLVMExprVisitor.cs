@@ -20,7 +20,7 @@ public class LLVMExprVisitor(
             Range.SixteenBit => LLVMTypeRef.Int16,
             Range.ThirtyTwoBit => LLVMTypeRef.Int32,
             Range.SixtyFourBit => LLVMTypeRef.Int64,
-            _ => throw new Exception("erro")
+            _ => throw new Exception("error out of range")
         }, (ulong)node.Value);
     }
 
@@ -71,16 +71,16 @@ public class LLVMExprVisitor(
             TokenType.MULTIPLICATION => builderRef.BuildMul(L, R, "multmp"),
             TokenType.DIVISION => (node.IsUnsignedExpr)
                 ? builderRef.BuildUDiv(L, R, "divtmp")
-                : builderRef.BuildSDiv(L, R, "divtmp"),
+                : builderRef.BuildSDiv(L, R, "udivtmp"),
             TokenType.MODULAS => builderRef.BuildSRem(L, R, "modtmp"),
             TokenType.OR => builderRef.BuildOr(L, R, "or"),
             TokenType.XOR => builderRef.BuildXor(L, R, "xor"),
             TokenType.AND => builderRef.BuildAnd(L, R, "and"),
             TokenType.NOT => builderRef.BuildNot(L, "not"),
             TokenType.R_SHIFT => (node.IsUnsignedExpr)
-                ? builderRef.BuildLShr(L, R, "usigned_bitshift")
-                : builderRef.BuildAShr(L, R, "signed_bitshift"),
-            TokenType.L_SHIFT => builderRef.BuildShl(L, R, "bitshift"),
+                ? builderRef.BuildLShr(L, R, "r_usigned_bitshift")
+                : builderRef.BuildAShr(L, R, "r_signed_bitshift"),
+            TokenType.L_SHIFT => builderRef.BuildShl(L, R, "L_bitshift"),
             _ => throw new Exception($"not accepted int math op {node.Token}")
         };
     }
@@ -91,10 +91,9 @@ public class LLVMExprVisitor(
         if (node is ArrayRefNode arr)
         {
             var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,
-                new LLVMValueRef[]
-                {
-                    arr.Elem.Visit(new LLVMExprVisitor(context, builderRef, moduleRef))
-                });
+            [
+                arr.Elem.Visit(new LLVMExprVisitor(context, builderRef, moduleRef))
+            ]);
             return builderRef.BuildLoad2(a.Type, loc, node.Name.buffer);
         }
 
@@ -138,38 +137,26 @@ public class LLVMExprVisitor(
 
     public override LLVMValueRef Visit(CharNode node)
     {
-        return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, (ulong)(node.Value));
+        return LLVMValueRef.CreateConstInt(LLVMTypeRef.Int8, node.Value);
     }
 
     public override LLVMValueRef Visit(CastNode node)
     {
         var v = node.Expr.Visit(this);
-        var TargetType = Compile.ToLLVMType(node.type, context);
-        if (node.inferredtype == CastType.FLOAT)
+        var targetType = Compile.ToLLVMType(node.type, context);
+        return node.inferredtype switch
         {
-            return builderRef.BuildFPToSI(v, TargetType);
-        }
-        else if (node.inferredtype == CastType.INT)
-        {
-            return builderRef.BuildSIToFP(v, TargetType);
-        }
-        else if (node.inferredtype == CastType.SEXT)
-        {
-            return builderRef.BuildSExt(v, TargetType);
-        }
-        else if (node.inferredtype == CastType.TRUNCATE)
-        {
-            return builderRef.BuildTrunc(v, TargetType);
-        }
-
-        return builderRef.BuildTrunc(v, TargetType);
+            CastType.FLOAT => builderRef.BuildFPToSI(v, targetType),
+            CastType.INT => builderRef.BuildSIToFP(v, targetType),
+            CastType.SEXT => builderRef.BuildSExt(v, targetType),
+            CastType.TRUNCATE => builderRef.BuildTrunc(v, targetType),
+            _ => builderRef.BuildTrunc(v, targetType)
+        };
     }
 
     public override LLVMValueRef Visit(StringNode node)
     {
         var c = builderRef.BuildGlobalString(node.Value);
         return c;
-        // return builderRef.BuildGEP2(LLVMTypeRef.CreateInt(LLVMTypeRef.Int32, (ulong)1) );
-        // return builderRef.Build(LLVMTypeRef.Int8, LLVMVa);
     }
 }
