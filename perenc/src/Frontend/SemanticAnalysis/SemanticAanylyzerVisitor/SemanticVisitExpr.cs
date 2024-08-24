@@ -5,35 +5,35 @@ using Lexxer;
 
 namespace LacusLLVM.SemanticAanylyzerVisitor;
 
-public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
-    : ExpressionVisit<LacusType>
+public class SemanticVisitExpr(SemanticProgram program, PerenType assignedType)
+    : ExpressionVisit<PerenType>
 {
     public SemanticProgram Context { get; set; } = program;
 
-    public override LacusType Visit(IntegerNode node)
+    public override PerenType Visit(IntegerNode node)
     {
         node.Range = assignedType is IntegerType ? assignedType.Range : Range.ThirtyTwoBit;
         return new IntegerType(true, node.Range, assignedType.IsUnsigned);
     }
 
-    public override LacusType Visit(FloatNode node)
+    public override PerenType Visit(FloatNode node)
     {
         return new FloatType(true);
     }
 
-    public override LacusType Visit(BoolNode node)
+    public override PerenType Visit(BoolNode node)
     {
         return new BoolType(true);
     }
 
-    public override LacusType Visit(FunctionCallNode node)
+    public override PerenType Visit(FunctionCallNode node)
     {
         SemanticFunction f = Context.GetFunction(node.Name);
         if (node.ParamValues.Count != f.ParamTypes.Count)
             throw new Exception("no matching type");
         for (int i = 0; i < f.ParamTypes.Count; i++)
         {
-            LacusType t = node.ParamValues[i]
+            PerenType t = node.ParamValues[i]
                 .Visit(new SemanticVisitExpr(Context, f.ParamTypes[i]));
             if (!f.ParamTypes[i].CanAccept(t))
                 throw new Exception("error");
@@ -42,10 +42,10 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         return f.RetType;
     }
 
-    public override LacusType Visit(OpNode node)
+    public override PerenType Visit(OpNode node)
     {
-        LacusType LType = node.Left.Visit(this);
-        LacusType RType = node.Right.Visit(this);
+        PerenType LType = node.Left.Visit(this);
+        PerenType RType = node.Right.Visit(this);
         if (assignedType is FloatType && LType is FloatType && RType is FloatType)
             node.FloatExpr = true;
         else
@@ -101,7 +101,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         );
     }
 
-    public override LacusType Visit(VaraibleReferenceNode node)
+    public override PerenType Visit(VaraibleReferenceNode node)
     {
         var v = Context.GetVar(node.Name);
         if (node is ArrayRefNode arr)
@@ -112,10 +112,10 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         return v.VarType;
     }
 
-    public override LacusType Visit(BooleanExprNode node)
+    public override PerenType Visit(BooleanExprNode node)
     {
-        LacusType LType = node.Left.Visit(this);
-        LacusType RType = node.Right.Visit(this);
+        PerenType LType = node.Left.Visit(this);
+        PerenType RType = node.Right.Visit(this);
         if (LType.IsUnsigned || RType.IsUnsigned)
             node.IsUnsigned = true;
         // Console.WriteLine(node.ToString());
@@ -132,12 +132,12 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         );
     }
 
-    public override LacusType Visit(CharNode node)
+    public override PerenType Visit(CharNode node)
     {
         return new CharType(true);
     }
 
-    public override LacusType Visit(CastNode node)
+    public override PerenType Visit(CastNode node)
     {
         // LacusType t = node.type.tokenType switch
         // {
@@ -155,7 +155,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         //     TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), false),
         //     _ => throw new Exception($"type{node.type.ToString()} doesnt exist")
         // };
-        var t = SemanticAnaylsis.tokenToLacusType(node.type, false, program);
+        var t = SemanticAnaylsis.TokenToPerenType(node.type, false, program);
         var ty = node.Expr.Visit(new SemanticVisitExpr(program, new UnknownType(false, Range.None)));
         // t switch ()
         switch (t)
@@ -184,7 +184,7 @@ public class SemanticVisitExpr(SemanticProgram program, LacusType assignedType)
         return t;
     }
 
-    public override LacusType Visit(StringNode node)
+    public override PerenType Visit(StringNode node)
     {
         return new ArrayType(new CharType(false), true);
     }

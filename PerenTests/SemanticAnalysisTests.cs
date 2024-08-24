@@ -32,7 +32,7 @@ public class SemanticAnalysisTests
         new LexTokens().LexList(ParseTests.getFile(code), list);
 
         var p = new Parse(list).ParseFile();
-        Assert.Throws<ModuleException>(() => SemanticAnaylsis.init(p));
+        Assert.Throws<ModuleException>(() => SemanticAnaylsis.Init(p));
         code = @"
        
         module Factorial(Foo){
@@ -55,7 +55,7 @@ public class SemanticAnalysisTests
         new LexTokens().LexList(ParseTests.getFile(code), list);
 
         p = new Parse(list).ParseFile();
-        Assert.Throws<ModuleException>(() => SemanticAnaylsis.init(p));
+        Assert.Throws<ModuleException>(() => SemanticAnaylsis.Init(p));
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class SemanticAnalysisTests
         new LexTokens().LexList(ParseTests.getFile(code), list);
 
         var p = new Parse(list).ParseFile();
-        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.init(p));
+        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.Init(p));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class SemanticAnalysisTests
         new LexTokens().LexList(ParseTests.getFile(code), list);
 
         var p = new Parse(list).ParseFile();
-        SemanticAnaylsis.init(p);
+        SemanticAnaylsis.Init(p);
 
         var exprs = p.ModuleNodes["TestIntegerRange"].FunctionNodes[0].Statements
             .Select(n => (IntegerNode)((VaraibleDeclarationNode)n).Expression!)
@@ -154,7 +154,7 @@ public class SemanticAnalysisTests
         new LexTokens().LexList(ParseTests.getFile(code), list);
 
         var p = new Parse(list).ParseFile();
-        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.init(p));
+        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.Init(p));
     }
 
     [Test]
@@ -179,7 +179,7 @@ public class SemanticAnalysisTests
         var exprs = p.ModuleNodes["TestCasts"].FunctionNodes[0].Statements
             .Select(n => ((VaraibleDeclarationNode)n).Expression!)
             .ToList();
-        SemanticAnaylsis.init(p);
+        SemanticAnaylsis.Init(p);
         CastNode e = (CastNode)exprs[1];
         Assert.That(e.inferredtype, Is.EqualTo(CastType.TRUNCATE));
         CastNode f = (CastNode)exprs[2];
@@ -218,7 +218,7 @@ public class SemanticAnalysisTests
         var list = new List<Tokens>();
         new LexTokens().LexList(ParseTests.getFile(code), list);
         var p = new Parse(list).ParseFile();
-        SemanticAnaylsis.init(p);
+        SemanticAnaylsis.Init(p);
         
     }
 }

@@ -2,9 +2,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class FloatType(bool isConst, Range range = Range.Float) : LacusType(isConst, range)
+public class FloatType(bool isConst, Range range = Range.Float) : PerenType(isConst, range)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         if (this.IsConst && !type.IsConst)
             return false;

@@ -4,9 +4,9 @@ namespace LacusLLVM.Frontend.SemanticAnalysis;
 
 public class IntegerType(bool isConst, 
     Range range = Range.ThirtyTwoBit,
-    bool isUnsigned = false) : LacusType(isConst, range, isUnsigned)
+    bool isUnsigned = false) : PerenType(isConst, range, isUnsigned)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         if (this.IsConst && !type.IsConst)
         {

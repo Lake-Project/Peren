@@ -2,9 +2,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class StringType(bool isConst, Range range) : LacusType(isConst, range)
+public class StringType(bool isConst, Range range) : PerenType(isConst, range)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         throw new NotImplementedException();
     }

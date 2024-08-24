@@ -68,7 +68,7 @@ public class ParseTests
 
         var p = new Parse(list).ParseFile();
         p.ModuleNodes.Keys.ToList().ForEach(n => { Assert.That(n, Is.EqualTo("Factorial")); });
-        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.init(p));
+        Assert.Throws<TypeMisMatchException>(() => SemanticAnaylsis.Init(p));
     }
 
     // [Test]

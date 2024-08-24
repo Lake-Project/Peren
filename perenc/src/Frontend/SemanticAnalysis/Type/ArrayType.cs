@@ -2,9 +2,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class ArrayType(LacusType type, bool isConst) : LacusType(type, isConst)
+public class ArrayType(PerenType type, bool isConst) : PerenType(type, isConst)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         if (this.IsConst && !type.IsConst)
             return false;

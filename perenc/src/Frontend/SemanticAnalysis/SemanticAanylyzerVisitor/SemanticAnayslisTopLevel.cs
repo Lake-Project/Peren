@@ -29,7 +29,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
             n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(true)));
         }
 
-        var type = SemanticAnaylsis.tokenToLacusType(node.Type, node.AttributesTuple.isConst, Program);
+        var type = SemanticAnaylsis.TokenToPerenType(node.Type, node.AttributesTuple.isConst, Program);
         Program.AddVar(
             node.Name,
             new SemanticVar(type, Program.Vars.GetSize(),
@@ -37,7 +37,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
         );
         if (node.Expression != null)
         {
-            LacusType t = node.Expression.Visit(
+            PerenType t = node.Expression.Visit(
                 new SemanticVisitExpr(Program, type)
             );
             if (!type.CanAccept(t))
@@ -51,10 +51,10 @@ public class SemanticAnayslisTopLevel : StatementVisit
     public override void Visit(FunctionNode node)
     {
         var f = new SemanticFunction(
-            SemanticAnaylsis.tokenToLacusType(node.RetType.Name, node.RetType.tuple.isConst, Program),
+            SemanticAnaylsis.TokenToPerenType(node.RetType.Name, node.RetType.tuple.isConst, Program),
             node.Parameters
                 .Select(n =>
-                    SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program)) //grab all params
+                    SemanticAnaylsis.TokenToPerenType(n.Type, n.AttributesTuple.isConst, Program)) //grab all params
                 .ToList(),
             node.AttributesTuple.isPub // to list of lacus type
         );
@@ -94,7 +94,7 @@ public class SemanticAnayslisTopLevel : StatementVisit
                 node.Vars.ToDictionary(
                     n => n.Name.buffer, //name
                     n
-                        => SemanticAnaylsis.tokenToLacusType(n.Type, n.AttributesTuple.isConst, Program) //type
+                        => SemanticAnaylsis.TokenToPerenType(n.Type, n.AttributesTuple.isConst, Program) //type
                 ), false)));
     }
 

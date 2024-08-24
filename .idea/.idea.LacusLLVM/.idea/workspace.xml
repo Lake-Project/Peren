@@ -13,7 +13,25 @@
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Util.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Util.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PerenTests/ParseTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/ParseTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PerenTests/SemanticAnalysisTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnayslisTopLevel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitExpr.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticVisitStatement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/ArrayType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/ArrayType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/LacusType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/PerenType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StringType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StringType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StructType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/StructType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/UnknownType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/VoidType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/VoidType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Perenc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Perenc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,7 +333,7 @@
       <workItem from="1723826230609" duration="108000" />
       <workItem from="1723841573653" duration="24295000" />
       <workItem from="1723940998843" duration="5268000" />
-      <workItem from="1724533319315" duration="715000" />
+      <workItem from="1724533319315" duration="1418000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />

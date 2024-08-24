@@ -74,9 +74,6 @@ public class Perenc
 {
     public static void Init(string[] args)
     {
-        //lumina s
-        // _args = args;
-        // new Options().InputFiles = "a";
         Parser
             .Default.ParseArguments<CompileOptions>(args)
             .WithParsed(options => RunCompiler(options))
@@ -108,7 +105,7 @@ public class Perenc
 
         var parsedProgram = new Parse(tokens).ParseFile();
 
-        SemanticAnaylsis.init(parsedProgram);
+        SemanticAnaylsis.Init(parsedProgram);
         IRCodeGen.LLVM_Gen(parsedProgram, compileOptions);
     }
 }

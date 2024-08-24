@@ -13,7 +13,6 @@ public class LLVMExprVisitor(
 {
     public override LLVMValueRef Visit(IntegerNode node)
     {
-        Console.WriteLine(node.Range);
         return LLVMValueRef.CreateConstInt(node.Range switch
         {
             Range.OneBit => LLVMTypeRef.Int1,

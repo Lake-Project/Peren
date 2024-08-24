@@ -2,9 +2,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class BoolType(bool isConst,Range range = Range.OneBit) : LacusType(isConst, range)
+public class BoolType(bool isConst,Range range = Range.OneBit) : PerenType(isConst, range)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         if (this.IsConst && !type.IsConst)
             return false;

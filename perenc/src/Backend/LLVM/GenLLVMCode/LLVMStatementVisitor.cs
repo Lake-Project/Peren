@@ -56,7 +56,6 @@ public class LLVMContext(Dictionary<string, CompilerModule> modules)
 
     public LLVMVar GetVar(string name)
     {
-        Console.WriteLine(name);
         if (vars.Values.ContainsKey(name))
         {
             return vars.Get(name);
@@ -85,7 +84,6 @@ public class LLVMContext(Dictionary<string, CompilerModule> modules)
 
     public LLVMFunction GetFunction(string name)
     {
-        Console.WriteLine(name);
         if (CurrentModule.Functions.ContainsKey(name))
         {
             return CurrentModule.Functions[name];

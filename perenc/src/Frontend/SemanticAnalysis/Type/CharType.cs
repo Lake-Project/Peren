@@ -2,9 +2,9 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class CharType(bool isConst,Range range = Range.EightBit, bool isUnsigned = false) : LacusType(isConst, range, isUnsigned)
+public class CharType(bool isConst,Range range = Range.EightBit, bool isUnsigned = false) : PerenType(isConst, range, isUnsigned)
 {
-    public override bool CanAccept(LacusType type)
+    public override bool CanAccept(PerenType type)
     {
         if (this.IsConst && !type.IsConst)
             return false;

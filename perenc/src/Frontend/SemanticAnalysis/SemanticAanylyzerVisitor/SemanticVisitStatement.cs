@@ -7,12 +7,12 @@ namespace LacusLLVM.SemanticAanylyzerVisitor;
 
 public struct SemanticVar
 {
-    public LacusType VarType { get; set; }
+    public PerenType VarType { get; set; }
     public int ScopeLocation { get; set; }
 
     public AttributesTuple AttributesTupe { get; set; }
 
-    public SemanticVar(LacusType type, int scopeLocation, AttributesTuple attributesTuple)
+    public SemanticVar(PerenType type, int scopeLocation, AttributesTuple attributesTuple)
     {
         VarType = type;
         ScopeLocation = scopeLocation;
@@ -22,19 +22,19 @@ public struct SemanticVar
 
 public struct SemanticFunction
 {
-    public LacusType RetType { get; set; }
-    public List<LacusType> ParamTypes { get; set; }
+    public PerenType RetType { get; set; }
+    public List<PerenType> ParamTypes { get; set; }
 
-    public SemanticFunction(LacusType type, List<LacusType> paramTypes, bool isPub)
+    public SemanticFunction(PerenType type, List<PerenType> paramTypes, bool isPub)
     {
         RetType = type;
         ParamTypes = paramTypes;
     }
 }
 
-public struct SemanticTypes(LacusType type)
+public struct SemanticTypes(PerenType type)
 {
-    public LacusType Type { get; set; } = type;
+    public PerenType Type { get; set; } = type;
 }
 
 public struct SemanticProgram
@@ -108,7 +108,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
         // }
         // else
         // {
-        var type = SemanticAnaylsis.tokenToLacusType(node.Type, node.AttributesTuple.isConst, Program);
+        var type = SemanticAnaylsis.TokenToPerenType(node.Type, node.AttributesTuple.isConst, Program);
         Program.AddVar(
             node.Name,
             new SemanticVar(type, Program.Vars.GetSize(),
@@ -116,7 +116,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
         );
         if (node.Expression != null)
         {
-            LacusType t = node.Expression.Visit(
+            PerenType t = node.Expression.Visit(
                 new SemanticVisitExpr(Program, type)
             );
             if (!type.CanAccept(t))
@@ -133,7 +133,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
         SemanticVar v = Program.GetVar(node.Name);
         if (node is ArrayRefStatementNode arr)
             arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
-        LacusType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
+        PerenType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
         if (v.AttributesTupe.isConst)
             throw new Exception(
                 $"type const {v.VarType} cant fit into {l} on line {node.Name.GetLine()}"
@@ -152,7 +152,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
             throw new Exception("no matching type");
         for (int i = 0; i < f.ParamTypes.Count; i++)
         {
-            LacusType t = node.ParamValues[i].Visit(new SemanticVisitExpr(Program, f.ParamTypes[i]));
+            PerenType t = node.ParamValues[i].Visit(new SemanticVisitExpr(Program, f.ParamTypes[i]));
             if (!f.ParamTypes[i].CanAccept(t))
                 throw new Exception("error");
         }
@@ -177,7 +177,7 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
 
     public override void Visit(ReturnNode node)
     {
-        LacusType t = new VoidType();
+        PerenType t = new VoidType();
         if (node.Expression != null)
         {
             t = node.Expression.Visit(new SemanticVisitExpr(Program, function.RetType));

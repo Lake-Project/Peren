@@ -10,17 +10,15 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
 
     public void print()
     {
-        // Dictionary<short, string>
-
         Console.WriteLine($"Header COFF {Header.Machine switch {
-            0x8664 => "x64 amd",
-            0x014c => "i386",
-            0x2000 => "intel Itanuim",
+            0x8664 => "x64 AMD",
+            0x014c => "Intel x86",
+            0x2000 => "Intel Itanium",
             _ => throw new Exception($"unsupported machine type{Header.Machine}")
         }} ");
         Console.WriteLine("");
         Console.WriteLine($"Number Of Sections {Header.NumberOfSections}");
-        Console.WriteLine($"TimeDate: {Header.TimeDateStamp}");
+        Console.WriteLine($"Time stamp: {Header.TimeDateStamp}");
         Console.WriteLine("Pointer to symbol table 0x{0:x}", Header.PointerToSymbolTable);
         Console.WriteLine($"Number of symbols: {Header.NumberOfSymbols}");
         Console.WriteLine($"characteristics {Header.Characteristics}");
@@ -50,7 +48,6 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
                 Console.WriteLine("section num: {0:X}", n.SectionNumber);
                 Console.WriteLine("");
             });
-        // Console.WriteLine("");
     }
 }
 

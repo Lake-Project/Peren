@@ -6,14 +6,14 @@ namespace LacusLLVM.SemanticAanylyzerVisitor;
 
 public class SemanticAnaylsis
 {
-    public static void init(PerenNode p)
+    public static void Init(PerenNode p)
     {
         var s = new SemanticAnayslisTopLevel();
         p.Visit(s);
         // n.ForEach(n => n.Visit(s));
     }
 
-    public static LacusType tokenToLacusType(Tokens type, bool isConst, SemanticProgram program)
+    public static PerenType TokenToPerenType(Tokens type, bool isConst, SemanticProgram program)
     {
         if (type.tokenType == TokenType.WORD)
         {
@@ -22,19 +22,19 @@ public class SemanticAnaylsis
 
         return type.tokenType switch
         {
-            TokenType.INT => new IntegerType(isConst, Range.ThirtyTwoBit),
+            TokenType.INT => new IntegerType(isConst),
             TokenType.INT16 => new IntegerType(isConst, Range.SixteenBit),
             TokenType.INT64 => new IntegerType(isConst, Range.SixtyFourBit),
-            TokenType.BOOL => new BoolType(isConst, Range.OneBit),
-            TokenType.FLOAT => new FloatType(isConst, Range.Float),
-            TokenType.CHAR => new CharType(isConst, Range.EightBit),
+            TokenType.BOOL => new BoolType(isConst),
+            TokenType.FLOAT => new FloatType(isConst),
+            TokenType.CHAR => new CharType(isConst),
             TokenType.VOID => new VoidType(),
             TokenType.ULONG => new IntegerType(isConst, Range.SixtyFourBit, true),
             TokenType.BYTE => new IntegerType(isConst, Range.EightBit, true),
             TokenType.SBYTE => new IntegerType(isConst, Range.EightBit),
             TokenType.UINT => new IntegerType(isConst, Range.ThirtyTwoBit, true),
             TokenType.UINT_16 => new IntegerType(isConst, Range.SixteenBit, true),
-            TokenType.STRING => new ArrayType(new CharType(false, Range.EightBit), isConst),
+            TokenType.STRING => new ArrayType(new CharType(false), isConst),
             _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
     }
