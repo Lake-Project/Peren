@@ -11,8 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/dotnet.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/dotnet.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +315,7 @@
       <workItem from="1723826230609" duration="108000" />
       <workItem from="1723841573653" duration="24295000" />
       <workItem from="1723940998843" duration="5268000" />
-      <workItem from="1724533319315" duration="2104000" />
+      <workItem from="1724533319315" duration="2559000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
