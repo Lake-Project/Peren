@@ -22,7 +22,7 @@ public class Util
         return theStructure;
     }
 
-    public static unsafe T GetSection<T>(List<byte> raw, uint ptr, int size)
+    public static  T GetSection<T>(List<byte> raw, uint ptr, int size)
     {
         byte[] bytes = new byte[size];
         int idx = 0;
@@ -32,7 +32,6 @@ public class Util
             bytes[idx] = raw[i];
             idx++;
         }
-        
         GCHandle handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
         T theStructure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
         handle.Free();

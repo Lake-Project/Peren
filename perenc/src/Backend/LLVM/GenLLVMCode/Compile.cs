@@ -27,9 +27,5 @@ public class Compile
             _ => throw new Exception($"undefined {type.ToString()} type")
         };
     }
-
-    // public static LLVMVar GetVar(LLVMContext context, string name)
-    // {
-    //     return context.globalVars.Values.ContainsKey(name) ? context.globalVars.Get(name) : context.vars.Get(name);
-    // }
+    
 }

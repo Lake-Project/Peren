@@ -1,6 +1,5 @@
 module Start(Addition, Subtraction){
     fn main() returns int{
-        foo f;
         int sum := add(1,1);
         return 0;
     }

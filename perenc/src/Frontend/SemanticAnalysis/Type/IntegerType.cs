@@ -2,7 +2,8 @@ using Lexxer;
 
 namespace LacusLLVM.Frontend.SemanticAnalysis;
 
-public class IntegerType(bool isConst, 
+public class IntegerType(
+    bool isConst,
     Range range = Range.ThirtyTwoBit,
     bool isUnsigned = false) : PerenType(isConst, range, isUnsigned)
 {
@@ -12,9 +13,9 @@ public class IntegerType(bool isConst,
         {
             Console.WriteLine("Types not const");
             return false;
-
         }
-        return (type is IntegerType) || (type is CharType);
+
+        return (type is IntegerType) ;
     }
 
     public override int size()

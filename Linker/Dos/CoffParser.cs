@@ -14,7 +14,7 @@ public struct Coff(Coff_Hdr header, Dictionary<string, List<byte>> sections, Lis
             0x8664 => "x64 AMD",
             0x014c => "Intel x86",
             0x2000 => "Intel Itanium",
-            _ => throw new Exception($"unsupported machine type{Header.Machine}")
+            _ => throw new Exception($"unsupported machine type {Header.Machine}")
         }} ");
         Console.WriteLine("");
         Console.WriteLine($"Number Of Sections {Header.NumberOfSections}");
@@ -69,10 +69,11 @@ public class CoffParser
     private Dictionary<string, List<byte>> GetCoffSections(Coff_Hdr header, BinaryReader reader)
     {
         Dictionary<string, List<byte>> section = new();
-
+        uint ptr = 20;
         for (int i = 0; i < header.NumberOfSections; i++)
         {
-            Coff_Section_Hdr b = Util.GetSection<Coff_Section_Hdr>(reader);
+            Coff_Section_Hdr b = Util.GetSection<Coff_Section_Hdr>(Raw, ptr, 40);
+            ptr += 40;
             List<byte> Section = new();
             if (b.PointerToRawData != 0x00)
                 for (
@@ -92,12 +93,12 @@ public class CoffParser
 
     public Coff GetCoff()
     {
-        Dictionary<string, List<byte>> section = new();
         using var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read);
         using var reader = new BinaryReader(stream);
-        Coff_Hdr header = Util.GetSection<Coff_Hdr>(reader);
+        var header = Util.GetSection<Coff_Hdr>(reader);
         // Coff_Hdr header = Util.GetSection<Coff_Hdr>(Raw, 0);
         // List<byte> SymbolTable = new();
+        
         List<SymbolTable> symbolTables = new();
         uint ptr = header.PointerToSymbolTable;
         for (var i = 0; i < header.NumberOfSymbols; i++)
@@ -108,6 +109,7 @@ public class CoffParser
             ptr += 18;
         }
 
+        
 
         return new Coff(header, GetCoffSections(header, reader), symbolTables);
     }

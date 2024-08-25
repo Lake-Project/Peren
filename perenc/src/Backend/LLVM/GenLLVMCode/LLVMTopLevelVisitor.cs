@@ -6,6 +6,7 @@ namespace LacusLLVM.LLVMCodeGen.Visitors.StatementVisit;
 
 public class LLVMTopLevelVisitor(LLVMBuilderRef builderRef, LLVMModuleRef moduleRef) : StatementVisit
 {
+    
     public override void Visit(PerenNode node)
     {
         Dictionary<string, CompilerModule> modules = new();

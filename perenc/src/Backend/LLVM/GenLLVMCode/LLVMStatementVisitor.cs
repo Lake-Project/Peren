@@ -179,10 +179,10 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         if (node is ArrayRefStatementNode arr)
         {
             var loc = builderRef.BuildInBoundsGEP2(a.Type, a.Value,
-                new LLVMValueRef[]
-                {
+                [
                     arr.Element.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef))
-                });
+                ]
+            );
             builderRef.BuildStore(
                 node.Expression.Visit(new LLVMExprVisitor(Context, builderRef, moduleRef)),
                 loc
@@ -213,50 +213,38 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
 
     public override void Visit(FunctionNode node)
     {
-        // LLVMTypeRef funcType = LLVMTypeRef.CreateFunction(
-        //     Compile.ToLLVMType(node.RetType.Name, Context),
-        //     node.Parameters //params
-        //         .Select(n => Compile.ToLLVMType(n.Type, Context)) //converts param types
-        //         .ToArray(), //to an array
-        //     false
-        // );
-        // // node.Parameters.ForEach(n => n.Visit(this));
-        // LLVMValueRef function = moduleRef.AddFunction(node.Name.buffer, funcType);
-        // _currentFunction = new LLVMFunction(funcType, Compile.ToLLVMType(node.RetType.Name, Context), function);
-        // Context.functions.Add(node.Name.buffer, _currentFunction);
-        // if (node.AttributesTuple.isExtern)
-        // {
-        //     function.Linkage = LLVMLinkage.LLVMExternalLinkage;
-        //     return;
-        // }
         if (node.AttributesTuple.isExtern)
             return;
         var function = Context.GetFunction(node.Name.buffer);
         _currentFunction = function;
         LLVMBasicBlockRef entry = function.FunctionValue.AppendBasicBlock("entry");
         builderRef.PositionAtEnd(entry);
-        foreach (var (param, index) in node.Parameters.Select((param, index) => (param, index)))
-        {
-            var llvmParam = function.FunctionValue.GetParam((uint)index);
-            var name = param.Name.buffer;
-            llvmParam.Name = name;
-            Context.AddVars(
-                param.Name.buffer,
-                new LLVMVar(
-                    builderRef.BuildAlloca(Compile.ToLLVMType(param.Type, Context), name),
-                    Compile.ToLLVMType(param.Type, Context)
-                )
+        node.Parameters
+            .Select((param, index) => new { param, index })
+            .ToList()
+            .ForEach(n =>
+                {
+                    var llvmParam = function.FunctionValue.GetParam((uint)n.index);
+                    var name = n.param.Name.buffer;
+                    llvmParam.Name = name;
+                    Context.AddVars(
+                        n.param.Name.buffer,
+                        new LLVMVar(
+                            builderRef.BuildAlloca(Compile.ToLLVMType(n.param.Type, Context), name),
+                            Compile.ToLLVMType(n.param.Type, Context)
+                        )
+                    );
+                    builderRef.BuildStore(
+                        function.FunctionValue.GetParam((uint)n.index),
+                        Context.GetVar(n.param.Name.buffer).Value
+                    );
+                }
             );
-            builderRef.BuildStore(
-                function.FunctionValue.GetParam((uint)index),
-                Context.GetVar(param.Name.buffer).Value
-            );
-        }
 
         node.Statements.ForEach(n => n.Visit(this));
         if (!_returns && _currentFunction.returnType == LLVMTypeRef.Void)
             builderRef.BuildRetVoid();
-        // Context.vars.DeallocateScope();
+        _returns = false;
     }
 
     public override void Visit(ModuleNode moduleNode)
@@ -286,12 +274,11 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
 
     public override void Visit(ForLoopNode node)
     {
-        var loopCond = _currentFunction.FunctionValue.AppendBasicBlock("loopCOnd");
+        var loopCond = _currentFunction.FunctionValue.AppendBasicBlock("loop.Cond");
 
-        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("loopBody");
-        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("Loopend");
+        var loopBody = _currentFunction.FunctionValue.AppendBasicBlock("loop.Body");
+        var loopEnd = _currentFunction.FunctionValue.AppendBasicBlock("Loop.end");
 
-        // Context.vars.AllocateScope();
         node.Iterator.Visit(this);
         builderRef.BuildBr(loopCond);
         builderRef.PositionAtEnd(loopCond);
@@ -301,7 +288,6 @@ public class LLVMStatementVisitor(LLVMContext context, LLVMBuilderRef builderRef
         node.Statements.ForEach(n => n.Visit(this));
         node.Inc.Visit(this);
         builderRef.BuildBr(loopCond);
-        // Context.vars.DeallocateScope();
         builderRef.PositionAtEnd(loopEnd);
     }
 

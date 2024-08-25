@@ -82,7 +82,7 @@ public class Perenc
                 using var enumerator = errors.GetEnumerator();
                 enumerator.MoveNext();
                 Console.WriteLine($"error invoking perenc {enumerator.Current}, " +
-                                  $"perenc --help to see a list of options");
+                                  $"run perenc --help to see a list of options");
             });
     }
 
@@ -91,11 +91,10 @@ public class Perenc
         List<Tokens> tokens = new();
 
         compileOptions.InputFiles.ToList()
-            .SelectMany(inputDirOrFile => Directory.Exists(inputDirOrFile)
-                ? Directory
-                    .GetFiles(inputDirOrFile, "*.pn")
-                    .ToList()
-                : [inputDirOrFile])
+            .SelectMany(inputDirOrFile =>
+                Directory.Exists(inputDirOrFile)
+                    ? Directory.GetFiles(inputDirOrFile, "*.pn")
+                    : [inputDirOrFile])
             .ToList()
             .ForEach(inputFile =>
                 new LexTokens().LexList(File.ReadAllLines(inputFile),

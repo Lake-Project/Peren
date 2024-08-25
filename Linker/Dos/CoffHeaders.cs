@@ -2,6 +2,7 @@ namespace Linker.Dos;
 
 using System.Runtime.InteropServices;
 
+//explains the COFF header: https://wiki.osdev.org/COFF
 /// <summary>
 /// designed for DOS files COFF HDR is the 1st 20 bytes of your raw binary
 /// </summary>
@@ -41,7 +42,8 @@ public struct Coff_Section_Hdr
 public struct SymbolTable
 {
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-    public byte[] Name;    
+    public byte[] Name;
+
     public long Value; // technically, the effective type of this field 
 
 // is determined by values of the two following fields 
@@ -49,5 +51,4 @@ public struct SymbolTable
     public ushort Type; // a pair of one-byte enumerations
     public byte NumberOfAuxSymbols;
     public byte sclass;
-
 }

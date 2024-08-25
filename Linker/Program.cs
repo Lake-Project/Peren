@@ -8,7 +8,7 @@ public class Program
     {
         // ElfLinker.DeserializeElfHeader("Elf.o");
         // LinkerRun.LinkCode("HelloWorld.o");
-        new CoffParser("HelloWorld.o").GetCoff().print();
+        new CoffParser("./Binaries/HelloWorld.o").GetCoff().print();
         
         // DosLinker.GetSections("Test.o");
         // var b = ElfHeaderSearlize.DeserializeElfHeader("Elf.o");
