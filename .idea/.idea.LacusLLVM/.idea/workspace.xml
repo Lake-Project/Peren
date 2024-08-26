@@ -11,22 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Linker/Dos/PEHeaders.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linker/Dos/PEParse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructElement.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Dos/CoffHeaders.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Dos/CoffHeaders.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Dos/CoffParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/Elf/ElfHeaders.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Elf/ElfHeaders.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linker/Elf/ElfParse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Elf/ElfParse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Linker/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linker/Util.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Linker/Util.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Add.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Add.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Start.pn" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/TestFiles/ModuleTest/Start.pn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMFunctions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMFunctions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Perenc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Perenc.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,7 +319,8 @@
       <workItem from="1723940998843" duration="5268000" />
       <workItem from="1724533319315" duration="4329000" />
       <workItem from="1724559652937" duration="6506000" />
-      <workItem from="1724606134455" duration="3239000" />
+      <workItem from="1724606134455" duration="4388000" />
+      <workItem from="1724633000489" duration="7366000" />
     </task>
     <task id="LOCAL-00022" summary="return">
       <option name="closed" value="true" />
