@@ -11,19 +11,32 @@ public class IRCodeGen
         var asmOutDir = "peren-asm";
         var binOutDir = "peren-bin";
         var irOutDir = "peren-ir";
+
+        var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(statements.GetStart().Name.buffer, ".ll"));
+        LLVMBuilderRef builder = module.Context.CreateBuilder();
+        var visit = new LLVMTopLevelVisitor(builder, module);
+        statements.Visit(visit);
+        if (compileOptions.IrFile)
+        {
+            if (!Directory.Exists(irOutDir))
+                Directory.CreateDirectory(irOutDir);
+            File.WriteAllText(
+                $"{irOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}",
+                module.ToString()
+            );
+        }
+        
+        if (compileOptions.PrintIR)
+            module.Dump();
+        
+        //outputting directly to an object file
+        //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html
         LLVM.InitializeAllTargetInfos();
         LLVM.InitializeAllTargets();
         LLVM.InitializeAllTargetMCs();
         LLVM.InitializeAllAsmPrinters();
         LLVM.InitializeAllAsmParsers();
 
-        var module = LLVMModuleRef.CreateWithName(Path.ChangeExtension(statements.GetStart().Name.buffer, ".ll"));
-        LLVMBuilderRef builder = module.Context.CreateBuilder();
-        var visit = new LLVMTopLevelVisitor(builder, module);
-        statements.Visit(visit);
-
-        //outputting directly to an object file
-        //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html
         var targetTriple = LLVMTargetRef.DefaultTriple;
         var target = LLVMTargetRef.GetTargetFromTriple(targetTriple);
         var cpu = compileOptions.TargetArchitechure;
@@ -82,15 +95,6 @@ public class IRCodeGen
         }
 
         //
-        if (compileOptions.IrFile)
-        {
-            if (!Directory.Exists(irOutDir))
-                Directory.CreateDirectory(irOutDir);
-            File.WriteAllText(
-                $"{irOutDir}/{Path.ChangeExtension(compileOptions.OutputFile, ".ll")}",
-                module.ToString()
-            );
-        }
 
         if (compileOptions.AssemblyFile)
         {
@@ -105,8 +109,7 @@ public class IRCodeGen
             );
         }
 
-        if (compileOptions.PrintIR)
-            module.Dump();
+       
         if (!compileOptions.CompileOff)
             if (compileOptions.CompileOnly)
                 Console.WriteLine($"Object output path: {compileOptions.OutputFile} ");
