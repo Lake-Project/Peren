@@ -107,8 +107,8 @@ public class SemanticVisitExpr(SemanticProgram program, PerenType assignedType)
         if (node is ArrayRefNode arr)
         {
             arr.Elem.Visit(new SemanticVisitExpr(program, new IntegerType(false)));
+            return v.VarType.simplerType;
         }
-
         return v.VarType;
     }
 

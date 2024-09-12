@@ -70,9 +70,9 @@ public class LinkerRun
         // int p1 = File.ReadAllLines(path);
         List<byte> file = File.ReadAllBytes(path).ToList();
         List<byte> textSection = TextSection(file);
-        
+
         // List<byte> Get
-        
+
         // textSection.ForEach(n => Console.WriteLine("{0:x}",n));
         // p.ForEach(n => { Console.WriteLine("byte: {0:X} ", n); });
         // Console.WriteLine("{0:x}", p[0x2c]);

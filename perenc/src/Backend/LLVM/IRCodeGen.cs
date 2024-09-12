@@ -11,7 +11,6 @@ public class IRCodeGen
         var asmOutDir = "peren-asm";
         var binOutDir = "peren-bin";
         var irOutDir = "peren-ir";
-
         LLVM.InitializeAllTargetInfos();
         LLVM.InitializeAllTargets();
         LLVM.InitializeAllTargetMCs();

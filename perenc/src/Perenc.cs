@@ -99,8 +99,10 @@ public class Perenc
             .ForEach(inputFile =>
                 new LexTokens().LexList(File.ReadAllLines(inputFile),
                     tokens)); //little function designed to grab All the files in a Directory and lexes them:3
+        List<int> a = new List<int>() { 1, 2, 3, 4 };
+        // a.ForEach(Console.WriteLine);
         if (compileOptions.PrintTokens)
-            tokens.ForEach(token => Console.WriteLine(token)); //prints the tokens
+            tokens.ForEach( token => Console.WriteLine(token)); //prints the tokens
 
         var parsedProgram = new Parse(tokens).ParseFile();
 

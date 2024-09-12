@@ -99,49 +99,70 @@ public class SemanticVisitStatement(SemanticProgram program) : StatementVisit
             n.Size.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
         }
 
-        // if (node is ArrayNode)
-        // {
-        //     p.AddVar(node.Name,
-        //         new SemanticVar(new ArrayType(tokenToLacusType(node.Type, false), node.AttributesTuple.isConst),
-        //             p.Vars.GetSize(),
-        //             node.AttributesTuple));
-        // }
-        // else
-        // {
-        var type = SemanticAnaylsis.TokenToPerenType(node.Type, node.AttributesTuple.isConst, Program);
-        Program.AddVar(
-            node.Name,
-            new SemanticVar(type, Program.Vars.GetSize(),
-                node.AttributesTuple)
-        );
-        if (node.Expression != null)
+        if (node is ArrayNode)
         {
-            PerenType t = node.Expression.Visit(
-                new SemanticVisitExpr(Program, type)
-            );
-            if (!type.CanAccept(t))
-                throw new TypeMisMatchException(
-                    $"type {t} cant fit "
-                    + $"{type} on line {node.Type.GetLine()}"
-                );
+            Program.AddVar(node.Name,
+                new SemanticVar(new 
+                        ArrayType(SemanticAnaylsis.TokenToPerenType(node.Type, false, Program), node.AttributesTuple.isConst),
+                    Program.Vars.GetSize(),
+                    node.AttributesTuple));
         }
-        // }
+        else
+        {
+            var type = SemanticAnaylsis.TokenToPerenType(node.Type, node.AttributesTuple.isConst, Program);
+            Program.AddVar(
+                node.Name,
+                new SemanticVar(type, Program.Vars.GetSize(),
+                    node.AttributesTuple)
+            );
+            if (node.Expression != null)
+            {
+                PerenType t = node.Expression.Visit(
+                    new SemanticVisitExpr(Program, type)
+                );
+                if (!type.CanAccept(t))
+                    throw new TypeMisMatchException(
+                        $"type {t} cant fit "
+                        + $"{type} on line {node.Type.GetLine()}"
+                    );
+            }
+        }
     }
 
     public override void Visit(VaraibleReferenceStatementNode node)
     {
         SemanticVar v = Program.GetVar(node.Name);
         if (node is ArrayRefStatementNode arr)
-            arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
-        PerenType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
-        if (v.AttributesTupe.isConst)
-            throw new Exception(
-                $"type const {v.VarType} cant fit into {l} on line {node.Name.GetLine()}"
-            );
-        if (!v.VarType.CanAccept(l))
-            throw new TypeMisMatchException(
-                $"type {l} cant fit " + $"{v.VarType} on line {node.Name.GetLine()}"
-            );
+        {
+            PerenType varTypes = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType.simplerType));
+            PerenType l2 = arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
+            if (!v.VarType.simplerType.CanAccept(varTypes))
+                throw new TypeMisMatchException(
+                    $"type {l2} cant fit " + $"{v.VarType} on line {node.Name.GetLine()}"
+                );
+            if (v.AttributesTupe.isConst)
+                throw new Exception(
+                    $"type const {v.VarType} cant fit into {l2} on line {node.Name.GetLine()}"
+                );
+            
+
+        }
+        else
+        {
+            PerenType l = node.Expression.Visit(new SemanticVisitExpr(Program, v.VarType));
+            if (!v.VarType.CanAccept(l))
+                throw new TypeMisMatchException(
+                    $"type {l} cant fit " + $"{v.VarType} on line {node.Name.GetLine()}"
+                );
+            if (v.AttributesTupe.isConst)
+                throw new Exception(
+                    $"type const {v.VarType} cant fit into {l} on line {node.Name.GetLine()}"
+                );
+        }
+        // if (node is ArrayRefStatementNode arr)
+        //     arr.Element.Visit(new SemanticVisitExpr(Program, new IntegerType(false)));
+        
+        
     }
 
     public override void Visit(FunctionCallNode node)

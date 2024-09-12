@@ -6,7 +6,6 @@ public class CompileContext<T>
 
     public void Add(string name, T value)
     {
-        List<T> v = new();
         if (Values.ContainsKey(name))
         {
             Values.Remove(name);
