@@ -53,7 +53,7 @@ public class CompileOptions
     [Option("dump-tokens", HelpText = "prints Tokens")]
     public bool PrintTokens { get; set; }
 
-    [Option('o', "output", Default = "a.exe", HelpText = "output file")]
+    [Option('o', "output", Default = "a.out", HelpText = "output file")]
     public string OutputFile { get; set; }
 
     [Option('a', "assembly", HelpText = "emit assembly file")]

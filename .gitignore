@@ -11,6 +11,7 @@ test.pn
 /unused/*
 *.lk
 *.s
+*.out
 test2.lk    
 
 /perenc/bin
