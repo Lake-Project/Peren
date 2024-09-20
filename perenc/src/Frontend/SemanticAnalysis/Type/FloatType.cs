@@ -20,10 +20,10 @@ public class FloatType(bool isConst, Range range = Range.Float) : PerenType(isCo
     {
         return op.tokenType switch
         {
-            TokenType.ADDITION 
-                or TokenType.SUBTRACTION 
-                or TokenType.DIVISION 
-                or TokenType.MULTIPLICATION => true,
+            TokenType.Addition 
+                or TokenType.Subtraction 
+                or TokenType.Division 
+                or TokenType.Multiplication => true,
             _ => false
         };
     }

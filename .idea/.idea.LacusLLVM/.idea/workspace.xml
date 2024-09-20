@@ -10,13 +10,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/perenc.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/perenc.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Perenc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Perenc.cs" afterDir="false" />
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="added option to change linkers">
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,9 +45,6 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/527085b7858c4b1b88edd5bb4af57cba13800/7b/639e47d9/02000043pdb6.il" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2b1a7d957082b0734a5664fc9aae484693a84b8691d3524a74569e46be52884f/LLVMTypeRef.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cfccd7797df0d1589048d647547c6cca5a1fbcf0129add75453f158598eb21fe/LLVM.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/Test.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/CompilerModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" root0="FORCE_HIGHLIGHTING" />
@@ -52,10 +52,13 @@
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ExpressionNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Perenc.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Perenc.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -300,15 +303,7 @@
       <workItem from="1726107308573" duration="996000" />
       <workItem from="1726598236214" duration="2692000" />
       <workItem from="1726601275486" duration="562000" />
-      <workItem from="1726794667999" duration="130000" />
-    </task>
-    <task id="LOCAL-00022" summary="return">
-      <option name="closed" value="true" />
-      <created>1717707521445</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1717707521445</updated>
+      <workItem from="1726794667999" duration="226000" />
     </task>
     <task id="LOCAL-00023" summary="a">
       <option name="closed" value="true" />
@@ -694,7 +689,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722394997726</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="added option to change linkers">
+      <option name="closed" value="true" />
+      <created>1726794842828</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1726794842828</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -716,7 +719,6 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="adding for loops next" />
     <MESSAGE value="wierd bug but have loops now :D" />
     <MESSAGE value="clean up" />
     <MESSAGE value="hello world :3" />
@@ -741,7 +743,8 @@
     <MESSAGE value="fixed up a few things :3" />
     <MESSAGE value="I divorced linker and Compiler :3" />
     <MESSAGE value="lumina" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="added option to change linkers" />
+    <option name="LAST_COMMIT_MESSAGE" value="added option to change linkers" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

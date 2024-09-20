@@ -20,15 +20,15 @@ public class BoolType(bool isConst,Range range = Range.OneBit) : PerenType(isCon
     {
         return op.tokenType switch
         {
-            TokenType.AND
-                or TokenType.OR
-                or TokenType.GT
-                or TokenType.LT
-                or TokenType.BOOL_EQ
-                or TokenType.GTE
-                or TokenType.NOT
-                or TokenType.LTE
-                or TokenType.NOT_EQUALS
+            TokenType.And
+                or TokenType.Or
+                or TokenType.Gt
+                or TokenType.Lt
+                or TokenType.BoolEq
+                or TokenType.Gte
+                or TokenType.Not
+                or TokenType.Lte
+                or TokenType.NotEquals
                 => true,
             _ => false
         };

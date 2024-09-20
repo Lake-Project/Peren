@@ -67,42 +67,42 @@ public class Parse
 
     private ExpressionNode? Factor()
     {
-        if (MatchAndRemove(TokenType.NUMBER) != null)
+        if (MatchAndRemove(TokenType.Number) != null)
         {
             if (Current.buffer.Contains("."))
                 return new FloatNode(Current);
             return new IntegerNode(Current);
         }
-        else if (MatchAndRemove(TokenType.CHAR_LITERAL) != null)
+        else if (MatchAndRemove(TokenType.CharLiteral) != null)
         {
             return new CharNode(char.Parse(Current.buffer));
         }
-        else if (MatchAndRemove(TokenType.TRUE) != null)
+        else if (MatchAndRemove(TokenType.True) != null)
         {
             return new BoolNode(true);
         }
-        else if (MatchAndRemove(TokenType.FALSE) != null)
+        else if (MatchAndRemove(TokenType.False) != null)
         {
             return new BoolNode(false);
         }
-        else if (MatchAndRemove(TokenType.WORD) != null)
+        else if (MatchAndRemove(TokenType.Word) != null)
         {
-            if (LookAhead(TokenType.OP_PAREN))
+            if (LookAhead(TokenType.OpParen))
                 return ParseFunctionCalls();
-            else if (LookAhead(TokenType.OP_BRACKET))
+            else if (LookAhead(TokenType.OpBracket))
                 return ParseArrayRef();
             return new VaraibleReferenceNode(Current);
         }
-        else if (MatchAndRemove(TokenType.STRING_LITERAL) != null)
+        else if (MatchAndRemove(TokenType.StringLiteral) != null)
         {
             return new StringNode(Current);
         }
-        else if (MatchAndRemove(TokenType.OP_PAREN) != null)
+        else if (MatchAndRemove(TokenType.OpParen) != null)
         {
             Tokens? type = GetNativeType();
             if (type != null)
             {
-                MatchAndRemove(TokenType.CL_PAREN);
+                MatchAndRemove(TokenType.ClParen);
 
                 ExpressionNode? b = Factor();
                 return new CastNode(b, type.Value);
@@ -110,11 +110,11 @@ public class Parse
 
             ExpressionNode? a = ParseSingleExpr();
             Console.WriteLine("hai");
-            MatchAndRemove(TokenType.CL_PAREN);
+            MatchAndRemove(TokenType.ClParen);
 
             return a;
         }
-        else if (MatchAndRemove(TokenType.NOT) != null)
+        else if (MatchAndRemove(TokenType.Not) != null)
         {
             Tokens a = Current;
             ExpressionNode? v = Factor();
@@ -122,13 +122,13 @@ public class Parse
                 new
                     OpNode(v, v, a);
         }
-        else if (MatchAndRemove(TokenType.SIZE) != null)
+        else if (MatchAndRemove(TokenType.Size) != null)
         {
-            MatchAndRemove(TokenType.OP_PAREN);
+            MatchAndRemove(TokenType.OpParen);
             ExpressionNode? v = Expression();
-            MatchAndRemove(TokenType.CL_PAREN);
+            MatchAndRemove(TokenType.ClParen);
             return new OpNode(v,
-                v, new Tokens(TokenType.SIZE));
+                v, new Tokens(TokenType.Size));
         }
 
         return null;
@@ -138,17 +138,17 @@ public class Parse
     {
         ExpressionNode? opNode = Factor();
         Tokens? op =
-            (MatchAndRemove(TokenType.GT) != null)
+            (MatchAndRemove(TokenType.Gt) != null)
                 ? Current
-                : (MatchAndRemove(TokenType.LT) != null)
+                : (MatchAndRemove(TokenType.Lt) != null)
                     ? Current
-                    : (MatchAndRemove(TokenType.BOOL_EQ) != null)
+                    : (MatchAndRemove(TokenType.BoolEq) != null)
                         ? Current
-                        : (MatchAndRemove(TokenType.LTE) != null)
+                        : (MatchAndRemove(TokenType.Lte) != null)
                             ? Current
-                            : (MatchAndRemove(TokenType.GTE) != null)
+                            : (MatchAndRemove(TokenType.Gte) != null)
                                 ? Current
-                                : (MatchAndRemove(TokenType.NOT_EQUALS) != null)
+                                : (MatchAndRemove(TokenType.NotEquals) != null)
                                     ? Current
                                     : null;
         if (op != null)
@@ -171,24 +171,24 @@ public class Parse
         Tokens? op;
         ExpressionNode? opNode = ParseNot(); //returns a mathOPNode.
         op =
-            (MatchAndRemove(TokenType.MULTIPLICATION) != null)
+            (MatchAndRemove(TokenType.Multiplication) != null)
                 ? Current
-                : (MatchAndRemove(TokenType.DIVISION) != null)
+                : (MatchAndRemove(TokenType.Division) != null)
                     ? Current
-                    : (MatchAndRemove(TokenType.MODULAS) != null)
+                    : (MatchAndRemove(TokenType.Modulas) != null)
                         ? Current
-                        : MatchAndRemove(TokenType.AND) != null
+                        : MatchAndRemove(TokenType.And) != null
                             ? Current
-                            : MatchAndRemove(TokenType.OR) != null
+                            : MatchAndRemove(TokenType.Or) != null
                                 ? Current
-                                : MatchAndRemove(TokenType.L_SHIFT) != null
+                                : MatchAndRemove(TokenType.LShift) != null
                                     ? Current
-                                    : MatchAndRemove(TokenType.R_SHIFT) != null
+                                    : MatchAndRemove(TokenType.RShift) != null
                                         ? Current
-                                        : MatchAndRemove(TokenType.XOR) != null
+                                        : MatchAndRemove(TokenType.Xor) != null
                                             ? Current
                                             : null;
-        if (opNode == null && op != null && op.Value.tokenType != TokenType.NOT)
+        if (opNode == null && op != null && op.Value.tokenType != TokenType.Not)
             throw new Exception("unauthorized statement");
         while (op != null)
         {
@@ -199,21 +199,21 @@ public class Parse
             opNode = new OpNode(opNode, right, op.Value);
 
             op =
-                (MatchAndRemove(TokenType.MULTIPLICATION) != null)
+                (MatchAndRemove(TokenType.Multiplication) != null)
                     ? Current
-                    : (MatchAndRemove(TokenType.DIVISION) != null)
+                    : (MatchAndRemove(TokenType.Division) != null)
                         ? Current
-                        : (MatchAndRemove(TokenType.MODULAS) != null)
+                        : (MatchAndRemove(TokenType.Modulas) != null)
                             ? Current
-                            : MatchAndRemove(TokenType.AND) != null
+                            : MatchAndRemove(TokenType.And) != null
                                 ? Current
-                                : MatchAndRemove(TokenType.OR) != null
+                                : MatchAndRemove(TokenType.Or) != null
                                     ? Current
-                                    : MatchAndRemove(TokenType.L_SHIFT) != null
+                                    : MatchAndRemove(TokenType.LShift) != null
                                         ? Current
-                                        : MatchAndRemove(TokenType.R_SHIFT) != null
+                                        : MatchAndRemove(TokenType.RShift) != null
                                             ? Current
-                                            : MatchAndRemove(TokenType.XOR) != null
+                                            : MatchAndRemove(TokenType.Xor) != null
                                                 ? Current
                                                 : null;
         }
@@ -227,9 +227,9 @@ public class Parse
         opNode = Term();
 
         Tokens? op =
-            (MatchAndRemove(TokenType.ADDITION) != null)
+            (MatchAndRemove(TokenType.Addition) != null)
                 ? Current
-                : (MatchAndRemove(TokenType.SUBTRACTION) != null)
+                : (MatchAndRemove(TokenType.Subtraction) != null)
                     ? Current
                     : null;
         if (opNode == null && op != null)
@@ -241,9 +241,9 @@ public class Parse
                 throw new Exception("unauthorized statement");
             opNode = new OpNode(opNode, right, op.Value);
             op =
-                (MatchAndRemove(TokenType.ADDITION) != null)
+                (MatchAndRemove(TokenType.Addition) != null)
                     ? Current
-                    : (MatchAndRemove(TokenType.SUBTRACTION) != null)
+                    : (MatchAndRemove(TokenType.Subtraction) != null)
                         ? Current
                         : null;
         }
@@ -260,7 +260,7 @@ public class Parse
     {
         List<ExpressionNode> expr = new List<ExpressionNode>();
 
-        while (MatchAndRemove(TokenType.CL_PAREN) == null)
+        while (MatchAndRemove(TokenType.ClParen) == null)
         {
             expr.Add(
                 ParseSingleExpr()
@@ -268,7 +268,7 @@ public class Parse
                     $"need all types tuple on line {Current.GetLine()}"
                 )
             );
-            MatchAndRemove(TokenType.COMMA);
+            MatchAndRemove(TokenType.Comma);
         }
 
         return expr;
@@ -278,7 +278,7 @@ public class Parse
     {
         Tokens name = Current;
         Tokens? a =
-            MatchAndRemove(TokenType.OP_PAREN) ?? throw new Exception("function is a tuple type");
+            MatchAndRemove(TokenType.OpParen) ?? throw new Exception("function is a tuple type");
         List<ExpressionNode> expr = ParseTupleAssignment();
         return new FunctionCallNode(name, expr);
     }
@@ -286,7 +286,7 @@ public class Parse
     public ElseNode? ParseElse()
     {
         List<StatementNode> statementNodes = new();
-        if (MatchAndRemove(TokenType.ELSE) != null)
+        if (MatchAndRemove(TokenType.Else) != null)
         {
             statementNodes = ParseBlock();
         }
@@ -296,9 +296,9 @@ public class Parse
 
     public IfNode ParseIf()
     {
-        MatchAndRemove(TokenType.OP_PAREN);
+        MatchAndRemove(TokenType.OpParen);
         ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in if {Current.GetLine()} ");
-        MatchAndRemove(TokenType.CL_PAREN);
+        MatchAndRemove(TokenType.ClParen);
         List<StatementNode> statementNodes = ParseBlock();
         return new IfNode(expr, ParseElse(), statementNodes);
     }
@@ -306,14 +306,14 @@ public class Parse
     public List<StatementNode> ParseBlock()
     {
         List<StatementNode> statements = new();
-        if (MatchAndRemove(TokenType.BEGIN) != null)
+        if (MatchAndRemove(TokenType.Begin) != null)
         {
             while (
-                MatchAndRemove(TokenType.END) == null
+                MatchAndRemove(TokenType.End) == null
             )
             {
                 statements.Add(Statements());
-                MatchAndRemove(TokenType.EOL);
+                MatchAndRemove(TokenType.Eol);
             }
 
             // if (Current.tokenType == TokenType.RETURN)
@@ -325,7 +325,7 @@ public class Parse
         }
         else
         {
-            if (MatchAndRemove(TokenType.EOL) != null)
+            if (MatchAndRemove(TokenType.Eol) != null)
                 return statements;
             statements.Add(Statements());
             return statements;
@@ -337,9 +337,9 @@ public class Parse
     public ArrayRefNode ParseArrayRef()
     {
         Tokens name = Current;
-        MatchAndRemove(TokenType.OP_BRACKET);
+        MatchAndRemove(TokenType.OpBracket);
         ExpressionNode? elem = Expression() ?? throw new Exception($" need a size for arr Element {name.GetLine()}");
-        MatchAndRemove(TokenType.CL_BRACKET);
+        MatchAndRemove(TokenType.ClBracket);
 
         return new ArrayRefNode(name, elem);
     }
@@ -347,13 +347,13 @@ public class Parse
     public ArrayRefStatementNode ParseArrRefStatement()
     {
         Tokens? name = Current;
-        MatchAndRemove(TokenType.OP_BRACKET);
+        MatchAndRemove(TokenType.OpBracket);
         ExpressionNode? elem =
             Expression() ?? throw new Exception($" need a size for arr Element {name.Value.GetLine()}");
-        MatchAndRemove(TokenType.CL_BRACKET);
+        MatchAndRemove(TokenType.ClBracket);
 
         Tokens? e =
-            MatchAndRemove(TokenType.EQUALS)
+            MatchAndRemove(TokenType.Equals)
             ?? throw new Exception($"invalid equals on Line {name.Value.GetLine()}");
         var expr = ParseSingleExpr() ?? throw new Exception($"invalid Expr");
         return new ArrayRefStatementNode(name.Value, expr, elem);
@@ -378,14 +378,14 @@ public class Parse
 
     public StatementNode ParseWordType()
     {
-        if (LookAhead(TokenType.EQUALS)
-            || LookAhead(TokenType.DOT))
+        if (LookAhead(TokenType.Equals)
+            || LookAhead(TokenType.Dot))
             return ParseVarRef();
-        else if (LookAhead(TokenType.OP_PAREN))
+        else if (LookAhead(TokenType.OpParen))
             return ParseFunctionCalls();
-        else if (LookAhead(TokenType.WORD))
+        else if (LookAhead(TokenType.Word))
             return ParseVar();
-        else if (LookAhead(TokenType.OP_BRACKET))
+        else if (LookAhead(TokenType.OpBracket))
             return ParseArrRefStatement();
         else
             throw new Exception($"invalid identifier statement {Current.ToString()}");
@@ -393,36 +393,36 @@ public class Parse
 
     public Tokens? GetNativeType()
     {
-        return (MatchAndRemove(TokenType.FLOAT) != null)
+        return (MatchAndRemove(TokenType.Float) != null)
             ? Current
-            : (MatchAndRemove(TokenType.INT) != null)
+            : (MatchAndRemove(TokenType.Int) != null)
                 ? Current
-                : (MatchAndRemove(TokenType.BOOL) != null)
+                : (MatchAndRemove(TokenType.Bool) != null)
                     ? Current
-                    : (MatchAndRemove(TokenType.CHAR) != null)
+                    : (MatchAndRemove(TokenType.Char) != null)
                         ? Current
-                        : (MatchAndRemove(TokenType.INT16) != null)
+                        : (MatchAndRemove(TokenType.Int16) != null)
                             ? Current
-                            : (MatchAndRemove(TokenType.STRING) != null)
+                            : (MatchAndRemove(TokenType.String) != null)
                                 ? Current
-                                : (MatchAndRemove(TokenType.INT64) != null)
+                                : (MatchAndRemove(TokenType.Int64) != null)
                                     ? Current
-                                    : (MatchAndRemove(TokenType.ULONG) != null)
+                                    : (MatchAndRemove(TokenType.Ulong) != null)
                                         ? Current
-                                        : (MatchAndRemove(TokenType.UINT_16) != null)
+                                        : (MatchAndRemove(TokenType.Uint16) != null)
                                             ? Current
-                                            : (MatchAndRemove(TokenType.UINT) != null)
+                                            : (MatchAndRemove(TokenType.Uint) != null)
                                                 ? Current
-                                                : (MatchAndRemove(TokenType.BYTE) != null)
+                                                : (MatchAndRemove(TokenType.Byte) != null)
                                                     ? Current
-                                                    : (MatchAndRemove(TokenType.SBYTE) != null)
+                                                    : (MatchAndRemove(TokenType.Sbyte) != null)
                                                         ? Current
                                                         : null;
     }
 
     public Tokens? GetTokenType()
     {
-        return GetNativeType() != null ? Current : MatchAndRemove(TokenType.WORD);
+        return GetNativeType() != null ? Current : MatchAndRemove(TokenType.Word);
     }
 
 
@@ -430,7 +430,7 @@ public class Parse
     {
         Tokens? name = Current;
         Tokens? e =
-            MatchAndRemove(TokenType.EQUALS)
+            MatchAndRemove(TokenType.Equals)
             ?? throw new Exception($"invalid equals on Line {name.Value.GetLine()}");
         return new VaraibleReferenceStatementNode(
             name.Value,
@@ -445,12 +445,12 @@ public class Parse
         while (attributes.Any())
         {
             Tokens v = attributes.Pop();
-            if (v.tokenType == TokenType.PUB && list.Contains(TokenType.PUB))
+            if (v.tokenType == TokenType.Pub && list.Contains(TokenType.Pub))
                 attributesTuple.isPub = true;
-            else if (v.tokenType == TokenType.EXTERN
-                     && list.Contains(TokenType.EXTERN))
+            else if (v.tokenType == TokenType.Extern
+                     && list.Contains(TokenType.Extern))
                 attributesTuple.isExtern = true;
-            else if (v.tokenType == TokenType.CONST && list.Contains(TokenType.CONST))
+            else if (v.tokenType == TokenType.Const && list.Contains(TokenType.Const))
                 attributesTuple.isConst = true;
             else
             {
@@ -468,7 +468,7 @@ public class Parse
         // // (bool unsigned, bool isExtern, bool isConst) attributesTuple = (false, false, false);
         while ((type = GetTokenType()) == null)
         {
-            if (MatchAndRemove(TokenType.CONST) != null || MatchAndRemove(TokenType.UNSIGNED) != null)
+            if (MatchAndRemove(TokenType.Const) != null || MatchAndRemove(TokenType.Unsigned) != null)
             {
                 attributes.Push(Current);
             }
@@ -496,7 +496,7 @@ public class Parse
         Tokens? type;
         while ((type = GetTokenType()) == null)
         {
-            if (MatchAndRemove(TokenType.CONST) != null || MatchAndRemove(TokenType.UNSIGNED) != null)
+            if (MatchAndRemove(TokenType.Const) != null || MatchAndRemove(TokenType.Unsigned) != null)
             {
                 attributes.Push(Current);
             }
@@ -508,8 +508,8 @@ public class Parse
 
         return new TypeNode(type.Value, GetAttributes(new List<TokenType>()
         {
-            TokenType.CONST,
-            TokenType.UNSIGNED
+            TokenType.Const,
+            TokenType.Unsigned
         }));
     }
 
@@ -519,10 +519,10 @@ public class Parse
         Tokens Type = Current;
 
 
-        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception($"invalid type {Current.ToString()}");
-        Tokens? e = MatchAndRemove(TokenType.EQUALS);
+        Tokens? name = MatchAndRemove(TokenType.Word) ?? throw new Exception($"invalid type {Current.ToString()}");
+        Tokens? e = MatchAndRemove(TokenType.Equals);
         AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
-            { TokenType.CONST, TokenType.EXTERN, TokenType.UNSIGNED, TokenType.PUB });
+            { TokenType.Const, TokenType.Extern, TokenType.Unsigned, TokenType.Pub });
 
         if (e != null)
             return new VaraibleDeclarationNode(Type, name.Value, attributesTuple, ParseSingleExpr());
@@ -532,28 +532,28 @@ public class Parse
 
     public StatementNode ParseFor()
     {
-        MatchAndRemove(TokenType.OP_PAREN);
+        MatchAndRemove(TokenType.OpParen);
         // GetTokenType();
         var iterator = ParseVar();
-        MatchAndRemove(TokenType.EOL);
+        MatchAndRemove(TokenType.Eol);
         var cond = ParseSingleExpr();
-        MatchAndRemove(TokenType.EOL);
-        MatchAndRemove(TokenType.WORD);
+        MatchAndRemove(TokenType.Eol);
+        MatchAndRemove(TokenType.Word);
         var inc = ParseVarRef();
-        MatchAndRemove(TokenType.CL_PAREN);
+        MatchAndRemove(TokenType.ClParen);
         var statements = ParseBlock();
         return new ForLoopNode(iterator, cond, inc, statements); //c is good for a reason
     }
 
     public ArrayNode ParseArray()
     {
-        MatchAndRemove(TokenType.OP_BRACKET);
+        MatchAndRemove(TokenType.OpBracket);
         var Type = ParseType();
         // var Type = GetTokenType() ?? throw new Exception("type is null");
-        MatchAndRemove(TokenType.COLON);
+        MatchAndRemove(TokenType.Colon);
         var size = ParseSingleExpr();
-        MatchAndRemove(TokenType.CL_BRACKET);
-        var name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("type is null");
+        MatchAndRemove(TokenType.ClBracket);
+        var name = MatchAndRemove(TokenType.Word) ?? throw new Exception("type is null");
         return new ArrayNode(Type.Name, name, size, Type.tuple);
     }
 
@@ -564,25 +564,25 @@ public class Parse
 
     public StatementNode Statements()
     {
-        if (MatchAndRemove(TokenType.WORD) != null)
+        if (MatchAndRemove(TokenType.Word) != null)
         {
             return ParseWordType();
         }
         else if (
             MatchAndRemove(new[]
             {
-                TokenType.INT,
-                TokenType.STRING,
-                TokenType.INT16,
-                TokenType.INT64,
-                TokenType.FLOAT,
-                TokenType.BOOL,
-                TokenType.CHAR,
-                TokenType.UINT_16,
-                TokenType.BYTE,
-                TokenType.SBYTE,
-                TokenType.UINT,
-                TokenType.ULONG
+                TokenType.Int,
+                TokenType.String,
+                TokenType.Int16,
+                TokenType.Int64,
+                TokenType.Float,
+                TokenType.Bool,
+                TokenType.Char,
+                TokenType.Uint16,
+                TokenType.Byte,
+                TokenType.Sbyte,
+                TokenType.Uint,
+                TokenType.Ulong
             })
             != null
         )
@@ -593,22 +593,22 @@ public class Parse
         else if (MatchAndRemove(
                      new[]
                      {
-                         TokenType.CONST,
+                         TokenType.Const,
                      }) != null)
         {
             return ParseAttributes();
         }
-        else if (MatchAndRemove(TokenType.ARRAY) != null)
+        else if (MatchAndRemove(TokenType.Array) != null)
             return ParseArray();
-        else if (MatchAndRemove(TokenType.IF) != null)
+        else if (MatchAndRemove(TokenType.If) != null)
             return ParseIf();
-        else if (MatchAndRemove(TokenType.WHILE) != null)
+        else if (MatchAndRemove(TokenType.While) != null)
             return ParseWhile();
-        else if (MatchAndRemove(TokenType.FOR) != null)
+        else if (MatchAndRemove(TokenType.For) != null)
         {
             return ParseFor();
         }
-        else if (MatchAndRemove(TokenType.RETURN) != null)
+        else if (MatchAndRemove(TokenType.Return) != null)
             return ParseReturn();
         else
             throw new Exception("Statement invalid " + TokenList[0].ToString());
@@ -617,30 +617,30 @@ public class Parse
     public StructNode ParseStructs()
     {
         AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
-            {  TokenType.EXTERN, TokenType.PUB });
-        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("name is nul");
+            {  TokenType.Extern, TokenType.Pub });
+        Tokens? name = MatchAndRemove(TokenType.Word) ?? throw new Exception("name is nul");
         return new StructNode(ParseTupleDef(), name.Value, attributesTuple);
     }
 
     public StatementNode ParseWhile()
     {
-        MatchAndRemove(TokenType.OP_PAREN);
+        MatchAndRemove(TokenType.OpParen);
         ExpressionNode expr = ParseSingleExpr() ?? throw new Exception($"null expr in while {Current.GetLine()} ");
-        MatchAndRemove(TokenType.CL_PAREN);
+        MatchAndRemove(TokenType.ClParen);
         List<StatementNode> statementNodes = ParseBlock();
         return new WhileLoopNode(expr, statementNodes);
     }
 
     public List<VaraibleDeclarationNode> ParseTupleDef()
     {
-        MatchAndRemove(TokenType.OP_PAREN);
+        MatchAndRemove(TokenType.OpParen);
 
         List<VaraibleDeclarationNode> param = new List<VaraibleDeclarationNode>();
 
-        while (MatchAndRemove(TokenType.CL_PAREN) == null)
+        while (MatchAndRemove(TokenType.ClParen) == null)
         {
             param.Add(ParseAttributes());
-            MatchAndRemove(TokenType.COMMA);
+            MatchAndRemove(TokenType.Comma);
         }
 
         return param;
@@ -650,15 +650,15 @@ public class Parse
     {
         var p = GetAttributes(new List<TokenType>()
         {
-            TokenType.EXTERN,
-            TokenType.PUB
+            TokenType.Extern,
+            TokenType.Pub
         });
-        Tokens name = MatchAndRemove(TokenType.WORD) ?? throw new Exception();
+        Tokens name = MatchAndRemove(TokenType.Word) ?? throw new Exception();
         List<StatementNode> statements = new List<StatementNode>();
         List<VaraibleDeclarationNode> param = ParseTupleDef();
         // Tokens type = new Tokens(TokenType.VOID);
-        TypeNode type = new TypeNode(new Tokens(TokenType.VOID), new AttributesTuple());
-        if (MatchAndRemove(TokenType.RETURNS) != null)
+        TypeNode type = new TypeNode(new Tokens(TokenType.Void), new AttributesTuple());
+        if (MatchAndRemove(TokenType.Returns) != null)
         {
             type = ParseType();
             // type = GetTokenType() ?? throw new Exception("inavlid retrun");
@@ -671,16 +671,16 @@ public class Parse
 
     public StatementNode GlobalStatements()
     {
-        if (MatchAndRemove(TokenType.FUNCTION) != null)
+        if (MatchAndRemove(TokenType.Function) != null)
             return ParseFunction();
-        else if (MatchAndRemove(TokenType.STRUCT) != null)
+        else if (MatchAndRemove(TokenType.Struct) != null)
             return ParseStructs();
-        else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
+        else if (GetTokenType() != null && !LookAhead(TokenType.Equals))
             return ParseVar();
         else if (
-            MatchAndRemove(TokenType.EXTERN) != null
-            || MatchAndRemove(TokenType.UNSIGNED) != null
-            || MatchAndRemove(TokenType.CONST) != null
+            MatchAndRemove(TokenType.Extern) != null
+            || MatchAndRemove(TokenType.Unsigned) != null
+            || MatchAndRemove(TokenType.Const) != null
         )
         {
             attributes.Push(Current);
@@ -692,37 +692,37 @@ public class Parse
 
     public ModuleNode ParseModuleNode()
     {
-        Tokens? name = MatchAndRemove(TokenType.WORD) ?? throw new Exception("module needs name");
+        Tokens? name = MatchAndRemove(TokenType.Word) ?? throw new Exception("module needs name");
         List<Tokens> Imports = new();
-        if (MatchAndRemove(TokenType.OP_PAREN) != null)
+        if (MatchAndRemove(TokenType.OpParen) != null)
         {
-            while (MatchAndRemove(TokenType.CL_PAREN) == null)
+            while (MatchAndRemove(TokenType.ClParen) == null)
             {
-                Imports.Add(MatchAndRemove(TokenType.WORD) ?? throw new Exception("error"));
-                MatchAndRemove(TokenType.COMMA);
+                Imports.Add(MatchAndRemove(TokenType.Word) ?? throw new Exception("error"));
+                MatchAndRemove(TokenType.Comma);
             }
         }
 
         ModuleNode moduleNode = new(name.Value, Imports);
 
-        Tokens? t = MatchAndRemove(TokenType.BEGIN) ?? throw new Exception("need begin");
-        while (MatchAndRemove(TokenType.END) == null)
+        Tokens? t = MatchAndRemove(TokenType.Begin) ?? throw new Exception("need begin");
+        while (MatchAndRemove(TokenType.End) == null)
         {
-            if (MatchAndRemove(TokenType.FUNCTION) != null)
+            if (MatchAndRemove(TokenType.Function) != null)
                 moduleNode.FunctionNodes.Add(ParseFunction());
-            else if (MatchAndRemove(TokenType.STRUCT) != null)
+            else if (MatchAndRemove(TokenType.Struct) != null)
                 moduleNode.StructNodes.Add(ParseStructs());
-            else if (MatchAndRemove(TokenType.ARRAY) != null)
+            else if (MatchAndRemove(TokenType.Array) != null)
                 moduleNode.VaraibleDeclarationNodes.Add(ParseArray());
-            else if (GetTokenType() != null && !LookAhead(TokenType.EQUALS))
+            else if (GetTokenType() != null && !LookAhead(TokenType.Equals))
                 moduleNode.VaraibleDeclarationNodes.Add(ParseVar());
             else if (
-                MatchAndRemove(TokenType.EXTERN) != null
-                || MatchAndRemove(TokenType.CONST) != null
-                || MatchAndRemove(TokenType.PUB) != null
+                MatchAndRemove(TokenType.Extern) != null
+                || MatchAndRemove(TokenType.Const) != null
+                || MatchAndRemove(TokenType.Pub) != null
             )
                 attributes.Push(Current);
-            MatchAndRemove(TokenType.EOL);
+            MatchAndRemove(TokenType.Eol);
         }
 
         return moduleNode;
@@ -733,7 +733,7 @@ public class Parse
         Dictionary<string, ModuleNode> modules = new();
         while (TokenList.Count != 0)
         {
-            if (MatchAndRemove(TokenType.MOD) != null)
+            if (MatchAndRemove(TokenType.Mod) != null)
             {
                 ModuleNode m = ParseModuleNode();
                 modules.Add(m.Name.buffer, m);

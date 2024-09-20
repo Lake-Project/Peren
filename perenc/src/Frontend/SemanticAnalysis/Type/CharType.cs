@@ -20,17 +20,17 @@ public class CharType(bool isConst,Range range = Range.EightBit, bool isUnsigned
     {
         return op.tokenType switch
         {
-            TokenType.ADDITION
-                or TokenType.SUBTRACTION
-                or TokenType.DIVISION
-                or TokenType.MULTIPLICATION
-                or TokenType.MODULAS
-                or TokenType.L_SHIFT
-                or TokenType.R_SHIFT
-                or TokenType.AND
-                or TokenType.OR
-                or TokenType.XOR
-                or TokenType.NOT => true,
+            TokenType.Addition
+                or TokenType.Subtraction
+                or TokenType.Division
+                or TokenType.Multiplication
+                or TokenType.Modulas
+                or TokenType.LShift
+                or TokenType.RShift
+                or TokenType.And
+                or TokenType.Or
+                or TokenType.Xor
+                or TokenType.Not => true,
             _ => false
         };
     }

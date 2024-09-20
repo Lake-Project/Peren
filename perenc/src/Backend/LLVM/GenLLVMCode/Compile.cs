@@ -8,22 +8,22 @@ public class Compile
 {
     public static LLVMTypeRef ToLLVMType(Tokens type, LLVMContext Context)
     {
-        if (type.tokenType == TokenType.WORD)
+        if (type.tokenType == TokenType.Word)
         {
             return Context.GetType(type.buffer).Type;
         }
 
         return type.tokenType switch
         {
-            TokenType.INT or TokenType.UINT => LLVMTypeRef.Int32,
-            TokenType.INT16 or TokenType.UINT_16 => LLVMTypeRef.Int16,
-            TokenType.INT64 or TokenType.ULONG => LLVMTypeRef.Int64,
+            TokenType.Int or TokenType.Uint => LLVMTypeRef.Int32,
+            TokenType.Int16 or TokenType.Uint16 => LLVMTypeRef.Int16,
+            TokenType.Int64 or TokenType.Ulong => LLVMTypeRef.Int64,
 
-            TokenType.FLOAT => LLVMTypeRef.Float,
-            TokenType.BOOL => LLVMTypeRef.Int1,
-            TokenType.CHAR or TokenType.BYTE or TokenType.SBYTE => LLVMTypeRef.Int8,
-            TokenType.VOID => LLVMTypeRef.Void,
-            TokenType.STRING => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
+            TokenType.Float => LLVMTypeRef.Float,
+            TokenType.Bool => LLVMTypeRef.Int1,
+            TokenType.Char or TokenType.Byte or TokenType.Sbyte => LLVMTypeRef.Int8,
+            TokenType.Void => LLVMTypeRef.Void,
+            TokenType.String => LLVMTypeRef.CreatePointer(LLVMTypeRef.Int8, 0),
             _ => throw new Exception($"undefined {type.ToString()} type")
         };
     }

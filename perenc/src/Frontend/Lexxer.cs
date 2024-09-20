@@ -14,70 +14,70 @@ namespace Lexxer
 
     public enum TokenType
     {
-        ADDITION,
-        SUBTRACTION,
-        NUMBER,
-        DIVISION,
-        MULTIPLICATION,
-        MODULAS,
-        OP_PAREN,
-        CL_PAREN,
-        WORD,
-        FUNCTION,
-        INT,
-        FLOAT,
-        BEGIN,
-        END,
-        CHAR,
-        EOL,
-        EQUALS,
-        RETURN,
-        RETURNS,
-        STRUCT,
-        BOOL,
-        COMMA,
-        NOT,
-        XOR,
-        EXTERN,
-        UNSIGNED,
-        TRUE,
-        FALSE,
-        CHAR_LITERAL,
-        BOOL_EQ,
-        LT,
-        GT,
-        GTE,
-        LTE,
-        R_SHIFT,
-        L_SHIFT,
-        AND,
-        OR,
-        VOID,
-        IF,
-        WHILE,
-        MOD,
-        ARRAY,
-        IMPORT,
-        ELSE,
-        CONST,
-        INT16,
-        INT64,
-        FOR,
-        DEPENDS,
-        PUB,
-        DOT,
-        STRING_LITERAL,
-        STRING,
-        SIZE,
-        NOT_EQUALS,
-        OP_BRACKET,
-        CL_BRACKET,
-        COLON,
-        UINT_16,
-        UINT,
-        BYTE,
-        SBYTE,
-        ULONG
+        Addition,
+        Subtraction,
+        Number,
+        Division,
+        Multiplication,
+        Modulas,
+        OpParen,
+        ClParen,
+        Word,
+        Function,
+        Int,
+        Float,
+        Begin,
+        End,
+        Char,
+        Eol,
+        Equals,
+        Return,
+        Returns,
+        Struct,
+        Bool,
+        Comma,
+        Not,
+        Xor,
+        Extern,
+        Unsigned,
+        True,
+        False,
+        CharLiteral,
+        BoolEq,
+        Lt,
+        Gt,
+        Gte,
+        Lte,
+        RShift,
+        LShift,
+        And,
+        Or,
+        Void,
+        If,
+        While,
+        Mod,
+        Array,
+        Import,
+        Else,
+        Const,
+        Int16,
+        Int64,
+        For,
+        Depends,
+        Pub,
+        Dot,
+        StringLiteral,
+        String,
+        Size,
+        NotEquals,
+        OpBracket,
+        ClBracket,
+        Colon,
+        Uint16,
+        Uint,
+        Byte,
+        Sbyte,
+        Ulong
     }
 
     public struct Tokens(TokenType tokenType, string buffer, int number)
@@ -116,83 +116,83 @@ namespace Lexxer
                 new()
                 {
                     //operators/numbers
-                    ["+"] = new(TokenType.ADDITION),
-                    ["-"] = new(TokenType.SUBTRACTION),
-                    ["*"] = new(TokenType.MULTIPLICATION),
-                    ["/"] = new(TokenType.DIVISION),
-                    ["%"] = new(TokenType.MODULAS),
-                    [")"] = new(TokenType.CL_PAREN),
-                    ["("] = new(TokenType.OP_PAREN),
-                    ["^"] = new(TokenType.XOR),
-                    ["."] = new(TokenType.DOT),
-                    ["|"] = new(TokenType.OR),
-                    ["&"] = new(TokenType.AND),
-                    [">"] = new(TokenType.GT),
-                    ["<"] = new(TokenType.LT),
-                    ["<="] = new(TokenType.LTE),
-                    [">>"] = new(TokenType.R_SHIFT),
-                    ["<<"] = new(TokenType.L_SHIFT),
-                    [">="] = new(TokenType.GTE),
-                    [":="] = new(TokenType.EQUALS),
-                    ["=/"] = new(TokenType.NOT_EQUALS),
-                    ["=="] = new(TokenType.BOOL_EQ),
-                    ["~"] = new(TokenType.NOT),
-                    ["and"] = new(TokenType.AND),
-                    ["or"] = new(TokenType.OR),
-                    ["true"] = new(TokenType.TRUE),
-                    ["false"] = new(TokenType.FALSE),
-                    ["sizeof"] = new(TokenType.SIZE),
+                    ["+"] = new(TokenType.Addition),
+                    ["-"] = new(TokenType.Subtraction),
+                    ["*"] = new(TokenType.Multiplication),
+                    ["/"] = new(TokenType.Division),
+                    ["%"] = new(TokenType.Modulas),
+                    [")"] = new(TokenType.ClParen),
+                    ["("] = new(TokenType.OpParen),
+                    ["^"] = new(TokenType.Xor),
+                    ["."] = new(TokenType.Dot),
+                    ["|"] = new(TokenType.Or),
+                    ["&"] = new(TokenType.And),
+                    [">"] = new(TokenType.Gt),
+                    ["<"] = new(TokenType.Lt),
+                    ["<="] = new(TokenType.Lte),
+                    [">>"] = new(TokenType.RShift),
+                    ["<<"] = new(TokenType.LShift),
+                    [">="] = new(TokenType.Gte),
+                    [":="] = new(TokenType.Equals),
+                    ["=/"] = new(TokenType.NotEquals),
+                    ["=="] = new(TokenType.BoolEq),
+                    ["~"] = new(TokenType.Not),
+                    ["and"] = new(TokenType.And),
+                    ["or"] = new(TokenType.Or),
+                    ["true"] = new(TokenType.True),
+                    ["false"] = new(TokenType.False),
+                    ["sizeof"] = new(TokenType.Size),
 
                     //types
-                    ["int"] = new(TokenType.INT),
-                    ["float"] = new(TokenType.FLOAT),
-                    ["char"] = new(TokenType.CHAR),
-                    ["bool"] = new(TokenType.BOOL),
-                    ["int16"] = new(TokenType.INT16),
-                    ["uint16"] = new(TokenType.UINT_16),
-                    ["uint"] = new(TokenType.UINT),
-                    ["uint64"] = new(TokenType.ULONG),
-                    ["byte"] = new(TokenType.BYTE),
-                    ["sbyte"] = new(TokenType.SBYTE),
+                    ["int"] = new(TokenType.Int),
+                    ["float"] = new(TokenType.Float),
+                    ["char"] = new(TokenType.Char),
+                    ["bool"] = new(TokenType.Bool),
+                    ["int16"] = new(TokenType.Int16),
+                    ["uint16"] = new(TokenType.Uint16),
+                    ["uint"] = new(TokenType.Uint),
+                    ["uint64"] = new(TokenType.Ulong),
+                    ["byte"] = new(TokenType.Byte),
+                    ["sbyte"] = new(TokenType.Sbyte),
 
 
-                    ["int64"] = new(TokenType.INT64),
-                    ["string"] = new(TokenType.STRING),
-                    ["struct"] = new(TokenType.STRUCT),
+                    ["int64"] = new(TokenType.Int64),
+                    ["string"] = new(TokenType.String),
+                    ["struct"] = new(TokenType.Struct),
 
                     //attributes
-                    ["extern"] = new(TokenType.EXTERN),
-                    ["pub"] = new(TokenType.PUB),
-                    ["const"] = new(TokenType.CONST),
+                    ["extern"] = new(TokenType.Extern),
+                    ["pub"] = new(TokenType.Pub),
+                    ["const"] = new(TokenType.Const),
 
                     //delims 
-                    ["{"] = new(TokenType.BEGIN),
-                    ["}"] = new(TokenType.END),
-                    ["["] = new(TokenType.OP_BRACKET),
-                    ["]"] = new(TokenType.CL_BRACKET),
+                    ["{"] = new(TokenType.Begin),
+                    ["}"] = new(TokenType.End),
+                    ["["] = new(TokenType.OpBracket),
+                    ["]"] = new(TokenType.ClBracket),
 
-                    [";"] = new(TokenType.EOL),
-                    [","] = new(TokenType.COMMA),
-                    [":"] = new(TokenType.COLON),
+                    [";"] = new(TokenType.Eol),
+                    [","] = new(TokenType.Comma),
+                    [":"] = new(TokenType.Colon),
 
                     //keywords
-                    ["return"] = new(TokenType.RETURN),
-                    ["returns"] = new(TokenType.RETURNS),
-                    ["fn"] = new(TokenType.FUNCTION),
+                    ["return"] = new(TokenType.Return),
+                    ["returns"] = new(TokenType.Returns),
+                    ["fn"] = new(TokenType.Function),
 
-                    ["if"] = new(TokenType.IF),
-                    ["else"] = new(TokenType.ELSE),
+                    ["if"] = new(TokenType.If),
+                    ["else"] = new(TokenType.Else),
 
-                    ["for"] = new(TokenType.FOR),
-                    ["depends"] = new(TokenType.DEPENDS),
+                    ["for"] = new(TokenType.For),
+                    ["depends"] = new(TokenType.Depends),
 
-                    ["while"] = new(TokenType.WHILE),
-                    ["module"] = new(TokenType.MOD),
-                    ["Array"] = new(TokenType.ARRAY),
+                    ["while"] = new(TokenType.While),
+                    ["module"] = new(TokenType.Mod),
+                    ["Array"] = new(TokenType.Array),
                 };
             if (double.TryParse(buffer.ToString(), out _))
             {
-                tokens.Add(new(TokenType.NUMBER, buffer.ToString(), lineNumber));
+                tokens.Add(new(TokenType.Number, buffer.ToString(), lineNumber));
             }
             else if (keyWords.ContainsKey(buffer.ToString()))
             {
@@ -202,7 +202,7 @@ namespace Lexxer
             }
             else
             {
-                tokens.Add(new(TokenType.WORD, buffer.ToString(), lineNumber));
+                tokens.Add(new(TokenType.Word, buffer.ToString(), lineNumber));
             }
 
             buffer.Clear();
@@ -365,7 +365,7 @@ namespace Lexxer
                     groupings(tokens, buffer, lineNumber);
                 }
 
-                tokens.Add(new Tokens(TokenType.DOT, ".", lineNumber));
+                tokens.Add(new Tokens(TokenType.Dot, ".", lineNumber));
                 buffer.Append(currentChar);
             }
 
@@ -421,13 +421,13 @@ namespace Lexxer
                         {
                             case true when currentToken == "\'":
                                 Tokens.Add(
-                                    new Tokens(TokenType.CHAR_LITERAL, buffer.ToString(), lineNumber)
+                                    new Tokens(TokenType.CharLiteral, buffer.ToString(), lineNumber)
                                 );
                                 buffer.Clear();
                                 break;
                             case true when currentToken == "\"":
                                 Tokens.Add(
-                                    new Tokens(TokenType.STRING_LITERAL, buffer.ToString(), lineNumber)
+                                    new Tokens(TokenType.StringLiteral, buffer.ToString(), lineNumber)
                                 );
                                 buffer.Clear();
                                 break;
