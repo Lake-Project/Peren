@@ -71,7 +71,7 @@ public class IRCodeGen
                     out out_string
                 );
                 Process link = new Process();
-                link.StartInfo.FileName = "ld";
+                link.StartInfo.FileName = compileOptions.Linker;
                 link.StartInfo.Arguments = $"{binOutDir}/a.o -o {compileOptions.OutputFile}";
                 link.Start();
                 link.WaitForExit();

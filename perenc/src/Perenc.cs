@@ -68,6 +68,13 @@ public class CompileOptions
         HelpText = "target cpu (run clang -print-supported-cpus to see list"
     )]
     public string TargetArchitechure { get; set; }
+    
+    [Option(
+        "linker",
+        Default = "clang",
+        HelpText = "Linker you want to use for compiling"
+    )]
+    public string Linker { get; set; }
 }
 
 public class Perenc
