@@ -10,16 +10,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="added option to change linkers">
+    <list default="true" id="ed6579ad-f3b7-445e-8182-8430b0ed9334" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LacusLLVM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/LacusLLVM.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMExprVisitor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/Parser/Parse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/SemanticAanylyzerVisitor/SemanticAnaylsis.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/BoolType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/FloatType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/perenc/src/Frontend/SemanticAnalysis/Type/IntegerType.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +42,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/35177de9032544018e31c9c64fbef1cbb2d000/7b/77d17270/Func`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/Test.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/CompilerModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/Compile.cs" root0="FORCE_HIGHLIGHTING" />
@@ -52,13 +50,10 @@
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMStatementVisitor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/GenLLVMCode/LLVMTopLevelVisitor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Backend/LLVM/IRCodeGen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Lexxer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/ExpressionNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/Parser/AST/StructNode.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Frontend/SemanticAnalysis/Type/CharType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Frontend/SemanticContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///home/thedorewillis/Documents/~CodeProjects/CSharp/Peren/perenc/src/Perenc.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Perenc.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/perenc/src/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -74,25 +69,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.LLVMLake.executor": "Run",
-    ".NET Project.LacusLLVM.executor": "Debug",
-    ".NET Project.Lakec.executor": "Run",
-    ".NET Project.Linker.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "XThreadsFramesViewSplitterKey": "0.4965035",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/thedorewillis/Documents/~CodeProjects/CSharp/Peren",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.LLVMLake.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.LacusLLVM.executor&quot;: &quot;Debug&quot;,
+    &quot;.NET Project.Lakec.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.Linker.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.4965035&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/thedorewillis/Documents/~CodeProjects/CSharp/Peren&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.Lakec">
     <configuration name="LacusLLVM" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Linker/bin/Debug/net8.0/Linker.exe" />
@@ -303,23 +298,12 @@
       <workItem from="1726107308573" duration="996000" />
       <workItem from="1726598236214" duration="2692000" />
       <workItem from="1726601275486" duration="562000" />
-      <workItem from="1726794667999" duration="226000" />
-    </task>
-    <task id="LOCAL-00023" summary="a">
-      <option name="closed" value="true" />
-      <created>1717708492027</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1717708492027</updated>
-    </task>
-    <task id="LOCAL-00024" summary="C# new primary constrcutor feature">
-      <option name="closed" value="true" />
-      <created>1717777742541</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1717777742541</updated>
+      <workItem from="1726794667999" duration="1850000" />
+      <workItem from="1726803445393" duration="988000" />
+      <workItem from="1727049644995" duration="2323000" />
+      <workItem from="1727097984614" duration="209000" />
+      <workItem from="1727736904403" duration="2323000" />
+      <workItem from="1727811481577" duration="2134000" />
     </task>
     <task id="LOCAL-00025" summary="added working if/else">
       <option name="closed" value="true" />
@@ -697,7 +681,23 @@
       <option name="project" value="LOCAL" />
       <updated>1726794842828</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="quick refactir">
+      <option name="closed" value="true" />
+      <created>1726794907505</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1726794907505</updated>
+    </task>
+    <task id="LOCAL-00073" summary="made some slight modifications">
+      <option name="closed" value="true" />
+      <created>1726795230096</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1726795230096</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -719,8 +719,6 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="wierd bug but have loops now :D" />
-    <MESSAGE value="clean up" />
     <MESSAGE value="hello world :3" />
     <MESSAGE value="added parsing for structures" />
     <MESSAGE value="added not" />
@@ -744,7 +742,9 @@
     <MESSAGE value="I divorced linker and Compiler :3" />
     <MESSAGE value="lumina" />
     <MESSAGE value="added option to change linkers" />
-    <option name="LAST_COMMIT_MESSAGE" value="added option to change linkers" />
+    <MESSAGE value="quick refactir" />
+    <MESSAGE value="made some slight modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="made some slight modifications" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

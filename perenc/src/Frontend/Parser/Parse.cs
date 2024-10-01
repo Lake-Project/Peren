@@ -109,7 +109,6 @@ public class Parse
             }
 
             ExpressionNode? a = ParseSingleExpr();
-            Console.WriteLine("hai");
             MatchAndRemove(TokenType.ClParen);
 
             return a;
@@ -617,7 +616,7 @@ public class Parse
     public StructNode ParseStructs()
     {
         AttributesTuple attributesTuple = GetAttributes(new List<TokenType>()
-            {  TokenType.Extern, TokenType.Pub });
+            { TokenType.Extern, TokenType.Pub });
         Tokens? name = MatchAndRemove(TokenType.Word) ?? throw new Exception("name is nul");
         return new StructNode(ParseTupleDef(), name.Value, attributesTuple);
     }
@@ -669,26 +668,6 @@ public class Parse
         return new FunctionNode(p, name, param, type, statements);
     }
 
-    public StatementNode GlobalStatements()
-    {
-        if (MatchAndRemove(TokenType.Function) != null)
-            return ParseFunction();
-        else if (MatchAndRemove(TokenType.Struct) != null)
-            return ParseStructs();
-        else if (GetTokenType() != null && !LookAhead(TokenType.Equals))
-            return ParseVar();
-        else if (
-            MatchAndRemove(TokenType.Extern) != null
-            || MatchAndRemove(TokenType.Unsigned) != null
-            || MatchAndRemove(TokenType.Const) != null
-        )
-        {
-            attributes.Push(Current);
-            return GlobalStatements();
-        }
-        else
-            throw new Exception($"{Current}Statement invalid");
-    }
 
     public ModuleNode ParseModuleNode()
     {

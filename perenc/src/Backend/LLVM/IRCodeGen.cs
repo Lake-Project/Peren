@@ -25,10 +25,10 @@ public class IRCodeGen
                 module.ToString()
             );
         }
-        
+
         if (compileOptions.PrintIR)
             module.Dump();
-        
+
         //outputting directly to an object file
         //https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl08.html
         LLVM.InitializeAllTargetInfos();
@@ -47,7 +47,7 @@ public class IRCodeGen
             OptLevel.Level1 => LLVMCodeGenOptLevel.LLVMCodeGenLevelLess,
             OptLevel.Level2 => LLVMCodeGenOptLevel.LLVMCodeGenLevelDefault,
             OptLevel.Level3 => LLVMCodeGenOptLevel.LLVMCodeGenLevelAggressive,
-            _ => throw new Exception("o.O")
+            _ => throw new Exception("")
         };
         var targetMachine = target.CreateTargetMachine(
             targetTriple,
@@ -109,7 +109,7 @@ public class IRCodeGen
             );
         }
 
-       
+
         if (!compileOptions.CompileOff)
             if (compileOptions.CompileOnly)
                 Console.WriteLine($"Object output path: {compileOptions.OutputFile} ");

@@ -10,7 +10,6 @@ public class SemanticAnaylsis
     {
         var s = new SemanticAnayslisTopLevel();
         p.Visit(s);
-        // n.ForEach(n => n.Visit(s));
     }
 
     public static PerenType TokenToPerenType(Tokens type, bool isConst, SemanticProgram program)
@@ -26,14 +25,14 @@ public class SemanticAnaylsis
             TokenType.Int16 => new IntegerType(isConst, Range.SixteenBit),
             TokenType.Int64 => new IntegerType(isConst, Range.SixtyFourBit),
             TokenType.Bool => new BoolType(isConst),
-            TokenType.Float => new FloatType(isConst),
-            TokenType.Char => new CharType(isConst),
-            TokenType.Void => new VoidType(),
             TokenType.Ulong => new IntegerType(isConst, Range.SixtyFourBit, true),
             TokenType.Byte => new IntegerType(isConst, Range.EightBit, true),
             TokenType.Sbyte => new IntegerType(isConst, Range.EightBit),
             TokenType.Uint => new IntegerType(isConst, Range.ThirtyTwoBit, true),
             TokenType.Uint16 => new IntegerType(isConst, Range.SixteenBit, true),
+            TokenType.Float => new FloatType(isConst),
+            TokenType.Char => new CharType(isConst),
+            TokenType.Void => new VoidType(),
             TokenType.String => new ArrayType(new CharType(false), isConst),
             _ => throw new Exception($"type{type.ToString()} doesnt exist")
         };
