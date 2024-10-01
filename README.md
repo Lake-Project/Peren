@@ -1,10 +1,12 @@
 # Peren Programming Langauge
-[![.NET build status](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml) 
 
-Peren. Name derived from Perenial. to mean "long lasting"  
+[![.NET build status](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Lake-Project/Peren/actions/workflows/dotnet.yml)
 
-Peren, programming langauge developed with the intention of being a middle ground between C and rust with learning curve and complexity. 
-It has an optimized cross-compiler utilizing the LLVM. 
+Peren. Name derived from Perenial. to mean "long lasting"
+
+Peren, programming langauge developed with the intention of being a middle ground between C and rust with learning curve
+and complexity.
+It has an optimized cross-compiler utilizing the LLVM.
 
 ## Build Instructions
 
@@ -17,7 +19,13 @@ dotnet run -- /TestFiles/BinaryAddition.pn --print-ir -o Test.exe
 ```
 
 ## Documentation
--  [Langauge definition]
 
+- [Langauge definition]
 
 [Langauge definition]:<https://docs.google.com/document/d/1Q0xvYJkQ-O2YVtieOspvS2GpQAt9n5qdJHYdppylMBc/edit?usp=sharing>
+
+
+## warning
+
+this is still a very half-baked language and compiler. but its good enough to make basic programs, look at the /TestFiles/ directory
+to see what's possible. 
