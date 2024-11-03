@@ -152,8 +152,8 @@ namespace Lexxer
                     ["uint16"] = new(TokenType.Uint16),
                     ["uint"] = new(TokenType.Uint),
                     ["uint64"] = new(TokenType.Ulong),
-                    ["byte"] = new(TokenType.Byte),
-                    ["sbyte"] = new(TokenType.Sbyte),
+                    ["ubyte"] = new(TokenType.Byte),
+                    ["byte"] = new(TokenType.Sbyte),
 
 
                     ["int64"] = new(TokenType.Int64),
